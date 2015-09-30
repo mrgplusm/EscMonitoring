@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ErrorLogAmpDetail" xml:space="preserve">
+    <value>Amplifier {0} defect</value>
+  </data>
+  <data name="ErrorLogAmplifier" xml:space="preserve">
+    <value>Amplifier + Spare Amplifier Error</value>
+  </data>
+  <data name="ErrorLogExternal" xml:space="preserve">
+    <value>External Errors - possible Errors from external connected devices</value>
+  </data>
+  <data name="ErrorLogFp17ExpansionPanel" xml:space="preserve">
+    <value>FP 17-32 expansion panel error</value>
+  </data>
+  <data name="ErrorlogFp17MicError" xml:space="preserve">
+    <value>FP 17-32  microphone request error</value>
+  </data>
+  <data name="ErrorLogInternalerrors" xml:space="preserve">
+    <value>Internal Errors - possible Errors in the device</value>
+  </data>
+  <data name="ErrorLogMic17Open" xml:space="preserve">
+    <value>Microphone capsule 17-32 open line</value>
+  </data>
+  <data name="ErrorLogMic17Short" xml:space="preserve">
+    <value>Microphone capsule 17-32 shortcut</value>
+  </data>
+  <data name="ErrorlogMicRequest" xml:space="preserve">
+    <value>FP 1-16  microphone request line error</value>
+  </data>
+  <data name="ErrorLogMicrophoneOpen" xml:space="preserve">
+    <value>Microphone capsule 1-16 open line</value>
+  </data>
+  <data name="ErrorLogMicrophoneShort" xml:space="preserve">
+    <value>Microphone capsule 1-16 shortcut</value>
+  </data>
+  <data name="ErrorlogSlaveError" xml:space="preserve">
+    <value>Slave Communication Error 1-16</value>
+  </data>
+  <data name="ErrorlogSlaveError17" xml:space="preserve">
+    <value>Slave Communication Error 17-32</value>
+  </data>
+  <data name="ErrorLogSpeakerSpeaker" xml:space="preserve">
+    <value>Speaker line {0} error</value>
+  </data>
+  <data name="ErrorLopExpPanelError" xml:space="preserve">
+    <value>FP 1-16 expansion panel error</value>
+  </data>
+  <data name="chDateTime" xml:space="preserve">
+    <value>Date &amp; Time</value>
+  </data>
+  <data name="chDetail" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="chId" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="chIsOpen" xml:space="preserve">
+    <value>Is Open</value>
+  </data>
+  <data name="chStatus" xml:space="preserve">
+    <value>Error status</value>
+  </data>
+  <data name="chUnit" xml:space="preserve">
+    <value>ESC Unit</value>
+  </data>
+  <data name="ErrorLogWindowClearList" xml:space="preserve">
+    <value>Clear Log</value>
+  </data>
+  <data name="chDevice" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="ErrorContent" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="EscUnitName" xml:space="preserve">
+    <value>ESC Unit {0}</value>
+  </data>
+  <data name="NO_BACKUP" xml:space="preserve">
+    <value>No Backup Amplifier</value>
+  </data>
+  <data name="SHORTCUT_A" xml:space="preserve">
+    <value>Shortcut speakerline A</value>
+  </data>
+  <data name="TrayErrorTitle" xml:space="preserve">
+    <value>An Entero Emergency Evacuation system error has occured</value>
+  </data>
+  <data name="chDescription" xml:space="preserve">
+    <value>Error Description</value>
+  </data>
+  <data name="FaultConfirmed" xml:space="preserve">
+    <value>Confirmed</value>
+  </data>
+  <data name="FaultReseted" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="FaultSet" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="NotSelfHealth" xml:space="preserve">
+    <value>Not Self Healed</value>
+  </data>
+  <data name="SelfHealth" xml:space="preserve">
+    <value>Self Healed</value>
+  </data>
+  <data name="AmpDefect" xml:space="preserve">
+    <value>AmpDefect</value>
+  </data>
+  <data name="Com1Interface" xml:space="preserve">
+    <value>Com1 Interface</value>
+  </data>
+  <data name="Com2Interface" xml:space="preserve">
+    <value>Com2 Interface</value>
+  </data>
+  <data name="Dsp" xml:space="preserve">
+    <value>Sys.Err.-DSP</value>
+  </data>
+  <data name="Eeprom" xml:space="preserve">
+    <value>Sys.Err.-E2Pr</value>
+  </data>
+  <data name="Epc" xml:space="preserve">
+    <value>EPC Error</value>
+  </data>
+  <data name="EpcOpenline" xml:space="preserve">
+    <value>EPC Open line</value>
+  </data>
+  <data name="EpcShortcut" xml:space="preserve">
+    <value>EPC Short circuit</value>
+  </data>
+  <data name="Expansion" xml:space="preserve">
+    <value>Expansion</value>
+  </data>
+  <data name="ExternAudioLine" xml:space="preserve">
+    <value>Extern Audio Line</value>
+  </data>
+  <data name="ExternAudioOpenline" xml:space="preserve">
+    <value>Extern Audio Open line</value>
+  </data>
+  <data name="ExternAudioShortcut" xml:space="preserve">
+    <value>Extern Audio Short circuit</value>
+  </data>
+  <data name="ExternError" xml:space="preserve">
+    <value>Extern Error</value>
+  </data>
+  <data name="ExternOpenline" xml:space="preserve">
+    <value>Extern Open line</value>
+  </data>
+  <data name="ExternShortcut" xml:space="preserve">
+    <value>Extern Short circuit</value>
+  </data>
+  <data name="HwWdog" xml:space="preserve">
+    <value>Sys.Err.-WDOG</value>
+  </data>
+  <data name="ImpDev1KhzA" xml:space="preserve">
+    <value>A: Imp. Dev. 1kHz</value>
+  </data>
+  <data name="ImpDev1KhzB" xml:space="preserve">
+    <value>B: Imp. Dev. 1kHz</value>
+  </data>
+  <data name="ImpDev22Khz" xml:space="preserve">
+    <value>Imp. Dev. 20kHz</value>
+  </data>
+  <data name="MainPower230V" xml:space="preserve">
+    <value>Main Power 230V</value>
+  </data>
+  <data name="MainsFuse" xml:space="preserve">
+    <value>Mains Fuse</value>
+  </data>
+  <data name="MainsFuseOpenline" xml:space="preserve">
+    <value>Mains Fuse Open line</value>
+  </data>
+  <data name="MainsFuseShortcut" xml:space="preserve">
+    <value>Mains Fuse Short circuit</value>
+  </data>
+  <data name="MicCapOpenLine" xml:space="preserve">
+    <value>Mic Cap Open Line</value>
+  </data>
+  <data name="MicCapShortcut" xml:space="preserve">
+    <value>Mic Cap Shortcut</value>
+  </data>
+  <data name="MicLineBus1" xml:space="preserve">
+    <value>MicLine Bus 1</value>
+  </data>
+  <data name="MicLineBus2" xml:space="preserve">
+    <value>MicLine Bus 2</value>
+  </data>
+  <data name="MicRequest" xml:space="preserve">
+    <value>Mic Request</value>
+  </data>
+  <data name="Mp31" xml:space="preserve">
+    <value>Sys.Err.-Data 1</value>
+  </data>
+  <data name="Mp32" xml:space="preserve">
+    <value>Sys.Err.-Data 2</value>
+  </data>
+  <data name="NoBackup" xml:space="preserve">
+    <value>d</value>
+  </data>
+  <data name="OpenlineA" xml:space="preserve">
+    <value>A: Open line</value>
+  </data>
+  <data name="OpenlineB" xml:space="preserve">
+    <value>B: Open line</value>
+  </data>
+  <data name="PanelTxIsr" xml:space="preserve">
+    <value>Panel-Tx-ISR</value>
+  </data>
+  <data name="Rs485FpBus1" xml:space="preserve">
+    <value>RS485 Bus 1</value>
+  </data>
+  <data name="Rs485FpBus2" xml:space="preserve">
+    <value>RS485 Bus 2</value>
+  </data>
+  <data name="Rs485MasterSlave" xml:space="preserve">
+    <value>RS485 Master/Slave</value>
+  </data>
+  <data name="ShortcutA" xml:space="preserve">
+    <value>A: Short circuit</value>
+  </data>
+  <data name="ShortcutB" xml:space="preserve">
+    <value>B: Short circuit</value>
+  </data>
+  <data name="ShortcutToEarth" xml:space="preserve">
+    <value>Short circuit to Earth</value>
+  </data>
+  <data name="SlaveComInterface" xml:space="preserve">
+    <value>Slave Com Interface</value>
+  </data>
+  <data name="SlaveSpdif1" xml:space="preserve">
+    <value>Slave SPDIF 1</value>
+  </data>
+  <data name="SlaveSpdif2" xml:space="preserve">
+    <value>Slave SPDIF 2</value>
+  </data>
+  <data name="SparePower48V" xml:space="preserve">
+    <value>Backup Power 48V</value>
+  </data>
+  <data name="Amplifier" xml:space="preserve">
+    <value>Amplifier {0}</value>
+  </data>
+  <data name="BackupAmplifier" xml:space="preserve">
+    <value>Backup Amplifier {0}</value>
+  </data>
+  <data name="Evacuation" xml:space="preserve">
+    <value>Evacuation Panel {0}</value>
+  </data>
+  <data name="External" xml:space="preserve">
+    <value>Esc external {0}</value>
+  </data>
+  <data name="Fds" xml:space="preserve">
+    <value>FDS interface {0}</value>
+  </data>
+  <data name="Fire" xml:space="preserve">
+    <value>Fire Panel {0}</value>
+  </data>
+  <data name="Internal" xml:space="preserve">
+    <value>Esc internal {0}</value>
+  </data>
+  <data name="Slave" xml:space="preserve">
+    <value>ESC Slave {0}</value>
+  </data>
+  <data name="Speakerline" xml:space="preserve">
+    <value>Loudspeakerline {0}</value>
+  </data>
+</root>

@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AmpDefect" xml:space="preserve">
+    <value>Action: Check if amplifier is still 'ON'  (Green 230Vac and/or 48Vdc indicator) and not in protect mode (Yellow indicators). If not: contact your dealer. If yes: reset error and wait a few minutes;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="Com1Interface" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="Com2Interface" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="Dsp" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. Dealer should perform a power cycle (230Vac and 48Vdc) to check if error returns.</value>
+  </data>
+  <data name="Eeprom" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. Dealer should perform a power cycle (230Vac and 48Vdc) to check if error returns.</value>
+  </data>
+  <data name="Epc" xml:space="preserve">
+    <value>Action: ensure the EPC battery charger does not indicate any errors. If it does, contact your dealer. If it does not; reset error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="EpcOpenline" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. There is probably a connection fault between devices.</value>
+  </data>
+  <data name="EpcShortcut" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. There is probably a connection fault between devices.</value>
+  </data>
+  <data name="Expansion" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ExternAudioLine" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short or disconnection on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ExternAudioOpenline" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short or disconnection on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ExternAudioShortcut" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short or disconnection on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ExternError" xml:space="preserve">
+    <value>Action: ensure that the ESA amplifiers do not indicate a protection mode; If they do, contact your dealer. If they don't; reset error, if error returns, contact your dealer.</value>
+  </data>
+  <data name="ExternOpenline" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. There is probably a connection fault between devices.</value>
+  </data>
+  <data name="ExternShortcut" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. There is probably a connection fault between devices.</value>
+  </data>
+  <data name="HwWdog" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. Dealer should perform a power cycle (230Vac and 48Vdc) to check if error returns.</value>
+  </data>
+  <data name="ImpDev1KhzA" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a partial disconnected speaker or speaker line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ImpDev1KhzB" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a partial disconnected speaker or speaker line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ImpDev22Khz" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a partial disconnected speaker or speaker line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="MainPower230V" xml:space="preserve">
+    <value>Action: the Entero ESC detected a 230Vac power loss. Check if all connections are ok and if other devices do not indicate 230Vac errors. Reset error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="MainsFuse" xml:space="preserve">
+    <value>Action: ensure that the ESA amplifiers and EPC battery charger are powered from 230Vac; If not, contact your dealer. If yes; reset error, if error returns;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="MainsFuseOpenline" xml:space="preserve">
+    <value>Action: ensure that the ESA amplifiers and EPC battery charger are powered from 230Vac; If not, contact your dealer. If yes; reset error, if error returns;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="MainsFuseShortcut" xml:space="preserve">
+    <value>Action: reset error, if the error returns, contact your dealer. There is probably a connection fault between devices.</value>
+  </data>
+  <data name="MicCapOpenLine" xml:space="preserve">
+    <value>Action: make sure the cable of the Fire Mic is connected &amp; not damaged (which can cause an open connection). Reset error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="MicCapShortcut" xml:space="preserve">
+    <value>Action: make sure the Microphone is properly fixed to the housing and does not show any signs of damage (which can cause an internal open connection). Reset error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="MicLineBus1" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="MicLineBus2" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="MicRequest" xml:space="preserve">
+    <value>Action: make sure the red Fire Mic is connected and does not show any signs of damage (which can cause a broken switch). Reset error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="Mp31" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. Dealer should check if SD cards are properly inserted and do not contain corrupted files.</value>
+  </data>
+  <data name="Mp32" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. Dealer should check if SD cards are properly inserted and do not contain corrupted files.</value>
+  </data>
+  <data name="NoBackup" xml:space="preserve">
+    <value>Action: Check if amplifier is still 'ON' (Green 230Vac and/or 48Vdc indicator) and not in protect mode (Yellow indicators). If not: contact your dealer. If yes: reset the error and wait a few minutes; Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="OpenlineA" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused an open/disconnected speaker line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="OpenlineB" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused an open/disconnected speaker line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="PanelTxIsr" xml:space="preserve">
+    <value>Action: reset error;  Acknowledge the error if it returns and contact your dealer. Dealer should perform a power cycle (230Vac and 48Vdc) to check if error returns.</value>
+  </data>
+  <data name="Rs485FpBus1" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short or disconnection on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="Rs485FpBus2" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short or disconnection on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="Rs485MasterSlave" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short or disconnection on this line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ShortcutA" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short on the speaker line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ShortcutB" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short on the speaker line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="ShortcutToEarth" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a short to earth on the speaker line. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="SlaveComInterface" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on the link to a Slave ESC unit. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="SlaveSpdif1" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on the link to a Slave ESC unit. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="SlaveSpdif2" xml:space="preserve">
+    <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on the link to a Slave ESC unit. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+  <data name="SparePower48V" xml:space="preserve">
+    <value>Action: the Entero ESC detected a 48Vdc power loss. Check if all connections are ok and if other devices do not indicate 48Vdc errors. Reset error;  Acknowledge the error if it returns and contact your dealer.</value>
+  </data>
+</root>

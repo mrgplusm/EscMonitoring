@@ -1,0 +1,96 @@
+﻿<UserControl 
+        x:Class="Monitoring.UserControls.UcLogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d"
+               xmlns:converters="clr-namespace:Monitoring.Converters"
+             xmlns:viewModel="clr-namespace:Monitoring.ViewModel"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:userControls="clr-namespace:Monitoring.UserControls"
+             d:DataContext="{d:DesignInstance viewModel:MainViewModel, IsDesignTimeCreatable=True}"
+             >
+    <UserControl.Resources>
+        <CollectionViewSource Source="{x:Static viewModel:MainViewModel.ErrorList}" x:Key="SdErrors" VirtualizingStackPanel.IsVirtualizing="True" IsLiveSortingRequested="True" IsLiveGroupingRequested="True">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="Grouping" Direction="Descending"  />
+                <componentModel:SortDescription PropertyName="Name" />
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Grouping" />                
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+
+
+    <DataGrid ItemsSource="{Binding Source={StaticResource SdErrors}}" Name="Grid" IsReadOnly="True" IsManipulationEnabled="False" 
+                  AutoGenerateColumns="False" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"  ScrollViewer.CanContentScroll="False" 
+                  AlternatingRowBackground="BurlyWood"
+                  >
+
+        <DataGrid.Columns>
+            <DataGridTextColumn Width="45" Binding="{Binding StrId}" Header="{x:Static userControls:UcLog.chId}"  />
+
+            <DataGridTextColumn Width="60" Header="{x:Static userControls:UcLog.chUnit}" Binding="{Binding StrEscUnit}" />
+            <DataGridTextColumn Width="85" 
+                                    Header="{x:Static userControls:UcLog.chStatus}" Binding="{Binding StrStatus}" />
+            <DataGridTextColumn Width="115" 
+                                    Header="{x:Static userControls:UcLog.chDevice}" Binding="{Binding StrDevice}" />
+            <DataGridTextColumn Width="150" 
+                                    Header="{x:Static userControls:UcLog.chDetail}" Binding="{Binding StrDetail}" />
+            <DataGridTemplateColumn Width="540" Header="{x:Static userControls:UcLog.chDescription}"    >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate DataType="{x:Type viewModel:ErrorLineViewModel}">
+                        <Expander IsExpanded="False" Header="{Binding Path=Description}" Width="530">
+                            <TextBlock Text="{Binding Path=WhatIf}" Width="527" TextWrapping="Wrap"></TextBlock>
+                        </Expander>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+
+
+
+            </DataGridTemplateColumn>
+            <DataGridTextColumn Width="140" 
+                                    Header="{x:Static userControls:UcLog.chDateTime}" Binding="{Binding StrDate}"  />
+        </DataGrid.Columns>
+        <DataGrid.GroupStyle>
+            <GroupStyle>
+                <GroupStyle.ContainerStyle>
+                    <Style TargetType="{x:Type GroupItem}">
+                        <Setter Property="Margin" Value="0,0,0,5"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                    <Expander  Background="LightGray"  >
+                                        <Expander.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontWeight="Bold" Text="{Binding Name, Converter={converters:ErrorlineHeaderConverter}}" Name="Header"  Margin="0,0,10,0"  />
+                                                <TextBlock Text="items: " FontWeight="Bold" DataContext="{Binding Name}" Name="TbData" />
+                                                <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount, NotifyOnTargetUpdated=True}" Name="Items" />
+                                                
+                                            </StackPanel>
+                                        </Expander.Header>
+                                        <Expander.Content>
+                                            <ItemsPresenter Margin="10,0,0,0" />
+                                        </Expander.Content>                                        
+                                            
+                                        <i:Interaction.Behaviors>
+                                            <userControls:UpdateHeader />
+                                        </i:Interaction.Behaviors>
+                                    </Expander>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </GroupStyle.ContainerStyle>
+            </GroupStyle>
+
+        </DataGrid.GroupStyle>
+
+    </DataGrid>
+
+
+
+</UserControl>

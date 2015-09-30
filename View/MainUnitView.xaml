@@ -1,0 +1,269 @@
+﻿<UserControl x:Class="Monitoring.View.MainUnitView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:modules="clr-namespace:Monitoring.Modules"
+             xmlns:viewModel="clr-namespace:Monitoring.ViewModel"
+             xmlns:userControls="clr-namespace:Monitoring.UserControls"
+             xmlns:converters="clr-namespace:Monitoring.Converters"
+             mc:Ignorable="d" Loaded="MainUnitView_Loaded"
+             d:DataContext="{d:DesignInstance viewModel:MainUnitViewModel}" 
+             >
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+
+        </Style>
+        <Style TargetType="Border" x:Key="borderStyle">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="#00CD00" />
+            <Setter Property="CornerRadius" Value="3" />
+            <Setter Property="Effect" >
+                <Setter.Value>
+                    <DropShadowEffect  ShadowDepth="1"></DropShadowEffect>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style TargetType="Border" BasedOn="{StaticResource borderStyle}"></Style>
+
+        <Style TargetType="modules:ArrowPolyline">
+            <Setter Property="ArrowAngle" Value="40"></Setter>
+            <Setter Property="ArrowLength" Value="8"></Setter>
+
+        </Style>
+        <Canvas x:Key="speaker" x:Shared="False">
+            <Border BorderBrush="Black" Width="12" Height="30" Canvas.Top="5"  />
+            <Polygon Points="12,12 30,0 30,40, 12,28" Stroke="Black" StrokeThickness="1" Fill="LightBlue" />
+
+        </Canvas>
+
+        <Style TargetType="{x:Type ContextMenu}" x:Key="ContextMenu"  >
+
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate >
+                        <TextBlock Text="{Binding DisplayName}"></TextBlock>
+                    </DataTemplate>
+                </Setter.Value>
+
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+
+                    <Style TargetType="{x:Type MenuItem}" >
+                        <Setter Property="IsCheckable" Value="True" />
+                        <Setter Property="IsChecked" Value="{Binding IsVisibileInMonitoringSchematic}"></Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style BasedOn="{StaticResource ContextMenu}" TargetType="ContextMenu" x:Key="panelContexts">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate >
+                        <TextBlock Text="{Binding Path=ContextMenuName}"></TextBlock>
+                    </DataTemplate>
+                </Setter.Value>
+
+            </Setter>
+        </Style>
+
+        <Storyboard x:Key="ErrorStopStoryboard" x:Shared="False">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" FillBehavior="Stop" 
+                             RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:1" >
+                <ColorAnimationUsingKeyFrames.KeyFrames>
+                    <DiscreteColorKeyFrame KeyTime="0:0:0.5" Value="Yellow" />
+                </ColorAnimationUsingKeyFrames.KeyFrames>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="ArrowStoryboard" x:Shared="False">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(modules:ArrowPolyline.Stroke).(SolidColorBrush.Color)" FillBehavior="Stop" 
+                             RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:1" >
+                <ColorAnimationUsingKeyFrames.KeyFrames>
+                    <DiscreteColorKeyFrame KeyTime="0:0:0.5" Value="Yellow" />
+                </ColorAnimationUsingKeyFrames.KeyFrames>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+
+    </UserControl.Resources>
+    <Viewbox Stretch="Uniform" StretchDirection="Both" >
+        <Grid Width="840" Height="520" >
+            <Grid.Resources>
+
+            </Grid.Resources>
+            <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Ellipse Canvas.Left="537" Canvas.Top="185" Height="10" Width="10" Fill="Black" />
+                <Ellipse Canvas.Left="537" Canvas.Top="215" Height="10" Width="10" Fill="Black" />
+
+                <Border Width="102" Height="40" Canvas.Top="190" Canvas.Left="268" Name="Fds"  >
+
+                    <TextBlock Text="FDS Interface" />
+                    <Border.ContextMenu>
+                        <ContextMenu Style="{StaticResource panelContexts}" ItemsSource="{Binding Path=PanelViewModels[2]}"/>
+                    </Border.ContextMenu>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource borderStyle}">
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=FdsUsed}" Value="False" >
+                                    <Setter Property="Background" Value="LightGray"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                </Border>
+                <Border Width="102" Height="40" Canvas.Top="135" Canvas.Left="268" Name="Fire"  >
+                    <TextBlock Text="Fire Panel" />
+                    <Border.ContextMenu>
+                        <ContextMenu Style="{StaticResource panelContexts}" ItemsSource="{Binding Path=PanelViewModels[0]}"/>
+
+                    </Border.ContextMenu>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource borderStyle}">
+                            
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=FireUsed}" Value="False" >
+                                    <Setter Property="Background" Value="LightGray"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+                <Border Width="102" Height="40" Canvas.Top="80" Canvas.Left="268"  Name="Evacuation" >
+                    <TextBlock Text="Evacuation Panel" />
+                    <Border.ContextMenu>
+                        <ContextMenu Style="{StaticResource panelContexts}" ItemsSource="{Binding Path=PanelViewModels[1]}"/>
+                    </Border.ContextMenu>
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource borderStyle}">
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=EvacUsed}" Value="False" >
+                                    <Setter Property="Background" Value="LightGray"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+                <Border Width="140" Height="150" Canvas.Top="80" Canvas.Left="400" Name="EscMaster"  >
+                    <Border.ContextMenu>
+                        <ContextMenu Style="{StaticResource ContextMenu}">
+                            <MenuItem Header="Add esc to overview" IsChecked="{Binding Path=IsVisibileInMonitoringSchematic}"></MenuItem>
+                        </ContextMenu>
+                    </Border.ContextMenu>
+                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="100">
+                        <TextBlock Text="Entero ESC" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Path=DisplayName}" TextWrapping="Wrap" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                    </StackPanel>
+
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource borderStyle}">
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsVisibileInMonitoringSchematic}" Value="False" >
+                                    <Setter Property="Background" Value="LightGray"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                </Border>
+                <Border Width="60" Height="40" Canvas.Top="0" Canvas.Left="400" Name="PowerSource230Vac"  >
+                    <TextBlock Text="230Vac" />
+                </Border>
+
+                <Border Width="200" Height="40" Canvas.Top="0" Canvas.Left="480" Name="EnteroEpc"  >
+                    <TextBlock Text="Entero EPC" />
+                </Border>
+
+                <Border Width="100" Height="40" Canvas.Top="80" Canvas.Left="580" Name="Amplifier" >
+                    <TextBlock Text="Amplifier" />
+                </Border>
+
+                <Border Width="100" Height="40" Canvas.Top="135" Canvas.Left="580" Name="BackupAmplifier" >
+                    <TextBlock Text="Backup Amplifier" />
+                </Border>
+
+                <Border Width="70" Height="60" Canvas.Top="270" Canvas.Left="470" Name="EscSlave">
+                    <TextBlock Text="ESC-Slave" />
+                </Border>
+
+                <Ellipse Canvas.Left="77" Canvas.Top="265" Height="10" Width="10" Fill="Black" />
+                <Ellipse Canvas.Left="164" Canvas.Top="265" Height="10" Width="10" Fill="Black" />
+                <Ellipse Canvas.Left="77" Canvas.Top="325" Height="10" Width="10" Fill="Black" />
+                <Ellipse Canvas.Left="164" Canvas.Top="325" Height="10" Width="10" Fill="Black" />
+                <Ellipse Canvas.Left="164" Canvas.Top="385" Height="10" Width="10" Fill="Black" />
+                <Ellipse Canvas.Left="164" Canvas.Top="445" Height="10" Width="10" Fill="Black" />
+                <Ellipse Canvas.Left="251" Canvas.Top="325" Height="10" Width="10" Fill="Black" />
+
+                <userControls:ExternalInput Canvas.Top="250" Canvas.Left="10" DisplayName="Entero ESA AMP/PSU" IsAvailableInSystem="{Binding Path=ExternalInputs[0], Mode=TwoWay}" x:Name="EnteroEsaAmpPsu" />
+                <userControls:ExternalInput Canvas.Top="250" Canvas.Left="97" DisplayName="Redundancy Module" IsAvailableInSystem="{Binding Path=ExternalInputs[1], Mode=TwoWay}" x:Name="RedundancyModule" />
+                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="10" DisplayName="Entero ESA" IsAvailableInSystem="{Binding Path=ExternalInputs[2], Mode=TwoWay}" x:Name="EnteroEsa230Vac" />
+                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="97" DisplayName="Entero EPC 230Vac" IsAvailableInSystem="{Binding Path=ExternalInputs[3], Mode=TwoWay}" x:Name="EnteroEpc230Vac" />
+                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="184" DisplayName="Circuit Breaker " IsAvailableInSystem="{Binding Path=ExternalInputs[4], Mode=TwoWay}" x:Name="Circuitbreaker" />
+                <userControls:ExternalInput Canvas.Top="370" Canvas.Left="97" DisplayName="Entero EPC 48Vdc" IsAvailableInSystem="{Binding Path=ExternalInputs[5], Mode=TwoWay}" x:Name="EnteroEpcContact" />
+                <userControls:ExternalInput Canvas.Top="430" Canvas.Left="97" DisplayName="External Audio in" IsAvailableInSystem="{Binding Path=ExternalInputs[6], Mode=TwoWay}" x:Name="ExtAudioIn" />
+
+                <Rectangle StrokeDashArray="2,2" Width="269" Height="240" Canvas.Left="0" Canvas.Top="240" Stroke="OrangeRed" StrokeThickness="2" />
+
+                <ContentControl Content="{StaticResource speaker}" Canvas.Top="170" Canvas.Left="710" Name="SpeakerA" >
+                    <ContentControl.ContextMenu>
+                        <ContextMenu Style="{StaticResource ContextMenu}" ItemsSource="{Binding Path=SpeakersA}"/>
+                    </ContentControl.ContextMenu>
+                </ContentControl>
+                <ContentControl Content="{StaticResource speaker}"  Canvas.Top="200" Canvas.Left="750" Name="SpeakerB" >
+                    <ContentControl.ContextMenu>
+                        <ContextMenu Style="{StaticResource ContextMenu}" ItemsSource="{Binding Path=SpeakersB}"/>
+                    </ContentControl.ContextMenu>
+                </ContentControl>
+
+
+
+                <modules:ArrowPolyline Points="430,40 430,80" Stroke="Black" ArrowEnds="Both" x:Name="PowerSource230VacConnectie"  />
+                <modules:ArrowPolyline Points="500,40 500,80" Stroke="Black" ArrowEnds="Both" x:Name="Esc48VdcConnection" />
+
+                <modules:ArrowPolyline Points="620,40 620,135" Stroke="Black" ArrowEnds="Both" Canvas.ZIndex="-1"  />
+                <modules:ArrowPolyline Points="640,40 640,80" Stroke="Black" ArrowEnds="Both" Canvas.ZIndex="-1"  />
+
+                <modules:ArrowPolyline Points="500,230 500,270" Stroke="Black" ArrowEnds="Both" x:Name="EscLink" />
+
+                <modules:ArrowPolyline Points="540,145 580,145" Stroke="Black" ArrowEnds="End"   />
+                <modules:ArrowPolyline Points="540,165 580,165" Stroke="Black" ArrowEnds="Start"   />
+
+                <modules:ArrowPolyline Points="540,90 580,90" Stroke="Black" ArrowEnds="End"   />
+                <modules:ArrowPolyline Points="540,110 580,110" Stroke="Black" ArrowEnds="Start"   />
+
+                <modules:ArrowPolyline Points="540,190 710,190" Stroke="Black" ArrowEnds="End" x:Name="SpeakerlineA"  />
+                <modules:ArrowPolyline Points="540,220 750,220" Stroke="Black" ArrowEnds="End" x:Name="SpeakerlineB"   />
+
+                <modules:ArrowPolyline Points="370,100 400,100" Stroke="Black" ArrowEnds="Both" x:Name="PanelbusEp"  />
+                <modules:ArrowPolyline Points="370,155 400,155" Stroke="Black" ArrowEnds="Both" x:Name="PanelbusFp"   />
+                <modules:ArrowPolyline Points="370,210 400,210" Stroke="Black" ArrowEnds="Both" x:Name="PanelbusFds"   />
+
+                <modules:ArrowPolyline Points="80,270 410,270, 410,230" Stroke="Black" ArrowEnds="End" Canvas.ZIndex="-1" x:Name="ExtErrorInConnection"  />
+                <modules:ArrowPolyline Points="80,330 420,330, 420,230" Stroke="Black" ArrowEnds="End" Canvas.ZIndex="-1" x:Name="MainsErrorContactConnection"   />
+                <modules:ArrowPolyline Points="170,390 430,390, 430,230" Stroke="Black" ArrowEnds="End" Canvas.ZIndex="-1" x:Name="EpcConnection"  />
+                <modules:ArrowPolyline Points="170,450 440,450, 440,230" Stroke="Black" ArrowEnds="End" Canvas.ZIndex="-1"  x:Name="ExtAudioInConnection" />
+                <TextBlock Text="External Error Contacts" Canvas.Top="220" Canvas.Left="10" />
+
+                <TextBlock Text="External Error"  Canvas.Top="250" Canvas.Left="280" />
+                <TextBlock Text="AC Mains Error" Canvas.Top="310" Canvas.Left="280" />
+                <TextBlock Text="EPC 48Vdc Error" Canvas.Top="370" Canvas.Left="280" />
+                <TextBlock Text="External Audio Input" Canvas.Top="430" Canvas.Left="280" />
+
+                <TextBlock Text="Line A" Canvas.Top="177" Canvas.Left="750" />
+                <TextBlock Text="Line B" Canvas.Top="208" Canvas.Left="790" />
+            </Canvas>
+        </Grid>
+    </Viewbox>
+</UserControl>

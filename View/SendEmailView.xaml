@@ -1,0 +1,161 @@
+﻿<UserControl x:Class="Monitoring.View.SendEmailView"
+       
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        
+        DataContext="{Binding MainView.Email, Source={StaticResource Locator}}"
+
+        xmlns:system="clr-namespace:System;assembly=mscorlib" 
+        xmlns:monitoring="clr-namespace:Monitoring"
+        
+        xmlns:view="clr-namespace:Monitoring.View"
+        xmlns:converters="clr-namespace:Monitoring.Converters"
+        
+        xmlns:converters1="clr-namespace:Common.Converters;assembly=Common"
+        xmlns:viewModel="clr-namespace:Monitoring.ViewModel">
+    <UserControl.Resources>
+
+        <Style TargetType="{x:Type RowDefinition}">
+            <Setter Property="Height" Value="Auto"></Setter>
+        </Style>
+
+        <system:String x:Key="NumberRegex">^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@
+        [a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]
+        *[a-zA-Z]$</system:String>
+
+        <ControlTemplate x:Key="TextBoxErrorTemplate" TargetType="Control">
+            <Grid ClipToBounds="False" >
+                <Image HorizontalAlignment="Right" VerticalAlignment="Top" 
+               Width="16" Height="16" Margin="0,-8,-8,0" 
+               Source="../Icons/edit-icon.png" 
+               ToolTip="{Binding ElementName=adornedElement, 
+                         Path=AdornedElement.(Validation.Errors), 
+                         Converter={converters:ValidationErrorsToStringConverter}}"/>
+                <Border BorderBrush="Red" BorderThickness="1" Margin="-1">
+                    <AdornedElementPlaceholder Name="adornedElement" />
+                </Border>
+            </Grid>
+        </ControlTemplate>
+        <DataTemplate DataType="{x:Type viewModel:DetailField}">
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="{Binding Path=DetailName}" Width="100" HorizontalAlignment="Right" />
+                <TextBox Text="{Binding Path=DetailValue}" MinWidth="150" HorizontalAlignment="Right" />
+
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+        
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <GroupBox Header="{x:Static view:SendEmail._emailGroupProject}">
+                <ItemsControl ItemsSource="{Binding Path=ProjectDetails}" />
+
+            </GroupBox>
+
+            <GroupBox Header="{x:Static view:SendEmail._emailGroupDealer}" Grid.Column="1" Grid.Row="0">
+                <ItemsControl ItemsSource="{Binding Path=DealerDetails}" />
+            </GroupBox>
+
+            <Expander Header="{x:Static view:SendEmail._emailGroupSender}" Grid.Row="1" Grid.Column="1" IsExpanded="False" >
+
+                <Grid>
+                    <Grid.Resources>
+
+                    </Grid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBox Width="150" Grid.Column="1">
+                        <TextBox.Text>
+                            <Binding Path="SenderFrom">
+                                <Binding.ValidationRules>
+                                    <monitoring:EmailValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=SenderDisplay}" Width="150" />
+
+                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=SenderSmtpServer}" Width="150" />
+                    <TextBox Grid.Row="3" Grid.Column="1" Width="150"  >
+                        <TextBox.Text>
+                            <Binding Path="SenderSmtpPort">
+                                <Binding.ValidationRules>
+                                    <monitoring:PortValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding Path=SenderSsl}"  Name="SenderSsl"  />
+                    <TextBox  Grid.Row="5" Grid.Column="1" IsEnabled="{Binding ElementName=SenderSsl, Path=IsChecked}" 
+                          Text="{Binding Path=SenderUsername}" Width="150"  />
+
+                    <PasswordBox PasswordChanged="PasswordBox_OnPasswordChanged" Grid.Row="6" Grid.Column="1" Width="150" 
+                                 
+                                 IsEnabled="{Binding ElementName=SenderSsl, Path=IsChecked}"></PasswordBox>
+                    <!--<TextBox Grid.Row="6" Grid.Column="1"  
+                             Text="{Binding Path=SenderPassword}"  />-->
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderFrom}" Width="100" HorizontalAlignment="Right"  />
+                    <Label Grid.Row="1" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderDisplay}" Width="100" HorizontalAlignment="Right"   />
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderSMTPserver}" Width="100" HorizontalAlignment="Right" />
+                    <Label Grid.Row="3" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderSMTPport}"  Width="100" HorizontalAlignment="Right" />
+                    <Label Grid.Row="4" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderSSL}" Width="100" HorizontalAlignment="Right" />
+                    <Label Grid.Row="5" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderUserName}" Width="100"  HorizontalAlignment="Right"/>
+                    <Label Grid.Row="6" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderPassword}" Width="100"  HorizontalAlignment="Right" />
+                </Grid>
+            </Expander>
+
+            <Expander IsExpanded="False" Grid.Column="0" Grid.Row="1"  Header="{x:Static view:SendEmail._emailGroupReceiver}" VerticalAlignment="Top" >
+                <StackPanel>
+                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=Addresses}">
+                        <DataGrid.Columns>
+
+
+                            <DataGridTemplateColumn Header="Remove" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button   Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}},
+                                              Path=DataContext.RemoveEmail}"
+                                              CommandParameter="{Binding}"
+                                              Content="{x:Static view:SendEmail.RemoveEmail}"  />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Address" Binding="{Binding Value, Mode=TwoWay}" Width="200" IsReadOnly="False" SortMemberPath="Value" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Command="{Binding Path=AddEmail}" HorizontalAlignment="Left" Content="{x:Static view:SendEmail.AddEmail}"  />
+                </StackPanel>
+            </Expander>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

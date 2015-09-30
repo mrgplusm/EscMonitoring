@@ -1,0 +1,208 @@
+﻿<Window x:Class="Monitoring.MainWindow"
+        
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:userControls="clr-namespace:Monitoring.UserControls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:userControls1="clr-namespace:Common.UserControls;assembly=Common"
+        xmlns:view="clr-namespace:Monitoring.View"
+        xmlns:viewModel="clr-namespace:Monitoring.ViewModel"        
+        xmlns:behaviors="clr-namespace:IKriv.Windows.Controls.Behaviors;assembly=Common"
+        xmlns:connection="clr-namespace:Monitoring.ViewModel.Connection"
+        xmlns:monitoring="clr-namespace:Monitoring"
+
+        mc:Ignorable="d"
+        Title="{x:Static monitoring:Main._mainWindowTitle}" 
+        DataContext="{Binding MainView, Source={StaticResource Locator}}"
+        
+        d:DataContext="{d:DesignInstance viewModel:MainViewModel, IsDesignTimeCreatable=True}"
+        Width="800" Height="600"
+        >
+
+    <Window.Resources>
+        <Style TargetType="TextBlock" >
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="Padding" Value="2,0" />
+        </Style>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding Path=Exit}" Key="c" Modifiers="Control"  />
+        <KeyBinding Command="{Binding Path=OpenFile}" Key="o" Modifiers="Control"  />
+        <KeyBinding Command="{Binding Path=CloseFile}" Key="w" Modifiers="Control"  />
+    </Window.InputBindings>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Menu VerticalAlignment="Top" Grid.Row="0" Name="Menu">
+            <MenuItem Header="{x:Static monitoring:Main._mainFile}" InputGestureText="M">
+                <MenuItem Command="{Binding Path=OpenFile}" Header="{x:Static monitoring:Main._mainFileOpenFile}" Name="OpenFile" 
+                          InputGestureText="Ctrl+O" IsEnabled="{Binding Path=PasswordEnteredOk}" >
+                    <MenuItem.Icon>
+                        <Image Source="Icons/Open.ico" SnapsToDevicePixels="True" Width="15" Height="15" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="{x:Static monitoring:Main.ReconnectAll}" Name="Reconnect"  />
+
+                <MenuItem Command="{Binding Path=CloseFile}" Header="{x:Static monitoring:Main._mainFileClose}" Name="CloseFile" 
+                          InputGestureText="Ctrl+W" IsEnabled="{Binding Path=PasswordEnteredOk}" >
+                    <MenuItem.Icon>
+                        <Image Source="Icons/Close-32.png" Width="15" Height="15"  Style="{StaticResource GrOut}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Click="CreatePasswordBox" Header="{x:Static monitoring:Main.CreatePassword}" Name="CreatePasswordMenuitem" 
+                          InputGestureText="Ctrl+R" IsEnabled="{Binding Path=PasswordEnteredOk}" >
+                </MenuItem>
+
+                <MenuItem Command="{Binding Path=SetBackground}" Header="{x:Static monitoring:Main.SetSchematicBackground}" 
+                          IsEnabled="{Binding Path=PasswordEnteredOk}" >
+                    <MenuItem.Icon>
+                        <Image Source="Icons/ESCexit.ico" Width="15" Height="15" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Command="{Binding Path=ClearBackground}" Header="{x:Static monitoring:Main.ClearBackground}" 
+                          IsEnabled="{Binding Path=PasswordEnteredOk}" >                    
+                </MenuItem>
+
+                <MenuItem Header="{x:Static monitoring:Main.EnterPasswordMenuItem}" Click="EnterPasswordMenuItem" 
+                          Name="EnterPassword" InputGestureText="Ctrl+P"  />
+
+                <MenuItem Command="{Binding Path=Exit}" Header="{x:Static monitoring:Main._mainExitApp}" Name="CloseApp" InputGestureText="Alt+F4"  >
+                    <MenuItem.Icon>
+                        <Image Source="Icons/ESCexit.ico" Width="15" Height="15" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Popup Grid.Row="2" Name="Password" PlacementTarget="{Binding ElementName=Menu}" Placement="Bottom" 
+               StaysOpen="{Binding ElementName=PasswordBox, Path=IsKeyboardFocused}" Width="250" >
+            <Border Background="Violet" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+                <StackPanel Name="PasswordStackPanel">
+                    <TextBlock Text="{x:Static monitoring:Main.EnterPassword}" Margin="5" TextWrapping="Wrap" />
+                    <PasswordBox Margin="5" Width="150" PasswordChanged="PasswordChanged" Name="PasswordBox" />
+                    <TextBlock Text="{x:Static monitoring:Main.PasswordHelp}" TextWrapping="WrapWithOverflow" />
+                    <Button Content="{x:Static monitoring:Main.Cancel}" Margin="5" Click="ClosePopup" Width="100"></Button>
+                </StackPanel>
+            </Border>
+
+        </Popup>
+
+        <Popup Grid.Row="2" Name="PasswordCreate" PlacementTarget="{Binding ElementName=Menu}" Placement="Bottom" 
+               StaysOpen="{Binding ElementName=PasswordBox, Path=IsKeyboardFocused}" Width="250" >
+            <Border Background="Turquoise" BorderBrush="Black" BorderThickness="2" CornerRadius="10">
+
+                <StackPanel>
+                    <TextBlock Text="{x:Static monitoring:Main.EnterPasswordCreate}" Margin="5" TextWrapping="Wrap" />
+
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="{x:Static monitoring:Main.PasswordEnter1}" Width="100"></TextBlock>
+                        <PasswordBox Margin="5" Width="100" PasswordChanged="PasswordChanged1" Name="PasswordBoxCreate1" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{x:Static monitoring:Main.PasswordEnter2}" Width="100"></TextBlock>
+                        <PasswordBox Margin="5" Width="100" PasswordChanged="PasswordChanged2" Name="PasswordBoxCreate2" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="{x:Static monitoring:Main.OkChangePassword}" Name="Button1Ok" Margin="5" Click="SetPassword" 
+                                Width="100"/>
+                        <Button Content="{x:Static monitoring:Main.Cancel}" Margin="5" Click="ClosePopup" Width="100"></Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </Popup>
+
+
+        <!--<UserControls:EscUnits Grid.Row="1" />-->
+        <TabControl Grid.Row="1" ItemsSource="{Binding Path=Tabs}" SelectionChanged="Selector_OnSelectionChanged" behaviors:TabContent.IsCached="True" >
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type viewModel:SchematicOverView}">
+                                <TextBlock Text="Overview"></TextBlock>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type viewModel:MainUnitViewModel}">
+                                <TextBlock Text="{Binding Path=ContextMenuName}"></TextBlock>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type viewModel:SendEmailViewModel}">
+                                <TextBlock Text="Email" />
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type connection:CommunicationViewModel}">
+                                <TextBlock Text="Communication"></TextBlock>
+                            </DataTemplate>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.Resources>
+                <DataTemplate DataType="{x:Type viewModel:SchematicOverView}">
+                    <userControls:UcSchematic />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModel:MainUnitViewModel}">
+                    <view:MainUnitView IsEnabled="{Binding Path=DataContext.PasswordEnteredOk,
+                        RelativeSource={RelativeSource FindAncestor, AncestorType=TabControl}}" />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModel:SendEmailViewModel}">
+                    <view:SendEmailView IsEnabled="{Binding Path=DataContext.PasswordEnteredOk,
+                        RelativeSource={RelativeSource FindAncestor, AncestorType=TabControl}}" />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type connection:CommunicationViewModel}">
+                    <view:CommunicationView IsEnabled="{Binding Path=DataContext.PasswordEnteredOk,
+                        RelativeSource={RelativeSource FindAncestor, AncestorType=TabControl}}" />
+                </DataTemplate>
+            </TabControl.Resources>
+        </TabControl>
+
+        <Popup Grid.Row="2" Name="Popup" PlacementTarget="{Binding ElementName=Buttonclear}" Placement="Top">
+            <Border Background="Linen" BorderBrush="Black" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="{x:Static monitoring:Main.WhoClear}" Margin="5" ></TextBlock>
+
+                    <TextBox Text="{Binding Path=LogClearedBy, UpdateSourceTrigger=PropertyChanged}" Margin="5" Width="200" Name="Clearby" />
+
+
+
+                    <CheckBox Margin="5" Content="{x:Static monitoring:Main.InspectorClearInfo}" IsChecked="{Binding Path=InspectorCleared}"></CheckBox>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="{x:Static monitoring:Main.SureClearLog}" Click="ClosePopup" Command="{Binding Path=ClearList}" Margin="5" />
+                        <Button Content="{x:Static monitoring:Main.Cancel}" Margin="5" Click="ClosePopup"></Button>
+
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+        </Popup>
+
+        <GridSplitter HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="5" Grid.Column="0" Grid.Row="1" Panel.ZIndex="2" 
+                      ResizeDirection="Rows"  />
+        <userControls:UcLogView Grid.Row="2" x:Name="LogView" />
+
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Height="25">
+
+            <Button Click="ButtonBase_OnClick"  Content="{x:Static monitoring:Main.BtnclearLog}" Name="Buttonclear" />
+
+            <CheckBox Content="{x:Static monitoring:Main.TestMode}" IsChecked="{Binding Path=TestMode}" Margin="3" />
+        </StackPanel>
+
+        <userControls1:StatusBarControl Grid.Row="4"></userControls1:StatusBarControl>
+    </Grid>
+</Window>
