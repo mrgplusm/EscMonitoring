@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Monitoring.ViewModel
 {

@@ -16,7 +16,7 @@ using Common;
 using Common.Model;
 
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Win32;
 using Monitoring.Properties;

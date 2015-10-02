@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using Monitoring.View;
 using Monitoring.ViewModel;
 using Xceed.Wpf.AvalonDock.Controls;

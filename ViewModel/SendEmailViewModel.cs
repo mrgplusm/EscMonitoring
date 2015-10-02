@@ -13,7 +13,7 @@ using System.Windows.Input;
 using Common;
 using Common.Model;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 
 using Monitoring.Email;
 

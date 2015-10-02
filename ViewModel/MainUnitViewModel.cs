@@ -10,7 +10,7 @@ using System.Windows.Media;
 using Common;
 using Common.Commodules;
 using Common.Model;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using Point = System.Windows.Point;
 
 namespace Monitoring.ViewModel
