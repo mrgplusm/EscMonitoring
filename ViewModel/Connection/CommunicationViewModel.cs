@@ -85,12 +85,6 @@ namespace Monitoring.ViewModel.Connection
         }
 
 
-
-        public int TabIndex
-        {
-            get { return 99; }            
-        }
-
         public ICommand AddConnection
         {
             get

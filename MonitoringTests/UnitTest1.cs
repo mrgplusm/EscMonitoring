@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Common;
 using Common.Model;
 using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,6 +15,33 @@ namespace MonitoringTests
     [TestClass]
     public class UnitTest1
     {
+        private SendEmailModel Testmodel {
+            get
+            {
+
+                var d = SendEmailViewModel.GetEmailModel();
+                {
+                    d.InspectorCleared = true;
+                    d.SenderSmtpServer = "smtp.bose.com";
+                    d.Receivers = new List<string>(new[] {"boris_bergman@bose.com"});
+                    d.SenderFrom = "boris_bergman@bose.com";
+                    d.SenderDisplay = "Boris Bergman";
+                    d.SenderSmtpPort = 25;
+                    return d;
+
+                }
+            }
+        }
+
+
+        [TestMethod]
+        public void SendEmailTest()
+        {
+            LibraryData.OpenSystem(LibraryData.EmptySystemModel());
+            var t = new EmailSender(Testmodel);
+            t.SendEmail();
+        }
+
         [TestMethod]
         public void TestMethod1()
         {

@@ -159,7 +159,8 @@ namespace Monitoring.ViewModel
             var z = new ErrorLineViewModel(error);
             ErrorList.Add(z);
             OnError(z);
-            SendEmailViewModel.SendEmail();
+            var s = new EmailSender(LibraryData.FuturamaSys.Email);
+            s.SendEmail();
         }
 
 
@@ -408,7 +409,9 @@ namespace Monitoring.ViewModel
                     LibraryData.FuturamaSys.ClearedErrors.Add(new LogClearEntry() { LogCleared = DateTime.Now, LogClearedBy = LogClearedBy });
 
                     //send an email before clearing the list
-                    SendEmailViewModel.SendEmail();
+                    var s = new EmailSender(LibraryData.FuturamaSys.Email);
+                    s.SendEmail();
+
                     ErrorList.Clear();
                     LogClearedBy = String.Empty;
                     OnLogCleared();

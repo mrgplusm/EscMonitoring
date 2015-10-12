@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net.Mime;
 using System.Windows;
 using Common;
@@ -24,22 +25,30 @@ namespace Monitoring.ViewModel.Connection
                 ErrorInfo = string.Empty;
                 RaisePropertyChanged(() => ConnectMode);
             });
-        
-            Connection.ErrorLineReceived += (sender, model) => Application.Current.Dispatcher.Invoke(()=>  MainViewModel.ErrorLineReceived(model));
+
+            Connection.ErrorLineReceived += (sender, model) => Application.Current.Dispatcher.Invoke(() => MainViewModel.ErrorLineReceived(model));
             Connection.ErrorOccured += ConnectionOnErrorOccured;
 
             Connection.UnitIdChanged += delegate { RaisePropertyChanged(() => UnitId); };
         }
 
-        private void ConnectionOnErrorOccured(string message)
+        private void ConnectionOnErrorOccured(object sender, ErrorEventArgs errorEventArgs)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-
-                if (DataModel.Errors == null) DataModel.Errors = new List<string>();
-                DataModel.Errors.Add(DateTime.Now.ToString("u") + '\t' + message);
-                ErrorInfo = message;
-                SendEmailViewModel.SendEmail();
+                try
+                {
+                    if (DataModel.Errors == null) DataModel.Errors = new List<string>();
+                    DataModel.Errors.Add(string.Format("{0}{1}{2}", DateTime.Now.ToString("u"), '\t',
+                        errorEventArgs.Exception));
+                    ErrorInfo = errorEventArgs.Exception.ToString();
+                    var s = new EmailSender(LibraryData.FuturamaSys.Email);
+                    s.SendEmail();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
             });
         }
 
