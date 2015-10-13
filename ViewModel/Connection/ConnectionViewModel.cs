@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Mime;
+using System.Threading;
 using System.Windows;
 using Common;
 using Common.Model;
 using GalaSoft.MvvmLight;
+using Timer = System.Timers.Timer;
 
 namespace Monitoring.ViewModel.Connection
 {
@@ -38,18 +40,35 @@ namespace Monitoring.ViewModel.Connection
             {
                 try
                 {
+                    StartReconnecTimer();
                     if (DataModel.Errors == null) DataModel.Errors = new List<string>();
                     DataModel.Errors.Add(string.Format("{0}{1}{2}", DateTime.Now.ToString("u"), '\t',
                         errorEventArgs.Exception));
                     ErrorInfo = errorEventArgs.Exception.ToString();
                     var s = new EmailSender(LibraryData.FuturamaSys.Email);
                     s.SendEmail();
+
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                 }
             });
+        }
+
+        private void StartReconnecTimer()
+        {
+            var ret = new Timer { AutoReset = false, Enabled = true, Interval = 62 * 1000 };
+            ret.Elapsed += (o, e) =>
+            {
+                Connect();
+                ret.Dispose();
+            };
+        }
+
+        public void Connect()
+        {
+            Connection.CreateConnection(DataModel.IpAddress, ConnectType, ConnectMode.Monitoring);
         }
 
         public Common.Connection Connection { get; private set; }

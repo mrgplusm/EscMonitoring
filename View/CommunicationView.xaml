@@ -53,15 +53,15 @@
                     <TextBlock Grid.Column="0" HorizontalAlignment="Right" Width="150" Margin="3" IsManipulationEnabled="False" 
                                Grid.Row="0" Text="{x:Static view:Communication.ComConnect}" Visibility="{Binding Path=IsNetwork, Converter={converters:BoolToVisibilityInvertedConverter}}"/>
                     <TextBlock Grid.Column="0" HorizontalAlignment="Right"  Width="150" IsManipulationEnabled="False" Grid.Row="0" Text="{x:Static view:Communication.NetConnect}" 
-                               Visibility="{Binding Path=IsNetwork, Converter={converters:BoolToVisibilityConverter}}"/>                    
+                               Visibility="{Binding Path=IsNetwork, Converter={converters:BoolToVisibilityConverter}}"/>
 
                     <ComboBox ItemsSource="{Binding Path=Ports}" Text="{Binding Path=Ipaddress}" IsEditable="True" 
                               Grid.Row="0" Grid.Column="1" Width="200" Name="PortCombo"
-                              Visibility="{Binding Path=IsNetwork, Converter={converters:BoolToVisibilityInvertedConverter}}" >                                                
+                              Visibility="{Binding Path=IsNetwork, Converter={converters:BoolToVisibilityInvertedConverter}}" >
                         <ComboBox.Style>
                             <Style TargetType="ComboBox">
                                 <Style.Triggers>
-                                    
+
                                 </Style.Triggers>
                             </Style>
                         </ComboBox.Style>
@@ -88,16 +88,16 @@
                                 </Style.Triggers>
                             </Style>
                         </TextBox.Style>
-                    </TextBox>                    
+                    </TextBox>
 
                     <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding Path=ErrorInfo, Mode=OneWay}" Foreground="Red" Width="400" 
                                                    TextWrapping="WrapWithOverflow"  />
-                    
+
                     <TextBlock Name="txtInstallMode" Grid.Row="1" Grid.Column="1" Margin="3" Width="200"/>
                 </Grid>
 
             </GroupBox>
-            <DataTemplate.Triggers>                    
+            <DataTemplate.Triggers>
 
                 <DataTrigger Binding="{Binding Path=ConnectMode}" Value="{x:Static common1:ConnectMode.Monitoring}">
                     <Setter Value="{x:Static view:Communication.MonitoringMode}" Property="Text" 
@@ -111,38 +111,36 @@
                     <Setter Property="Background" Value="Red" TargetName="txtInstallMode" />
 
                 </DataTrigger>
-                
+
             </DataTemplate.Triggers>
         </DataTemplate>
 
     </UserControl.Resources>
 
-    <TabControl SelectedIndex="{Binding Path=TabIndex}">
-        <TabItem Header="{x:Static view:Communication.Connections}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
 
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="180" />
-                    <ColumnDefinition Width="200" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Stretch">
-                    <ItemsControl ItemsSource="{Binding Path=Connections}" 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Stretch">
+            <ItemsControl ItemsSource="{Binding Path=Connections}" 
                                   IsManipulationEnabled="False"  />
-                </ScrollViewer>
+        </ScrollViewer>
 
-                <Button Grid.Column="0" Grid.Row="0" Command="{Binding Path=AddConnection}" CommandParameter="serial" Content="{x:Static view:Communication.AddUsbConnection}" >
+        <Button Grid.Column="0" Grid.Row="0" Command="{Binding Path=AddConnection}" CommandParameter="serial" Content="{x:Static view:Communication.AddUsbConnection}" >
 
-                </Button>
-                <Button Grid.Column="1" Grid.Row="0" Command="{Binding Path=AddConnection}" CommandParameter="net" Content="{x:Static view:Communication.AddNetworkConnection}" >
-                </Button>
-                                
-            </Grid>
-        </TabItem>    
-    </TabControl>
+        </Button>
+        <Button Grid.Column="1" Grid.Row="0" Command="{Binding Path=AddConnection}" CommandParameter="net" Content="{x:Static view:Communication.AddNetworkConnection}" >
+        </Button>
+
+    </Grid>
+
 </UserControl>

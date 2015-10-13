@@ -43,9 +43,8 @@ namespace Monitoring.ViewModel.Connection
                 foreach (var c in LibraryData.FuturamaSys.Connections.Select(model => new ConnectionViewModel(model)))
                 {
                     OpenConnections.Add(c);
-                  //  c.Connection.CreateConnection(c.Ipaddress, c.ConnectType);
                 }
-            }       
+            }
         }
 
         public void OnPasswordEnteredOk()
@@ -53,9 +52,6 @@ namespace Monitoring.ViewModel.Connection
             RaisePropertyChanged(() => PasswordEnteredOk);
         }
 
-
-        
-        
         public void OpenDetailForCurrentlyConnected()
         {
             foreach (var source in Connections.Where(t => t.ConnectMode == ConnectMode.Install).ToList())
@@ -63,7 +59,7 @@ namespace Monitoring.ViewModel.Connection
                 source.IsInDetailMode = true;
             }
         }
-        
+
 
         public int Id
         {
@@ -93,7 +89,7 @@ namespace Monitoring.ViewModel.Connection
                 {
                     var z = new ConnectionModel { IsNetConnect = (q == "net") };
                     var vm = new ConnectionViewModel(z);
-                    OpenConnections.Add(vm);                    
+                    OpenConnections.Add(vm);
 
                     if (!LibraryData.SystemIsOpen) return;
 
@@ -134,7 +130,7 @@ namespace Monitoring.ViewModel.Connection
             foreach (var c in Connections
                 .Where(connectionViewModel => connectionViewModel.ConnectMode != ConnectMode.Monitoring))
             {
-               // c.Connection.CreateConnection(c.Ipaddress, c.ConnectType);
+                // c.Connection.CreateConnection(c.Ipaddress, c.ConnectType);
             }
         }
     }

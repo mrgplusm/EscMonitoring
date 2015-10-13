@@ -41,7 +41,7 @@ namespace Monitoring.ViewModel
             }
 
             ErrorList = new ObservableCollection<ErrorLineViewModel>();
-            
+
             LoadStoredErrors(true);
             _taskbarIcon = new TaskbarIcon { Visibility = Visibility.Collapsed };
 
@@ -128,8 +128,21 @@ namespace Monitoring.ViewModel
             {
                 Tabs.Add(mainUnit);
             }
-            Tabs.Add(new SendEmailViewModel());
-            Tabs.Add(new CommunicationViewModel(this));
+            CommunicationView = CommFactory();
+            Tabs.Add(CommunicationView);
+            Tabs.Add(CommFactory());
+        }
+
+        public CommunicationViewModel CommunicationView { get; private set; }
+
+        private CommunicationViewModel CommFactory()
+        {
+            var ret = new CommunicationViewModel(this);
+            foreach (var connection in ret.Connections)
+            {
+                connection.Connect();
+            }
+            return ret;
         }
 
         public readonly List<MainUnitViewModel> MainUnitViewModels = new List<MainUnitViewModel>();
@@ -191,7 +204,7 @@ namespace Monitoring.ViewModel
                 {
                     LibraryData.FuturamaSys.SchematicBackground = string.Empty;
                     OnSchematicBackgroundChanged();
-                }, () => LibraryData.FuturamaSys !=null &&
+                }, () => LibraryData.FuturamaSys != null &&
                     !string.IsNullOrWhiteSpace(LibraryData.FuturamaSys.SchematicBackground));
             }
         }
@@ -450,10 +463,10 @@ namespace Monitoring.ViewModel
 
         public bool TestMode
         {
-            get { return LibraryData.TestMode; }
+            get { return !LibraryData.FuturamaSys.Email.SendEmailEnabled; }
             set
             {
-                LibraryData.TestMode = value;
+                LibraryData.FuturamaSys.Email.SendEmailEnabled = !value;
                 RaisePropertyChanged(() => TestMode);
             }
         }

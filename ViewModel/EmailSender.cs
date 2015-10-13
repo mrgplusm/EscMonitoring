@@ -26,12 +26,10 @@ namespace Monitoring.ViewModel
         private bool EmailCanBeSend()
         {
 
-            if (!LibraryData.SystemIsOpen) return false;
-
-            if (LibraryData.TestMode) return false;
+            if (!LibraryData.SystemIsOpen) return false;            
 
             if (_model != null && _model.SenderFrom != null && _model.SenderDisplay != null &&
-                LibraryData.FuturamaSys.Errors != null && _model.SenderSmtpPort != 0 && _model.Receivers.Count >= 1)
+                LibraryData.FuturamaSys.Errors != null && _model.SenderSmtpPort != 0 && _model.Receivers.Count >= 1 && _model.SendEmailEnabled)
                 return true;
             Debug.WriteLine("Not all neccesarily fields were filed in, email not send ");
             return false;
