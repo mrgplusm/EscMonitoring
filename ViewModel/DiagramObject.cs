@@ -41,7 +41,14 @@ namespace Monitoring.ViewModel
 
         public abstract bool IsVisibileInMonitoringSchematic { get; set; }
 
-        public Action<DiagramObject> RemoveObject;
+        public event EventHandler RemoveObject;
+
+        protected virtual void OnRemoveObject()
+        {
+            EventHandler handler = RemoveObject;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
 
         public ICommand RemoveThis
         {
@@ -52,7 +59,7 @@ namespace Monitoring.ViewModel
                     if (RemoveObject != null)
                     {
                         IsVisibileInMonitoringSchematic = false;
-                        RemoveObject(this);
+                        OnRemoveObject();
 
                     }
 

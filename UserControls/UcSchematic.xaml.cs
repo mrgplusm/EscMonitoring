@@ -16,7 +16,7 @@ namespace Monitoring.UserControls
     {
         public List<MainUnitViewModel> Nodes { get; set; }
 
-        private SchematicOverView data;
+        private SchematicOverView _data;
 
         public UcSchematic()
         {
@@ -26,11 +26,14 @@ namespace Monitoring.UserControls
 
         void UcSchematic_Loaded(object sender, RoutedEventArgs e)
         {
-            data = (SchematicOverView)DataContext;
+            _data = (SchematicOverView)DataContext;
         }
 
         private void ThumbDrag(object sender, DragDeltaEventArgs e)
         {
+            if (!_data.PasswordEnteredOk)
+                return;
+
             var thumb = sender as Thumb;
             if (thumb == null)
                 return;
@@ -39,7 +42,7 @@ namespace Monitoring.UserControls
             if (node == null)
                 return;
 
-            var scale = data.PictScalingValue;
+            var scale = _data.PictScalingValue;
 
             var q = new Point(node.Location.Value.X + e.HorizontalChange * scale, node.Location.Value.Y + e.VerticalChange * scale);
 

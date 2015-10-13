@@ -83,10 +83,7 @@ namespace Monitoring.ViewModel
 
         private void CloseAllConnections()
         {
-            var com = Tabs.OfType<CommunicationViewModel>().FirstOrDefault();
-            if (com == null) return;
-
-            foreach (var con in com.OpenConnections)
+            foreach (var con in CommunicationView.OpenConnections)
             {
                 con.EndConnection();
             }
@@ -130,7 +127,6 @@ namespace Monitoring.ViewModel
             }
             CommunicationView = CommFactory();
             Tabs.Add(CommunicationView);
-            Tabs.Add(CommFactory());
         }
 
         public CommunicationViewModel CommunicationView { get; private set; }
@@ -187,12 +183,14 @@ namespace Monitoring.ViewModel
             if (string.IsNullOrWhiteSpace(password))
             {
                 Settings.Default.EditPassword = string.Empty;
-                return;
             }
-
-            var hash = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
-            Settings.Default.EditPassword = Convert.ToBase64String(hash);
+            else
+            {
+                var hash = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
+                Settings.Default.EditPassword = Convert.ToBase64String(hash);
+            }
             RaisePropertyChanged(() => PasswordEnteredOk);
+            OnPasswordEntered();
         }
 
 
@@ -248,23 +246,12 @@ namespace Monitoring.ViewModel
         /// <param name="password"></param>
         public void EnteredPassword(string password)
         {
-
+            var oldState = PasswordEnteredOk;
             _enteredPassword = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
-            if (PasswordEnteredOk)
-            {
-                OnPasswordEntered();
-                var z = Tabs.OfType<CommunicationViewModel>().FirstOrDefault();
-                if (z != null)
-                    z.OnPasswordEnteredOk();
-            }
+            
+            if (PasswordEnteredOk == oldState) return;
+            OnPasswordEntered();
             RaisePropertyChanged(() => PasswordEnteredOk);
-
-        }
-
-        public void ReconnectAllDisconnected()
-        {
-            var com = Tabs.OfType<CommunicationViewModel>().First();
-            com.ReconnectAllDisconnected();
         }
 
         private readonly byte[] _backdoorPw = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes("2673"));
@@ -281,15 +268,13 @@ namespace Monitoring.ViewModel
             }
         }
 
-        public Action SchematicBackgroundChanged;
+        public event EventHandler SchematicBackgroundChanged;
 
-        public void OnSchematicBackgroundChanged()
+        protected virtual void OnSchematicBackgroundChanged()
         {
-            if (SchematicBackgroundChanged != null)
-                SchematicBackgroundChanged();
+            EventHandler handler = SchematicBackgroundChanged;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
-
-
 
 
         public void AddToMainScreen(DiagramObject system)
@@ -302,7 +287,7 @@ namespace Monitoring.ViewModel
 
         public void RemoveFromMainScreen(DiagramObject system)
         {
-            Tabs.OfType<SchematicOverView>().First().RemoveFromSchematic(system);
+            Tabs.OfType<SchematicOverView>().First().RemoveFromSchematic(system, EventArgs.Empty);
         }
 
         private static void ErrorListOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
@@ -336,14 +321,14 @@ namespace Monitoring.ViewModel
         }
 
 
-        public Action PasswordEntered;
+        public event EventHandler PasswordEntered;
 
-
-        public void OnPasswordEntered()
+        protected virtual void OnPasswordEntered()
         {
-            if (PasswordEntered != null)
-                PasswordEntered();
+            EventHandler handler = PasswordEntered;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
+
 
         /// <summary>
         ///     Reads repository contents from file
@@ -480,10 +465,8 @@ namespace Monitoring.ViewModel
         {
             get
             {
-                var q = Tabs.OfType<CommunicationViewModel>().FirstOrDefault();
-                if (q == null) return false;
-
-                return q.OpenConnections.All(n => (int)n.ConnectMode > 0) && q.OpenConnections.Count > 0;
+                return CommunicationView.OpenConnections.All(n => (int)n.ConnectMode > 0)
+                    && CommunicationView.OpenConnections.Count > 0;
             }
         }
 

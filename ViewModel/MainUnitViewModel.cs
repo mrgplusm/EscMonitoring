@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO.Packaging;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
 using Common;
@@ -36,9 +34,6 @@ namespace Monitoring.ViewModel
             Location.Value = model.Location;
             ActiveMainUnitErrors = new List<ErrorLineViewModel>();
             Location.ValueChanged += () => model.Location = Location.Value;
-
-
-
 
             //subscribe event when new error occured.
             MainViewModel.Error += OnError;
@@ -201,9 +196,7 @@ namespace Monitoring.ViewModel
                         var action1 = action;
                         panelViewModel.VisibilityChanged += (sender, args) => action1.Value();
                     }
-                }
-                
-
+                }               
 
                 return _panelViewModels;
             }

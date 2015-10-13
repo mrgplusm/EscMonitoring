@@ -8,7 +8,7 @@
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:commodules="clr-namespace:Common.Commodules;assembly=Common"
                      xmlns:converters="clr-namespace:Common.Converters;assembly=Common"
-                     xmlns:monitoring="clr-namespace:Monitoring"
+                     
                      xmlns:userControls="clr-namespace:Monitoring.UserControls"
                      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                      xmlns:behaviors="clr-namespace:Monitoring.Behaviors"
@@ -313,7 +313,7 @@
                                                               Content="{Binding RelativeSource={RelativeSource FindAncestor, 
                                                                 AncestorType={x:Type ListBoxItem}}, Path=Content}"  >
                                                 <ContentPresenter.ContextMenu>
-                                                    <ContextMenu >
+                                                    <ContextMenu IsEnabled="{Binding PasswordEnteredOk}" >
                                                         <MenuItem Header="Remove" Command="{Binding RemoveThis}" />
                                                     </ContextMenu>
                                                 </ContentPresenter.ContextMenu>

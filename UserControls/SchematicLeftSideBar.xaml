@@ -8,8 +8,7 @@
                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:monitoring="clr-namespace:Monitoring"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                     xmlns:behaviors="clr-namespace:Monitoring.Behaviors"
-                     xmlns:common="clr-namespace:Common;assembly=Common"
+                     xmlns:behaviors="clr-namespace:Monitoring.Behaviors"                     
                      mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="250"
              d:DataContext="{d:DesignInstance viewModel:SchematicOverView, IsDesignTimeCreatable=True}" 
@@ -26,15 +25,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="240" />
             </Grid.ColumnDefinitions>
-            <!--<GroupBox Header="File properties" Grid.Row="0" >
-                <StackPanel Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="5" Text="Currently opened:"></TextBlock>
-                        <TextBlock Text="{Binding Path=FileName}" Margin="5" Background="Khaki" Width="100" />
-                    </StackPanel>
-                    <Button Content="Open file" Command="{Binding Path=OpenFile}" Width="100"></Button>
-                </StackPanel>
-            </GroupBox>-->
 
 
             <Expander Content="{Binding SelectedObject}" Grid.Row="1"
@@ -53,7 +43,7 @@
                                         <GroupBox >
                                             <StackPanel>
                                                 <TextBlock Text="Enter additional information"></TextBlock>
-                                                
+
                                                 <TextBox VerticalScrollBarVisibility="Auto" AcceptsReturn="True" AcceptsTab="True" HorizontalAlignment="Stretch" Height="50"
                                                  Text="{Binding DataContext.SelectedObject.CustomText, ElementName=SchematicView}"></TextBox>
                                                 <Button Content="Update"></Button>
@@ -97,7 +87,7 @@
 
                     <DataTemplate DataType="{x:Type viewModel:FDsViewModel}">
                         <ContentControl>
-                            <Image Source="../Icons/FDS.png"></Image>
+                            <Image Source="../DevicePictures/047_BOSE_ENTERO_FDS_module_FR_new.jpg"></Image>
                         </ContentControl>
                     </DataTemplate>
 
@@ -126,7 +116,7 @@
                     <TextBlock Text="Fire panel" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="3" Grid.Column="1"></TextBlock>
                     <TextBlock Text="Entero controller" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="4" Grid.Column="1"></TextBlock>
                     <TextBlock Text="Fire Detection System" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="5" Grid.Column="1" ></TextBlock>
-                    <TextBlock Margin="0,20,0,0" Foreground="Olive" Text="(Drag to add to main screen)" VerticalAlignment="Center" FontSize="10" Grid.Row="5" Grid.Column="1" ></TextBlock>
+                    <TextBlock Margin="0,20,0,0" Foreground="Olive" Text="(Drag to add to main screen)" VerticalAlignment="Center" FontSize="10" Grid.Row="5" Grid.Column="1"  />
 
                     <Grid Grid.Row="0" Grid.Column="0" Width="35" Height="35">
                         <Ellipse Width="35" Height="35" StrokeThickness="2" Stroke="Black" Fill="Lime" 
@@ -189,7 +179,7 @@
                     </Border>
 
                     <Border CornerRadius="3" BorderBrush="Black" BorderThickness="1" Width="40" Height="30" Grid.Row="5"                                  
-                            Grid.Column="0" Background="Red" >
+                            Grid.Column="0" Background="Red" IsEnabled="{Binding PasswordEnteredOk}" >
                         <i:Interaction.Behaviors>
                             <behaviors:ClickBehavior />
                             <behaviors:FdsDrag />
@@ -209,7 +199,7 @@
                     <TextBlock Text="{x:Static monitoring:Main.BackgroundScaling}"></TextBlock>
                     <Slider HorizontalAlignment="Stretch" Minimum=".3" Maximum="5" Value="{Binding Path=Scaling}" />
                     <TextBlock Text="{x:Static monitoring:Main.IconScaling}"></TextBlock>
-                    <Slider HorizontalAlignment="Stretch" Minimum=".3" Maximum="5" Value="{Binding Path=PictScaling}" />
+                    <Slider HorizontalAlignment="Stretch" Minimum=".3" Maximum="5" Value="{Binding Path=PictScaling}" IsEnabled="{Binding Path=PasswordEnteredOk}" />
                     <Button HorizontalAlignment="Stretch" MaxWidth="100" Command="{Binding Path=ResetPositions}" Content="Arrange icons" />
 
                 </StackPanel>

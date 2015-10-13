@@ -33,6 +33,7 @@ namespace Monitoring.ViewModel.Connection
         {
             _main = main;
 
+            _main.PasswordEntered += _main_PasswordEntered;
             if (!LibraryData.SystemIsOpen) return;
             if (LibraryData.FuturamaSys.Connections == null) return;
             foreach (var c in LibraryData.FuturamaSys.Connections.Select(model => new ConnectionViewModel(model)))
@@ -41,10 +42,10 @@ namespace Monitoring.ViewModel.Connection
             }
         }
 
-        public void OnPasswordEnteredOk()
+        void _main_PasswordEntered(object sender, System.EventArgs e)
         {
-            RaisePropertyChanged(() => PasswordEnteredOk);
-        }
+            RaisePropertyChanged(()=> PasswordEnteredOk);
+        }        
 
         public void OpenDetailForCurrentlyConnected()
         {

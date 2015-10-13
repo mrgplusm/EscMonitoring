@@ -165,8 +165,7 @@
                         RelativeSource={RelativeSource FindAncestor, AncestorType=TabControl}}" />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type connection:CommunicationViewModel}">
-                    <view:CommunicationView IsEnabled="{Binding Path=DataContext.PasswordEnteredOk,
-                        RelativeSource={RelativeSource FindAncestor, AncestorType=TabControl}}" />
+                    <view:CommunicationView  />
                 </DataTemplate>
             </TabControl.Resources>
         </TabControl>
@@ -200,7 +199,7 @@
 
             <Button Click="ButtonBase_OnClick"  Content="{x:Static monitoring:Main.BtnclearLog}" Name="Buttonclear" />
 
-            <CheckBox Content="{x:Static monitoring:Main.TestMode}" IsChecked="{Binding Path=TestMode}" Margin="3" />
+            <CheckBox Content="{x:Static monitoring:Main.TestMode}" IsChecked="{Binding Path=TestMode}" Margin="3" IsEnabled="{Binding PasswordEnteredOk}" />
         </StackPanel>
 
         <userControls1:StatusBarControl Grid.Row="4"></userControls1:StatusBarControl>

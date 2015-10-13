@@ -24,10 +24,10 @@ namespace Monitoring.ViewModel
             RemoveObject += WhenRemoved;
         }
 
-        private void WhenRemoved(DiagramObject diagramObject)
+        private void WhenRemoved(object sender, EventArgs eventArgs)
         {
 
-            var q = diagramObject as FDsViewModel;
+            var q = sender as FDsViewModel;
             if (q == null) return;
             if (!LibraryData.SystemIsOpen || LibraryData.FuturamaSys.FdsSystems == null) return;
             LibraryData.FuturamaSys.FdsSystems.Remove(q.DataModel);

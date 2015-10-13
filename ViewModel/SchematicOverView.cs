@@ -26,9 +26,9 @@ namespace Monitoring.ViewModel
             if (IsInDesignModeStatic)
             {
                 _main = new MainViewModel();
-                Nodes.Add(MainUnitViewModel.GetPanelView(new PanelModel() {Location = new Point(20,20)}, _main, new MainUnitViewModel()));
+                Nodes.Add(MainUnitViewModel.GetPanelView(new PanelModel() { Location = new Point(20, 20) }, _main, new MainUnitViewModel()));
                 Nodes.Add(MainUnitViewModel.GetPanelView(new PanelModel() { Location = new Point(50, 50) }, _main, new MainUnitViewModel()));
-                
+
             }
 
         }
@@ -46,6 +46,7 @@ namespace Monitoring.ViewModel
         {
             _main = main;
 
+            _main.PasswordEntered += _main_PasswordEntered;            
 
             if (!LibraryData.SystemIsOpen)
                 return;
@@ -55,7 +56,7 @@ namespace Monitoring.ViewModel
                 LibraryData.FuturamaSys.FdsSystems = new List<FdsModel>();
             AddDevicesToSchematic();
 
-            _main.SchematicBackgroundChanged += () =>
+            _main.SchematicBackgroundChanged += (o, e) =>
             {
                 _schematicBackground = null;
                 RaisePropertyChanged(() => SchematicBackground);
@@ -69,17 +70,27 @@ namespace Monitoring.ViewModel
             _main.FileChanged += () => RaisePropertyChanged(() => FileName);
         }
 
+        void _main_PasswordEntered(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(()=> PasswordEnteredOk);
+        }
+
 
         public string FileName
         {
             get
             {
-                if (!LibraryData.SystemIsOpen)
-                    return "None";
-                return Path.GetFileNameWithoutExtension(LibraryData.SystemFileName);
+                return !LibraryData.SystemIsOpen ? "None" : Path.GetFileNameWithoutExtension(LibraryData.SystemFileName);
             }
         }
 
+        public bool PasswordEnteredOk
+        {
+            get
+            {
+                return _main.PasswordEnteredOk;
+            }
+        }
 
         public List<DiagramObject> LegendMaterial { get; set; }
 
@@ -90,7 +101,7 @@ namespace Monitoring.ViewModel
             get
             {
                 if (!LibraryData.SystemIsOpen) return new ImageBrush();
-                if(string.IsNullOrWhiteSpace(LibraryData.FuturamaSys.SchematicBackground)) return new ImageBrush();
+                if (string.IsNullOrWhiteSpace(LibraryData.FuturamaSys.SchematicBackground)) return new ImageBrush();
                 if (!File.Exists(LibraryData.FuturamaSys.SchematicBackground)) return new ImageBrush();
                 try
                 {
@@ -252,10 +263,10 @@ namespace Monitoring.ViewModel
                 foreach (var panelModel in z.Model.AttachedPanelsBus2.Where(n => n.IsVisibileInMonitoringSchematic))
                 {
                     AddToSchematic(MainUnitViewModel.GetPanelView(panelModel, _main, z));
-                    
+
                 }
-                
-            }            
+
+            }
 
             foreach (var fdsSystem in LibraryData.FuturamaSys.FdsSystems)
             {
@@ -291,8 +302,12 @@ namespace Monitoring.ViewModel
             Nodes.Add(system);
         }
 
-        public void RemoveFromSchematic(DiagramObject system)
+        public void RemoveFromSchematic(object sender, EventArgs eventArgs)
         {
+            var system = (DiagramObject) sender;
+            if(system == null)return;
+            
+
             var z = Nodes.FirstOrDefault(q => q.Equals(system));
 
             Nodes.Remove(z);

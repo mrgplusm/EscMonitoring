@@ -59,7 +59,7 @@ namespace Monitoring.View
 
             _dataContext = (MainUnitViewModel)DataContext;
             _dataContext.ErrorOccured += DisplayError;
-            DisplayError();
+            DisplayError(this, EventArgs.Empty);
         }
 
 
