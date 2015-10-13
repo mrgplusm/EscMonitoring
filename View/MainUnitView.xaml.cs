@@ -34,19 +34,19 @@ namespace Monitoring.View
         public MainUnitView()
         {
             InitializeComponent();
-            
+
 
 
             _borderStoryboard = FindResource("ErrorStopStoryboard") as Storyboard;
             _arrowStoryboard = FindResource("ArrowStoryboard") as Storyboard;
-           
+
 
             foreach (var errorType in Enum.GetValues(typeof(Ge)).Cast<Ge>())
             {
                 AddStoryBoardToControl(errorType);
             }
 
-            
+
         }
 
         void MainUnitView_Loaded(object sender, RoutedEventArgs e)
@@ -59,7 +59,7 @@ namespace Monitoring.View
 
             _dataContext = (MainUnitViewModel)DataContext;
             _dataContext.ErrorOccured += DisplayError;
-            DisplayError();   
+            DisplayError();
         }
 
 
@@ -67,16 +67,16 @@ namespace Monitoring.View
 
         private readonly Storyboard _borderStoryboard;
         private readonly Storyboard _arrowStoryboard;
-      
 
-        private void DisplayError()
+
+        private void DisplayError(object sender, EventArgs eventArgs)
         {
             //errors with latest date
 
             var latest = _dataContext.ActiveMainUnitErrors.GroupBy(s => s.DeviceError,
                 (x, y) => new { Value = y.OrderByDescending(z => z.Date).First() }).ToArray();
 
-            var active = latest.Where(q => q.Value.Status == ErrorStatuses.FaultSet)
+            var active = latest.Where(q => q.Value.Status == ErrorStatuses.FaultSet || q.Value.Status == ErrorStatuses.FaultReseted)
                 .SelectMany(k => k.Value.InvolvedGraphicalUnits())
                 .Distinct().ToArray();
 
@@ -110,7 +110,7 @@ namespace Monitoring.View
                 case Ge.PowerSource230Vac://22
                 case Ge.EscMaster://12
                 case Ge.EnteroEpc://13
-                case Ge.EscSlave:                    
+                case Ge.EscSlave:
                     var control = FindName(controlName.ToString()) as DependencyObject;
                     if (control == null)
                         throw new Exception("cannot find control " + controlName + " in mainunit");

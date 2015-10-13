@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using Common;
-using Common.Commodules;
 using Common.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -37,13 +33,11 @@ namespace Monitoring.ViewModel.Connection
         {
             _main = main;
 
-            if (LibraryData.SystemIsOpen)
+            if (!LibraryData.SystemIsOpen) return;
+            if (LibraryData.FuturamaSys.Connections == null) return;
+            foreach (var c in LibraryData.FuturamaSys.Connections.Select(model => new ConnectionViewModel(model)))
             {
-                if (LibraryData.FuturamaSys.Connections == null) return;
-                foreach (var c in LibraryData.FuturamaSys.Connections.Select(model => new ConnectionViewModel(model)))
-                {
-                    OpenConnections.Add(c);
-                }
+                OpenConnections.Add(c);
             }
         }
 
@@ -105,13 +99,9 @@ namespace Monitoring.ViewModel.Connection
             get
             {
                 return new RelayCommand<ConnectionViewModel>(s =>
-                    {
-                        //stop connection
+                    {                        
                         s.EndConnection();
-
-                        //remove from list
-
-                        //remove from view
+                        
                         OpenConnections.Remove(s);
 
                         if (!LibraryData.SystemIsOpen) return;
@@ -123,15 +113,6 @@ namespace Monitoring.ViewModel.Connection
                         LibraryData.FuturamaSys.Connections.Remove(s.DataModel);
                     });
             }
-        }
-
-        public void ReconnectAllDisconnected()
-        {
-            foreach (var c in Connections
-                .Where(connectionViewModel => connectionViewModel.ConnectMode != ConnectMode.Monitoring))
-            {
-                // c.Connection.CreateConnection(c.Ipaddress, c.ConnectType);
-            }
-        }
+        }        
     }
 }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Net.Mime;
-using System.Threading;
 using System.Windows;
 using Common;
 using Common.Model;

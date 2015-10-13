@@ -64,19 +64,20 @@ namespace Monitoring.ViewModel
             OnErrorOccured();
         }
 
-        public void OnErrorOccured()
-        {
-
-            if (ErrorOccured != null)
-                ErrorOccured();
-        }
+        
 
         /// <summary>
         /// Errors that are currently active for this mainunit
         /// </summary>
         public List<ErrorLineViewModel> ActiveMainUnitErrors { get; set; }
 
-        public Action ErrorOccured;        
+        public event EventHandler ErrorOccured;
+
+        private void OnErrorOccured()
+        {
+            EventHandler handler = ErrorOccured;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
 
         public override string ContextMenuName
         {
