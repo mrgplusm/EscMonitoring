@@ -9,6 +9,8 @@ using Common;
 using Common.Commodules;
 using Common.Model;
 using GalaSoft.MvvmLight.CommandWpf;
+using Monitoring.View;
+using Monitoring.ViewModel.Connection;
 using Point = System.Windows.Point;
 
 namespace Monitoring.ViewModel
@@ -31,6 +33,8 @@ namespace Monitoring.ViewModel
         {
             _model = model;
             _main = main;
+            UpdateColorOnConnection();
+
             Location.Value = model.Location;
             ActiveMainUnitErrors = new List<ErrorLineViewModel>();
             Location.ValueChanged += () => model.Location = Location.Value;
@@ -42,7 +46,48 @@ namespace Monitoring.ViewModel
 
             //update errorlist of this mcu
             ActiveMainUnitErrors.AddRange(MainViewModel.ErrorList.Where(i => i.EscUnit == Id));
-            
+
+        }
+
+        void UpdateColorOnConnection()
+        {
+            if (_main.CommunicationView == null) return;
+            _main.CommunicationView.ConnectionRemoved += DetachHandler;
+            foreach (var connection in _main.CommunicationView.Connections)
+            {
+                AttachHandler(connection.Connection);
+            }
+        }
+
+        private void AttachHandler(Common.Connection conn)
+        {
+            conn.ConnectModeChanged += Connection_ConnectModeChanged;
+            conn.UnitIdChanged += Connection_ConnectModeChanged;
+        }
+
+        private void DetachHandler(object sender, ConnectionRemovedEventArgs connectionRemovedEventArgs)
+        {
+            if (connectionRemovedEventArgs.Connection == null) return;
+            if (connectionRemovedEventArgs.Connection.UnitId == Id)
+                Type = ConnectType.None;
+            connectionRemovedEventArgs.Connection.ConnectModeChanged -= Connection_ConnectModeChanged;
+            connectionRemovedEventArgs.Connection.UnitIdChanged -= Connection_ConnectModeChanged;
+        }
+
+        void Connection_ConnectModeChanged(object sender, ConnectionModeChangedEventArgs e)
+        {
+            if (e.UnitId == Id)
+                Type = e.Mode == ConnectMode.Monitoring ? e.Type : ConnectType.None;
+        }
+
+        public ConnectType Type
+        {
+            get { return _type; }
+            set
+            {
+                _type = value;
+                RaisePropertyChanged(() => Type);
+            }
         }
 
         private void LogCleared()
@@ -59,7 +104,7 @@ namespace Monitoring.ViewModel
             OnErrorOccured();
         }
 
-        
+
 
         /// <summary>
         /// Errors that are currently active for this mainunit
@@ -164,7 +209,7 @@ namespace Monitoring.ViewModel
             get { return PanelViewModels[2].Any(d => d.IsVisibileInMonitoringSchematic); }
         }
 
-        
+
 
         /// <summary>
         /// Fire, Evac, FDS
@@ -196,7 +241,7 @@ namespace Monitoring.ViewModel
                         var action1 = action;
                         panelViewModel.VisibilityChanged += (sender, args) => action1.Value();
                     }
-                }               
+                }
 
                 return _panelViewModels;
             }
@@ -240,6 +285,7 @@ namespace Monitoring.ViewModel
 
         private ObservableCollection<LoudspeakerViewModel> _speakersB;
         private ObservableCollection<PanelViewModel>[] _panelViewModels;
+        private ConnectType _type;
 
 
         public ObservableCollection<LoudspeakerViewModel> SpeakersB

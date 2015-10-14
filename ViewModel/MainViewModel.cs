@@ -6,10 +6,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
@@ -18,10 +16,9 @@ using Common.Model;
 using CsvHelper;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using Hardcodet.Wpf.TaskbarNotification;
+
 using Microsoft.Win32;
 using Monitoring.Properties;
-using Monitoring.UserControls;
 using Monitoring.ViewModel.Connection;
 
 namespace Monitoring.ViewModel
@@ -43,8 +40,9 @@ namespace Monitoring.ViewModel
 
             ErrorList = new ObservableCollection<ErrorLineViewModel>();
 
-            LoadStoredErrors(true);
-            _taskbarIcon = new TaskbarIcon { Visibility = Visibility.Collapsed };
+            LoadStoredErrors();
+            
+            
 
 
             _saveFileTimer = new Timer { AutoReset = true, Enabled = true, Interval = 300000 };
@@ -83,7 +81,9 @@ namespace Monitoring.ViewModel
         }
 
         private void CloseAllConnections()
+        
         {
+            if(CommunicationView == null) return;
             foreach (var con in CommunicationView.OpenConnections)
             {
                 con.EndConnection();
@@ -126,21 +126,25 @@ namespace Monitoring.ViewModel
             {
                 Tabs.Add(mainUnit);
             }
-            CommunicationView = CommFactory();
+            
             Tabs.Add(CommunicationView);
         }
 
-        public CommunicationViewModel CommunicationView { get; private set; }
-
-        private CommunicationViewModel CommFactory()
+        private CommunicationViewModel _communicationView;
+        public CommunicationViewModel CommunicationView
         {
-            var ret = new CommunicationViewModel(this);
-            foreach (var connection in ret.Connections)
+            get
             {
-                connection.Connect();
+                if (_communicationView != null) return _communicationView;
+                var ret = new CommunicationViewModel(this);
+                foreach (var connection in ret.Connections)
+                {
+                    connection.Connect();
+                }
+                _communicationView = ret;
+                return ret;    
             }
-            return ret;
-        }
+        }        
 
         public readonly List<MainUnitViewModel> MainUnitViewModels = new List<MainUnitViewModel>();
 
@@ -560,7 +564,7 @@ namespace Monitoring.ViewModel
             get { return ViewModelLocator.ErrorLog; }
         }
 
-        private void LoadStoredErrors(bool s)
+        private void LoadStoredErrors()
         {
             if (LibraryData.FuturamaSys == null) return;
             ErrorList.Clear();
@@ -570,14 +574,6 @@ namespace Monitoring.ViewModel
             {
                 ErrorList.Add(new ErrorLineViewModel(error));
             }
-        }
-
-        private readonly TaskbarIcon _taskbarIcon;
-        private void ShowTaskbarNotification(string details)
-        {
-            _taskbarIcon.Visibility = Visibility.Visible;
-            _taskbarIcon.ShowBalloonTip(UcLog.TrayErrorTitle, details, BalloonIcon.Error);
-            _taskbarIcon.ToolTipClosing += delegate { _taskbarIcon.Visibility = Visibility.Collapsed; };
         }
 
         public static ObservableCollection<ErrorLineViewModel> ErrorList { get; private set; }

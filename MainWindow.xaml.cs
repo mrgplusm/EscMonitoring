@@ -23,7 +23,7 @@ namespace Monitoring
 
             var q = new RelayCommand(EnterPasswordMenuItem);
 
-            var z = new RelayCommand(SetPassword);
+            var z = new RelayCommand(() => SetPassword(this, new RoutedEventArgs()));
 
             var b = new KeyBinding()
             {
@@ -37,12 +37,12 @@ namespace Monitoring
 
             _changePasswordOkOnEnter = new KeyBinding()
             {
-                Command =  z,
-                Key = Key.Enter,               
+                Command = z,
+                Key = Key.Enter,
             };
         }
 
-        
+
 
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -119,28 +119,22 @@ namespace Monitoring
             EnterPasswordMenuItem();
         }
 
-        private void SetPassword()
+        private void SetPassword(object sender, RoutedEventArgs e)
         {
             var y = DataContext as MainViewModel;
             if (y == null) return;
 
             if (!PasswordBoxCreate1.Password.Equals(PasswordBoxCreate2.Password))
-                 return;
+                return;
 
             y.SetPassword(PasswordBoxCreate1.Password);
             PasswordCreate.IsOpen = false;
             InputBindings.Remove(_changePasswordOkOnEnter);
         }
 
-        private void SetPassword(object sender, RoutedEventArgs e)
-        {
-            SetPassword();
-            //ClosePopup(sender, e);
-        }
-
-       /// <summary>
-       /// opens popup to enter password
-       /// </summary>
+        /// <summary>
+        /// opens popup to enter password
+        /// </summary>
         private void OpenPasswordBox()
         {
             Password.IsOpen = true;

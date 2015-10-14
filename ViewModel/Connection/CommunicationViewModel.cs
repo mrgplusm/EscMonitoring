@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -44,8 +45,8 @@ namespace Monitoring.ViewModel.Connection
 
         void _main_PasswordEntered(object sender, System.EventArgs e)
         {
-            RaisePropertyChanged(()=> PasswordEnteredOk);
-        }        
+            RaisePropertyChanged(() => PasswordEnteredOk);
+        }
 
         public void OpenDetailForCurrentlyConnected()
         {
@@ -95,14 +96,22 @@ namespace Monitoring.ViewModel.Connection
             }
         }
 
+        public event EventHandler<ConnectionRemovedEventArgs> ConnectionRemoved;
+
+        protected virtual void OnConnectionRemoved(ConnectionRemovedEventArgs e)
+        {
+            EventHandler<ConnectionRemovedEventArgs> handler = ConnectionRemoved;
+            if (handler != null) handler(this, e);
+        }
+
         public ICommand RemoveConnection
         {
             get
             {
                 return new RelayCommand<ConnectionViewModel>(s =>
-                    {                        
+                    {
                         s.EndConnection();
-                        
+
                         OpenConnections.Remove(s);
 
                         if (!LibraryData.SystemIsOpen) return;
@@ -112,8 +121,14 @@ namespace Monitoring.ViewModel.Connection
                             return;
                         }
                         LibraryData.FuturamaSys.Connections.Remove(s.DataModel);
+                        OnConnectionRemoved(new ConnectionRemovedEventArgs() { Connection = s.Connection });
                     });
             }
-        }        
+        }
+    }
+
+    public class ConnectionRemovedEventArgs : EventArgs
+    {
+        public Common.Connection Connection { get; set; }
     }
 }

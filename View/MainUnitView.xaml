@@ -7,6 +7,7 @@
              xmlns:viewModel="clr-namespace:Monitoring.ViewModel"
              xmlns:userControls="clr-namespace:Monitoring.UserControls"
              xmlns:converters="clr-namespace:Monitoring.Converters"
+             xmlns:common1="clr-namespace:Common;assembly=Common"
              mc:Ignorable="d" Loaded="MainUnitView_Loaded"
              d:DataContext="{d:DesignInstance viewModel:MainUnitViewModel}" 
              >
@@ -29,7 +30,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style TargetType="Border" BasedOn="{StaticResource borderStyle}"></Style>
 
         <Style TargetType="modules:ArrowPolyline">
@@ -99,6 +100,21 @@
             <Grid.Resources>
 
             </Grid.Resources>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Background" Value="White"></Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static common1:ConnectType.Ethernet}" >
+                            <Setter Property="Background" Value="#BFDFFD" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static common1:ConnectType.USB}" >
+                            <Setter Property="Background" Value="#BFFFDF" />
+                        </DataTrigger>
+                    </Style.Triggers>
+
+
+                </Style>
+            </Grid.Style>
             <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Ellipse Canvas.Left="537" Canvas.Top="185" Height="10" Width="10" Fill="Black" />
                 <Ellipse Canvas.Left="537" Canvas.Top="215" Height="10" Width="10" Fill="Black" />
@@ -129,7 +145,7 @@
                     </Border.ContextMenu>
                     <Border.Style>
                         <Style TargetType="Border" BasedOn="{StaticResource borderStyle}">
-                            
+
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=FireUsed}" Value="False" >
                                     <Setter Property="Background" Value="LightGray"></Setter>

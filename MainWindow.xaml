@@ -27,6 +27,10 @@
             <Setter Property="Padding" Value="2,0" />
         </Style>
     </Window.Resources>
+    
+    <Window.TaskbarItemInfo >
+        <TaskbarItemInfo  ProgressState="Error"   />
+    </Window.TaskbarItemInfo>
 
     <Window.InputBindings>
         <KeyBinding Command="{Binding Path=Exit}" Key="c" Modifiers="Control"  />
