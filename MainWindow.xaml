@@ -85,6 +85,8 @@
                         <Image Source="Icons/ESCexit.ico" Width="15" Height="15" />
                     </MenuItem.Icon>
                 </MenuItem>
+
+                <MenuItem Command="{Binding Path=CsvWrite}" Header="{x:Static monitoring:Main.E_xportToCsvMenu}"></MenuItem>
             </MenuItem>
         </Menu>
 

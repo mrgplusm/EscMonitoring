@@ -9,12 +9,13 @@ using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using Common;
 using Common.Model;
-
+using CsvHelper;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Hardcodet.Wpf.TaskbarNotification;
@@ -248,7 +249,7 @@ namespace Monitoring.ViewModel
         {
             var oldState = PasswordEnteredOk;
             _enteredPassword = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(password));
-            
+
             if (PasswordEnteredOk == oldState) return;
             OnPasswordEntered();
             RaisePropertyChanged(() => PasswordEnteredOk);
@@ -509,6 +510,37 @@ namespace Monitoring.ViewModel
             get { return Main.ConnectedMcu; }
         }
 
+        public ICommand CsvWrite
+        {
+            get
+            {
+                return new RelayCommand(WriteToCsv);
+            }
+        }
+
+        public void WriteToCsv()
+        {
+            FileDialog f = new SaveFileDialog();
+            f.AddExtension = true;
+            f.DefaultExt = ".csv";
+            f.Filter = "Comma-separated values (.csv) | *.csv";
+            f.FileOk += (sender, args) =>
+            {
+                if (!f.CheckPathExists) return;
+                if (!LibraryData.SystemIsOpen) return;
+                if (LibraryData.FuturamaSys.Errors == null) return;
+
+                using (var file =
+                    new StreamWriter(f.FileName))
+                {
+                    var csv = new CsvWriter(file);
+                    csv.WriteRecords(LibraryData.FuturamaSys.Errors);
+                }
+            };
+
+            Application.Current.Dispatcher.Invoke(() => f.ShowDialog());
+        }
+
         public ICommand Exit
         {
             get
@@ -614,4 +646,6 @@ namespace Monitoring.ViewModel
 
         public ObservableCollection<ViewModelBase> Tabs { get; private set; }
     }
+
+
 }

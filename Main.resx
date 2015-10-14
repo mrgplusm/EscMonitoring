@@ -141,6 +141,9 @@
   <data name="_mainExitApp" xml:space="preserve">
     <value>E_xit</value>
   </data>
+  <data name="E_xportToCsvMenu" xml:space="preserve">
+    <value>Export errors</value>
+  </data>
   <data name="_mainFile" xml:space="preserve">
     <value>_Menu</value>
   </data>
@@ -190,7 +193,7 @@
     <value>Please enter password to gain acces to configuration settings</value>
   </data>
   <data name="EnterPasswordMenuItem" xml:space="preserve">
-    <value>Set password to unlock settings</value>
+    <value>Unlock / Lock</value>
   </data>
   <data name="OKpassword" xml:space="preserve">
     <value>OK</value>
