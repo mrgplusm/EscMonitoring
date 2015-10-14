@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using Common;
 using Common.Model;
@@ -54,14 +55,29 @@ namespace Monitoring.ViewModel.Connection
             });
         }
 
+        private volatile bool _reconnectTimerRunning;
+        private readonly object _reconnectTimerlock = new object();
+
         private void StartReconnecTimer()
         {
-            var ret = new Timer { AutoReset = false, Enabled = true, Interval = 62 * 1000 };
-            ret.Elapsed += (o, e) =>
+            Task.Factory.StartNew(() =>
             {
-                Connect();
-                ret.Dispose();
-            };
+                lock (_reconnectTimerlock)
+                {
+                    if (_reconnectTimerRunning) return;
+                    var ret = new Timer { AutoReset = false, Enabled = true, Interval = 62 * 1000 };
+                    _reconnectTimerRunning = true;
+                    ret.Elapsed += (o, e) =>
+                    {
+                        lock (_reconnectTimerlock)
+                        {
+                            Connect();
+                            ret.Dispose();
+                            _reconnectTimerRunning = false;
+                        }
+                    };
+                }
+            });
         }
 
         public void Connect()
