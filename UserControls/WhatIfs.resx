@@ -240,6 +240,9 @@
   <data name="SlaveComInterface" xml:space="preserve">
     <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on the link to a Slave ESC unit. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
   </data>
+  <data name="SlaveErrorsAvailable" xml:space="preserve">
+    <value>Action: check slave unit for more details on the found error(s)</value>
+  </data>
   <data name="SlaveSpdif1" xml:space="preserve">
     <value>Action: make sure no construction took place or wiring changes have been made in the building which could have caused a failure on the link to a Slave ESC unit. Reset the error;  Acknowledge the error if it returns and contact your dealer.</value>
   </data>

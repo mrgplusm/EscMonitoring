@@ -200,7 +200,7 @@
                     <Slider HorizontalAlignment="Stretch" Minimum=".3" Maximum="5" Value="{Binding Path=Scaling}" />
                     <TextBlock Text="{x:Static monitoring:Main.IconScaling}"></TextBlock>
                     <Slider HorizontalAlignment="Stretch" Minimum=".3" Maximum="5" Value="{Binding Path=PictScaling}" IsEnabled="{Binding Path=PasswordEnteredOk}" />
-                    <Button HorizontalAlignment="Stretch" MaxWidth="100" Command="{Binding Path=ResetPositions}" Content="Arrange icons" />
+                    <Button IsEnabled="{Binding PasswordEnteredOk}" HorizontalAlignment="Stretch" MaxWidth="100" Command="{Binding Path=ResetPositions}" Content="Arrange icons" />
 
                 </StackPanel>
             </Expander>

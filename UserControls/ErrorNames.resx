@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AmpDefect" xml:space="preserve">
+    <value>Amplifier has an error</value>
+  </data>
+  <data name="Com1Interface" xml:space="preserve">
+    <value>Com1 interface issue</value>
+  </data>
+  <data name="Com2Interface" xml:space="preserve">
+    <value>Com2 interface issue</value>
+  </data>
+  <data name="Dsp" xml:space="preserve">
+    <value>DSP error</value>
+  </data>
+  <data name="Eeprom" xml:space="preserve">
+    <value>Eeprom error</value>
+  </data>
+  <data name="Epc" xml:space="preserve">
+    <value>EPC has an error</value>
+  </data>
+  <data name="EpcOpenline" xml:space="preserve">
+    <value>EPC fault contact open line</value>
+  </data>
+  <data name="EpcShortcut" xml:space="preserve">
+    <value>EPC fault contact short circuit</value>
+  </data>
+  <data name="Expansion" xml:space="preserve">
+    <value>Expansion card error</value>
+  </data>
+  <data name="ExternAudioLine" xml:space="preserve">
+    <value>External audio input error</value>
+  </data>
+  <data name="ExternAudioOpenline" xml:space="preserve">
+    <value>External audio input Open line</value>
+  </data>
+  <data name="ExternAudioShortcut" xml:space="preserve">
+    <value>External audio input Short circuit</value>
+  </data>
+  <data name="ExternError" xml:space="preserve">
+    <value>External fault contact activated</value>
+  </data>
+  <data name="ExternOpenline" xml:space="preserve">
+    <value>External fault contact Open line</value>
+  </data>
+  <data name="ExternShortcut" xml:space="preserve">
+    <value>External fault contact Short circuit</value>
+  </data>
+  <data name="HwWdog" xml:space="preserve">
+    <value>Watch dog error occurred</value>
+  </data>
+  <data name="ImpDev1KhzA" xml:space="preserve">
+    <value>Impedance deviation at 1kHz on Line A</value>
+  </data>
+  <data name="ImpDev1KhzB" xml:space="preserve">
+    <value>Impedance deviation at 1kHz on Line B</value>
+  </data>
+  <data name="ImpDev22Khz" xml:space="preserve">
+    <value>Impedance deviation at 20kHz</value>
+  </data>
+  <data name="MainPower230V" xml:space="preserve">
+    <value>230Vac mains power error</value>
+  </data>
+  <data name="MainsFuse" xml:space="preserve">
+    <value>230Vac fault contact activated</value>
+  </data>
+  <data name="MainsFuseOpenline" xml:space="preserve">
+    <value>230Vac fault contact Open line</value>
+  </data>
+  <data name="MainsFuseShortcut" xml:space="preserve">
+    <value>230Vac fault contact Short circuit</value>
+  </data>
+  <data name="MicCapOpenLine" xml:space="preserve">
+    <value>Mic capsule connection open line</value>
+  </data>
+  <data name="MicCapShortcut" xml:space="preserve">
+    <value>Mic capsule connection short circuit</value>
+  </data>
+  <data name="MicLineBus1" xml:space="preserve">
+    <value>Error on Mic/Line panel bus 1</value>
+  </data>
+  <data name="MicLineBus2" xml:space="preserve">
+    <value>Error on Mic/Line panel bus 2</value>
+  </data>
+  <data name="MicRequest" xml:space="preserve">
+    <value>Mic push to talk button is requested</value>
+  </data>
+  <data name="Mp31" xml:space="preserve">
+    <value>SD card 1 error</value>
+  </data>
+  <data name="Mp32" xml:space="preserve">
+    <value>SD card 2 error</value>
+  </data>
+  <data name="NoBackup" xml:space="preserve">
+    <value>No backup amplifier</value>
+  </data>
+  <data name="OpenlineA" xml:space="preserve">
+    <value>Open line A found</value>
+  </data>
+  <data name="OpenlineB" xml:space="preserve">
+    <value>Open line B found</value>
+  </data>
+  <data name="PanelTxIsr" xml:space="preserve">
+    <value>Evac panel com error</value>
+  </data>
+  <data name="Rs485FpBus1" xml:space="preserve">
+    <value>Com error on panel bus 1</value>
+  </data>
+  <data name="Rs485FpBus2" xml:space="preserve">
+    <value>Com error on panel bus 2</value>
+  </data>
+  <data name="Rs485MasterSlave" xml:space="preserve">
+    <value>Com error on ESC link connection</value>
+  </data>
+  <data name="ShortcutA" xml:space="preserve">
+    <value>Short circuit found on line A</value>
+  </data>
+  <data name="ShortcutB" xml:space="preserve">
+    <value>Short circuit found on line B</value>
+  </data>
+  <data name="ShortcutToEarth" xml:space="preserve">
+    <value>Short to Earth found</value>
+  </data>
+  <data name="SlaveComInterface" xml:space="preserve">
+    <value>Com error to Slave unit</value>
+  </data>
+  <data name="SlaveErrorsAvailable" xml:space="preserve">
+    <value>Slave unit has errors</value>
+  </data>
+  <data name="SlaveSpdif1" xml:space="preserve">
+    <value>Digital audio ch1 error on ESC unit link</value>
+  </data>
+  <data name="SlaveSpdif2" xml:space="preserve">
+    <value>Digital audio ch2 error on ESC unit link</value>
+  </data>
+  <data name="SparePower48V" xml:space="preserve">
+    <value>48Vdc backup power error</value>
+  </data>
+</root>

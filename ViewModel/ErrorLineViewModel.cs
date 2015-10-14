@@ -121,7 +121,7 @@ namespace Monitoring.ViewModel
         {
             get
             {
-                return Descriptions.ResourceManager.GetString(_errorLine.Device.Detail.ToString()) ?? _errorLine.Device.Detail.ToString();
+                return ErrorNames.ResourceManager.GetString(_errorLine.Device.Detail.ToString()) ?? _errorLine.Device.Detail.ToString();
             }
         }
 
@@ -153,7 +153,7 @@ namespace Monitoring.ViewModel
 
         public static string GetStatus(ErrorStatuses status)
         {
-            return UcLog.ResourceManager.GetString(status.ToString()) ?? status.ToString();
+            return ErrorNames.ResourceManager.GetString(status.ToString()) ?? status.ToString();
         }
 
         public ErrorStatuses Status

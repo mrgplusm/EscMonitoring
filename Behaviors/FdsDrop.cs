@@ -6,7 +6,7 @@ using Monitoring.Helpers;
 using Monitoring.ViewModel;
 using Xceed.Wpf.AvalonDock.Controls;
 
-namespace Monitoring.UserControls
+namespace Monitoring.Behaviors
 {
     class FdsDrop : Behavior<ListBox>
     {

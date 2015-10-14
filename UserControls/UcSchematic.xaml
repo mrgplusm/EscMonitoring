@@ -251,7 +251,7 @@
                  PreviewMouseDown="UIElement_OnPreviewMouseDown" Name="ListBox"  >
 
             <i:Interaction.Behaviors>                
-                <userControls:FdsDrop />
+                <behaviors:FdsDrop />
             </i:Interaction.Behaviors>
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
