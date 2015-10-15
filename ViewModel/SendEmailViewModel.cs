@@ -47,15 +47,11 @@ namespace Monitoring.ViewModel
 #endif
             if (!LibraryData.SystemIsOpen) return;
 
-            if (LibraryData.FuturamaSys.Email == null)
-                LibraryData.FuturamaSys.Email = GetEmailModel();
-
-
             ProjectDetails = new ObservableCollection<DetailField>(Enum.GetValues(typeof(OrganisationDetail))
-                .OfType<OrganisationDetail>().Select((n) => new DetailField(n, OrganisationType.Project)));
+                .OfType<OrganisationDetail>().Select((n) => new DetailField(Email, n, OrganisationType.Project)));
 
             DealerDetails = new ObservableCollection<DetailField>(Enum.GetValues(typeof(OrganisationDetail))
-                .OfType<OrganisationDetail>().Select((n) => new DetailField(n, OrganisationType.Dealer)));
+                .OfType<OrganisationDetail>().Select((n) => new DetailField(Email, n, OrganisationType.Dealer)));
 
             Addresses =
                 new ObservableCollection<StringWrapper>(
@@ -63,19 +59,29 @@ namespace Monitoring.ViewModel
             Addresses.CollectionChanged += ReceiversOnCollectionChanged;
         }
 
-        public static SendEmailModel GetEmailModel()
+        public SendEmailModel Email
         {
-            return new SendEmailModel()
+            get
             {
-                OrganisationDetails = Enumerable.Range(0, 2)
-                    .Select(q => Enumerable.Range(0, 8).Select(s => string.Empty).ToArray())
-                    .ToArray(),
-                Receivers = new List<string>()
-            };
+                if (LibraryData.FuturamaSys.Email != null) return LibraryData.FuturamaSys.Email;
+
+                LibraryData.FuturamaSys.Email = new SendEmailModel()
+                {
+                    OrganisationDetails = Enumerable.Range(0, 2)
+                        .Select(q => Enumerable.Range(0, 8).Select(s => string.Empty).ToArray())
+                        .ToArray(),
+                    Receivers = new List<string>()
+                };
+
+                return LibraryData.FuturamaSys.Email;
+            }
         }
 
+        public ObservableCollection<DetailField> ProjectDetails
+        {
+            get; private set;
+        }
 
-        public ObservableCollection<DetailField> ProjectDetails { get; private set; }
         public ObservableCollection<DetailField> DealerDetails { get; private set; }
         public ObservableCollection<StringWrapper> Addresses { get; private set; }
 
@@ -83,20 +89,20 @@ namespace Monitoring.ViewModel
         ///     Sinchronize witch backing property
         /// </summary>
 
-        private static void ReceiversOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void ReceiversOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach (var item in e.OldItems.OfType<StringWrapper>())
                 {
-                    LibraryData.FuturamaSys.Email.Receivers.Remove(item.Value);
+                    Email.Receivers.Remove(item.Value);
                 }
             }
             else if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 foreach (var item in e.NewItems.OfType<StringWrapper>())
                 {
-                    LibraryData.FuturamaSys.Email.Receivers.Add(item.Value);
+                    Email.Receivers.Add(item.Value);
                 }
             }
         }
@@ -107,30 +113,34 @@ namespace Monitoring.ViewModel
 
         public string SenderFrom
         {
-            get { return LibraryData.FuturamaSys.Email.SenderFrom; }
-            set { LibraryData.FuturamaSys.Email.SenderFrom = value; }
+            get { return Email.SenderFrom; }
+            set { Email.SenderFrom = value; }
         }
 
         public string SenderDisplay
         {
-            get { return LibraryData.FuturamaSys.Email.SenderDisplay; }
-            set { LibraryData.FuturamaSys.Email.SenderDisplay = value; }
+            get { return Email.SenderDisplay; }
+            set { Email.SenderDisplay = value; }
         }
 
         public string SenderSmtpServer
         {
-            get { return LibraryData.FuturamaSys.Email.SenderSmtpServer; }
-            set { LibraryData.FuturamaSys.Email.SenderSmtpServer = value; }
+            get { return Email.SenderSmtpServer; }
+            set { Email.SenderSmtpServer = value; }
         }
 
         public string SenderSmtpPort
         {
-            get { return LibraryData.FuturamaSys.Email.SenderSmtpPort.ToString(CultureInfo.InvariantCulture); }
+            get
+            {
+
+                return Email.SenderSmtpPort.ToString(CultureInfo.InvariantCulture);
+            }
             set
             {
                 int t;
                 int.TryParse(value, out t);
-                LibraryData.FuturamaSys.Email.SenderSmtpPort = t;
+                Email.SenderSmtpPort = t;
             }
         }
 
@@ -164,22 +174,22 @@ namespace Monitoring.ViewModel
             get
             {
                 return
-                    LibraryData.FuturamaSys.Email.IsSenderSsl;
+                    Email.IsSenderSsl;
             }
-            set { LibraryData.FuturamaSys.Email.IsSenderSsl = value; }
+            set { Email.IsSenderSsl = value; }
         }
 
 
         public string SenderUsername
         {
-            get { return LibraryData.FuturamaSys.Email.SenderUsername; }
-            set { LibraryData.FuturamaSys.Email.SenderUsername = value; }
+            get { return Email.SenderUsername; }
+            set { Email.SenderUsername = value; }
         }
 
         public string SenderPassword
         {
-            get { return LibraryData.FuturamaSys.Email.SenderPassword; }
-            set { LibraryData.FuturamaSys.Email.SenderPassword = value; }
+            get { return Email.SenderPassword; }
+            set { Email.SenderPassword = value; }
         }
 
 
@@ -187,10 +197,10 @@ namespace Monitoring.ViewModel
 
         public bool InspectorCleared
         {
-            get { return LibraryData.FuturamaSys.Email.InspectorCleared; }
+            get { return Email.InspectorCleared; }
             set
             {
-                LibraryData.FuturamaSys.Email.InspectorCleared = value;
+                Email.InspectorCleared = value;
                 RaisePropertyChanged(() => InspectorCleared);
             }
         }

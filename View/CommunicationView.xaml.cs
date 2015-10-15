@@ -11,7 +11,7 @@ namespace Monitoring.View
     /// <summary>
     ///     Interaction logic for CommunicationView.xaml
     /// </summary>
-    public partial class CommunicationView
+    public partial class CommunicationView : UserControl
     {
 
 

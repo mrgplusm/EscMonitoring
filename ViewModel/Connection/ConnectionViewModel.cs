@@ -21,11 +21,15 @@ namespace Monitoring.ViewModel.Connection
             Connection = new Common.Connection();
 
 
-            Connection.ConnectModeChanged += (conn, mode) => Application.Current.Dispatcher.Invoke(() =>
+            Connection.ConnectModeChanged += (conn, mode) =>
+            {
+                if (Application.Current == null) return;
+                Application.Current.Dispatcher.Invoke(() =>
             {
                 ErrorInfo = string.Empty;
                 RaisePropertyChanged(() => ConnectMode);
             });
+            };
 
             Connection.ErrorLineReceived += (sender, model) => Application.Current.Dispatcher.Invoke(() => MainViewModel.ErrorLineReceived(model));
             Connection.ErrorOccured += ConnectionOnErrorOccured;

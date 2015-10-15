@@ -57,8 +57,6 @@
                     </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Header="{x:Static monitoring:Main.ReconnectAll}" Name="Reconnect"  />
-
                 <MenuItem Command="{Binding Path=CloseFile}" Header="{x:Static monitoring:Main._mainFileClose}" Name="CloseFile" 
                           InputGestureText="Ctrl+W" IsEnabled="{Binding Path=PasswordEnteredOk}" >
                     <MenuItem.Icon>

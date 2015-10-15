@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Model;
 
 namespace Monitoring.ViewModel
 {
@@ -6,11 +7,13 @@ namespace Monitoring.ViewModel
     {
         private readonly OrganisationDetail _detail;
         private readonly OrganisationType _type;
+        private readonly SendEmailModel _model;
 
-        public DetailField(OrganisationDetail detail, OrganisationType type)
+        public DetailField(SendEmailModel model, OrganisationDetail detail, OrganisationType type)
         {
             _detail = detail;
             _type = type;
+            _model = model;
         }
 
         public string DetailName
@@ -30,12 +33,12 @@ namespace Monitoring.ViewModel
 
         private string GetProperty(OrganisationDetail detail, OrganisationType type)
         {
-            return LibraryData.FuturamaSys.Email.OrganisationDetails[(int)type][(int)detail];
+            return _model.OrganisationDetails[(int)type][(int)detail];
         }
 
         private void SetProperty(OrganisationDetail detail, OrganisationType type, string value)
         {
-            LibraryData.FuturamaSys.Email.OrganisationDetails[(int)type][(int)detail] = value;
+            _model.OrganisationDetails[(int)type][(int)detail] = value;
         }
     }
 }

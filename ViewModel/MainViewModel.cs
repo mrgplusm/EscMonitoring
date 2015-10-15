@@ -41,18 +41,9 @@ namespace Monitoring.ViewModel
             ErrorList = new ObservableCollection<ErrorLineViewModel>();
 
             LoadStoredErrors();
-            
-            
-
-
             _saveFileTimer = new Timer { AutoReset = true, Enabled = true, Interval = 300000 };
             _saveFileTimer.Elapsed += SaveFileTimerElapsed;
-
-            // _snaps = new ObservableCollection<SnapSpot>(Nodes.SelectMany(x => x.Snaps));
-
             Tabs = new ObservableCollection<ViewModelBase>();
-
-
 #if DEBUG
             if (IsInDesignModeStatic)
             {
@@ -69,10 +60,10 @@ namespace Monitoring.ViewModel
                     }
                         , ErrorStatuses.FaultSet, 3, DateTime.Now, new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05 }));
                 }
+                Tabs.Add(Email);
                 Tabs.Add(new SchematicOverView(this));
 
             }
-
 #endif
             if (!IsInDesignMode)
             {
@@ -81,9 +72,9 @@ namespace Monitoring.ViewModel
         }
 
         private void CloseAllConnections()
-        
+
         {
-            if(CommunicationView == null) return;
+            if (CommunicationView == null) return;
             foreach (var con in CommunicationView.OpenConnections)
             {
                 con.EndConnection();
@@ -104,14 +95,12 @@ namespace Monitoring.ViewModel
             }
         }
 
-
-
         private void SaveFileTimerElapsed(object sender, ElapsedEventArgs e)
         {
             if (LibraryData.SystemIsOpen) Save();
         }
 
-        private void AttachErrorHandlers()
+        private void SetFileProperties()
         {
             if (!LibraryData.SystemIsOpen) return;
 
@@ -119,15 +108,17 @@ namespace Monitoring.ViewModel
             foreach (var q in LibraryData.FuturamaSys.Errors.Select(n => new ErrorLineViewModel(n))) { ErrorList.Add(q); };
             RaisePropertyChanged(() => ErrorList);
 
-            ErrorList.CollectionChanged += ErrorListOnCollectionChanged;
-
             Tabs.Add(new SchematicOverView(this));
             foreach (var mainUnit in MainUnitViewModels)
             {
                 Tabs.Add(mainUnit);
             }
-            
+
+            LoadStoredErrors();
+            ConnectAll();
+
             Tabs.Add(CommunicationView);
+            Tabs.Add(Email);
         }
 
         private CommunicationViewModel _communicationView;
@@ -137,21 +128,25 @@ namespace Monitoring.ViewModel
             {
                 if (_communicationView != null) return _communicationView;
                 var ret = new CommunicationViewModel(this);
-                foreach (var connection in ret.Connections)
-                {
-                    connection.Connect();
-                }
+
                 _communicationView = ret;
-                return ret;    
+                return ret;
             }
-        }        
+        }
+
+        private void ConnectAll()
+        {
+            foreach (var connection in CommunicationView.Connections)
+            {
+                connection.Connect();
+            }
+        }
 
         public readonly List<MainUnitViewModel> MainUnitViewModels = new List<MainUnitViewModel>();
 
         private void DetachErrorHandlers()
         {
             MainUnitViewModels.Clear();
-            ErrorList.CollectionChanged -= ErrorListOnCollectionChanged;
             ErrorList.Clear();
 
             Tabs.Clear();
@@ -167,8 +162,13 @@ namespace Monitoring.ViewModel
         }
 
 
+
         public static void ErrorLineReceived(ErrorLineModel error)
         {
+            if (!LibraryData.SystemIsOpen) return;
+            if (LibraryData.FuturamaSys.Errors == null) return;
+            error.IsVisible = true;
+            LibraryData.FuturamaSys.Errors.Add(error);
             error.Id = ErrorList.Count;
             var z = new ErrorLineViewModel(error);
             ErrorList.Add(z);
@@ -295,28 +295,6 @@ namespace Monitoring.ViewModel
             Tabs.OfType<SchematicOverView>().First().RemoveFromSchematic(system, EventArgs.Empty);
         }
 
-        private static void ErrorListOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
-        {
-            switch (notifyCollectionChangedEventArgs.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    foreach (var p in notifyCollectionChangedEventArgs.NewItems.Cast<ErrorLineViewModel>())
-                    {
-                        LibraryData.FuturamaSys.Errors.Add(p.DataModel);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    foreach (var p in notifyCollectionChangedEventArgs.OldItems.Cast<ErrorLineViewModel>())
-                    {
-                        LibraryData.FuturamaSys.Errors.Remove(p.DataModel);
-                    }
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    LibraryData.FuturamaSys.Errors.Clear();
-                    break;
-            }
-        }
-
         public ICommand OpenFile
         {
             get
@@ -351,11 +329,11 @@ namespace Monitoring.ViewModel
                 dlg.InitialDirectory = Settings.Default.RecentLocationProject;
 
             var q = dlg.ShowDialog();
-            if (!q.HasValue || !q.Value || String.IsNullOrWhiteSpace(dlg.FileName)) return;
+            if (!q.HasValue || !q.Value || string.IsNullOrWhiteSpace(dlg.FileName)) return;
 
 
 
-            if (String.IsNullOrEmpty(dlg.FileName))
+            if (string.IsNullOrEmpty(dlg.FileName))
             {
                 Application.Current.Shutdown();
             }
@@ -363,7 +341,7 @@ namespace Monitoring.ViewModel
             Open(dlg.FileName);
         }
 
-        private void Open(String fileName)
+        private void Open(string fileName)
         {
             if (LibraryData.SystemIsOpen) Close();
 
@@ -386,18 +364,17 @@ namespace Monitoring.ViewModel
             FileName = fileName;
             LibraryData.OpenSystem(t);
             OnFileChanged();
-            AttachErrorHandlers();
+            SetFileProperties();
             RaisePropertyChanged(() => InstallerVersion);
         }
 
 
-        public Action FileChanged;
+        public EventHandler FileChanged;
 
-        public void OnFileChanged()
+        private void OnFileChanged()
         {
-            if (FileChanged != null)
-
-                FileChanged.Invoke();
+            var v = FileChanged;
+            if (v != null) v(this, EventArgs.Empty);
         }
 
         public ICommand ClearList
@@ -409,27 +386,41 @@ namespace Monitoring.ViewModel
                 {
                     if (LibraryData.FuturamaSys.ClearedErrors == null)
                         LibraryData.FuturamaSys.ClearedErrors = new List<LogClearEntry>();
-                    LibraryData.FuturamaSys.ClearedErrors.Add(new LogClearEntry() { LogCleared = DateTime.Now, LogClearedBy = LogClearedBy });
+
+                    var _clearid = LibraryData.FuturamaSys.ClearedErrors.Count;
+                    LibraryData.FuturamaSys.ClearedErrors.Add(new LogClearEntry()
+                    {
+                        LogCleared = DateTime.Now,
+                        LogClearedBy =
+                        LogClearedBy,
+                        Id = _clearid
+                    });
 
                     //send an email before clearing the list
                     var s = new EmailSender(LibraryData.FuturamaSys.Email);
                     s.SendEmail();
 
+                    foreach (var error in ErrorList)
+                    {
+                        error.DataModel.ClearedById = _clearid;
+                        error.DataModel.IsVisible = false;
+                    }
+
                     ErrorList.Clear();
-                    LogClearedBy = String.Empty;
+                    LogClearedBy = string.Empty;
                     OnLogCleared();
 
-                }, () => LibraryData.SystemIsOpen && !String.IsNullOrWhiteSpace(LogClearedBy));
+                }, () => LibraryData.SystemIsOpen && !string.IsNullOrWhiteSpace(LogClearedBy));
             }
         }
 
-
         private void OnLogCleared()
         {
-            if (LogCleared != null)
-                LogCleared.Invoke();
+            var lc = LogCleared;
+            if (lc != null) LogCleared(this, EventArgs.Empty);
         }
-        public Action LogCleared;
+
+        public event EventHandler LogCleared;
 
         public string LogClearedBy
         {
@@ -461,9 +452,15 @@ namespace Monitoring.ViewModel
             }
         }
 
+        private SendEmailViewModel _email;
         public SendEmailViewModel Email
         {
-            get { return Tabs.OfType<SendEmailViewModel>().FirstOrDefault(); }
+            get
+            {
+                if (_email != null) return _email;
+                _email = new SendEmailViewModel();
+                return _email;
+            }
         }
 
         public bool IsConnected
@@ -570,7 +567,7 @@ namespace Monitoring.ViewModel
             ErrorList.Clear();
 
             if (LibraryData.FuturamaSys.Errors == null || LibraryData.FuturamaSys.Errors.Count == 0) return;
-            foreach (var error in LibraryData.FuturamaSys.Errors.OrderByDescending(q => q.Id))
+            foreach (var error in LibraryData.FuturamaSys.Errors.Where(i => i.IsVisible).OrderByDescending(q => q.Id))
             {
                 ErrorList.Add(new ErrorLineViewModel(error));
             }
@@ -596,14 +593,15 @@ namespace Monitoring.ViewModel
         {
             if (!PasswordEnteredOk) return;
             Save();
-            LibraryData.SystemFileName = String.Empty;
+            LibraryData.SystemFileName = string.Empty;
             LibraryData.CloseProject();
             RaisePropertyChanged(() => FileName);
             RaisePropertyChanged(() => InstallerVersion);
 
             DetachErrorHandlers();
-            CloseAllConnections();
-            LibraryData.SystemFileName = String.Empty;
+//            CloseAllConnections();
+            LibraryData.SystemFileName = string.Empty;
+            _email = null;
 
             RaisePropertyChanged(() => FileName);
             RaisePropertyChanged(() => InstallerVersion);
@@ -643,5 +641,23 @@ namespace Monitoring.ViewModel
         public ObservableCollection<ViewModelBase> Tabs { get; private set; }
     }
 
+    class ErrorList
+    {
+        private List<ErrorLineModel> _list;
+        private ObservableCollection<ErrorLineModel> _errors;
+
+        public ErrorList(ObservableCollection<ErrorLineModel> errors, List<ErrorLineModel> list)
+        {
+            _list = list;
+            _errors = errors;
+        }
+
+        public void ClearList()
+        {
+
+        }
+
+
+    }
 
 }

@@ -15,21 +15,23 @@ namespace MonitoringTests
     [TestClass]
     public class UnitTest1
     {
-        private SendEmailModel Testmodel {
+        private SendEmailModel Testmodel
+        {
             get
             {
+                var q = new SendEmailViewModel();
 
-                var d = SendEmailViewModel.GetEmailModel();
-                {
-                    d.InspectorCleared = true;
-                    d.SenderSmtpServer = "smtp.bose.com";
-                    d.Receivers = new List<string>(new[] {"boris_bergman@bose.com"});
-                    d.SenderFrom = "boris_bergman@bose.com";
-                    d.SenderDisplay = "Boris Bergman";
-                    d.SenderSmtpPort = 25;
-                    return d;
+                var d = q.Email;
 
-                }
+                d.InspectorCleared = true;
+                d.SenderSmtpServer = "smtp.bose.com";
+                d.Receivers = new List<string>(new[] { "boris_bergman@bose.com" });
+                d.SenderFrom = "boris_bergman@bose.com";
+                d.SenderDisplay = "Boris Bergman";
+                d.SenderSmtpPort = 25;
+                return d;
+
+
             }
         }
 
@@ -97,7 +99,7 @@ namespace MonitoringTests
         {
             var view = new FormattedMail
             {
-                Model = SendEmailViewModel.GetEmailModel(),
+                Model = Testmodel
             };
 
             view.Model.InspectorCleared = true;
@@ -109,11 +111,11 @@ namespace MonitoringTests
 
             var view2 = new FormattedMail
             {
-                Model = SendEmailViewModel.GetEmailModel(),
+                Model = Testmodel
             };
 
             view2.Model.InspectorCleared = false;
-            
+
             var mailTest2 = view2.TransformText();
 
             Assert.IsFalse(mailTest2.Contains("inspector"));
@@ -125,7 +127,7 @@ namespace MonitoringTests
         {
             var view = new FormattedMail
             {
-                Model = SendEmailViewModel.GetEmailModel(),
+                Model = Testmodel,
                 ErrorsToSend =
                     new List<ErrorLineModel>()
                     {
@@ -138,13 +140,13 @@ namespace MonitoringTests
                     },
             };
 
-            var text =view.TransformText();
+            var text = view.TransformText();
 
             Assert.IsTrue(text.Contains("AmpDefect"));
             Assert.IsTrue(text.Contains("Backup Amplifier"));
-            
+
         }
-        
+
     }
 
 }

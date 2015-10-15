@@ -41,7 +41,7 @@ namespace Monitoring.ViewModel
 
             //subscribe event when new error occured.
             MainViewModel.Error += OnError;
-            _main.LogCleared += LogCleared;
+            _main.LogCleared += (o,e) =>LogCleared();
 
 
             //update errorlist of this mcu

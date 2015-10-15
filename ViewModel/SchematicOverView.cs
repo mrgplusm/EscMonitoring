@@ -65,9 +65,9 @@ namespace Monitoring.ViewModel
 
             ActivateMainUnitSchematicErrors();
             MainViewModel.Error += delegate { ActivateMainUnitSchematicErrors(); };
-            _main.LogCleared += ActivateMainUnitSchematicErrors;
+            _main.LogCleared +=(o,e) => ActivateMainUnitSchematicErrors();
 
-            _main.FileChanged += () => RaisePropertyChanged(() => FileName);
+            _main.FileChanged += (o,e) => RaisePropertyChanged(() => FileName);
         }
 
         void _main_PasswordEntered(object sender, EventArgs e)

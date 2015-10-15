@@ -59,7 +59,7 @@ namespace Monitoring.ViewModel
         {
             get
             {
-                return EscUnit == 0 ? "Master" : string.Format("Slave {0}", EscUnit - 1);
+                return EscUnit == 0 ? "Master" : string.Format("Slave {0}", EscUnit);
             }
         }
 

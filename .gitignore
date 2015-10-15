@@ -1,0 +1,8 @@
+*.suo
+/MonitoringTests
+/bin
+/Packages
+/packages
+/bin
+/obj
+/icons

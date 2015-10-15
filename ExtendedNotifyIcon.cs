@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Drawing;
-
+using System.Windows;
 using System.Windows.Forms;
 
 namespace ExtendedWindowsControls
@@ -24,7 +24,7 @@ namespace ExtendedWindowsControls
         /// </summary>
         private bool _IsDisposed;
 
-        private Point notifyIconMousePosition;
+        private System.Drawing.Point notifyIconMousePosition;
         public NotifyIcon targetNotifyIcon;
 
         /// <summary>
