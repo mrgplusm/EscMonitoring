@@ -42,15 +42,15 @@ namespace Monitoring.View
         }
 
         void MainUnitView_Loaded(object sender, RoutedEventArgs e)
-        {
+        {            
+            _dataContext = (MainUnitViewModel)DataContext;
+            _dataContext.ErrorOccured += DisplayError;
+
             SetHandlers();
         }
 
         public void SetHandlers()
-        {
-
-            _dataContext = (MainUnitViewModel)DataContext;
-            _dataContext.ErrorOccured += DisplayError;
+        {            
             DisplayError(this, EventArgs.Empty);
         }
 

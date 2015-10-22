@@ -42,12 +42,7 @@ namespace Monitoring
                 Command = z,
                 Key = Key.Enter,
             };
-
-
         }
-
-
-
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -87,7 +82,6 @@ namespace Monitoring
             y.EnteredPassword(z.Password);
 
             if (!y.PasswordEnteredOk) return;
-
 
             ClosePopup(sender, e);
         }
