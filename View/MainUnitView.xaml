@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:modules="clr-namespace:Monitoring.Modules"
-             xmlns:viewModel="clr-namespace:Monitoring.ViewModel"
              xmlns:userControls="clr-namespace:Monitoring.UserControls"
              xmlns:converters="clr-namespace:Monitoring.Converters"
              xmlns:common1="clr-namespace:Common;assembly=Common"

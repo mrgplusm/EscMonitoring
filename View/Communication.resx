@@ -145,7 +145,7 @@
     <value>Serial connection</value>
   </data>
   <data name="InstallModeOff" xml:space="preserve">
-    <value>Install mode OFF</value>
+    <value>Monitoring mode OFF</value>
   </data>
   <data name="InstallModeOn" xml:space="preserve">
     <value>Install mode on</value>

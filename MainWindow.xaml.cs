@@ -7,6 +7,8 @@ using Monitoring.View;
 using Monitoring.ViewModel;
 using Xceed.Wpf.AvalonDock.Controls;
 
+using System.Windows.Media;
+
 namespace Monitoring
 {
     /// <summary>
@@ -40,6 +42,8 @@ namespace Monitoring
                 Command = z,
                 Key = Key.Enter,
             };
+
+
         }
 
 

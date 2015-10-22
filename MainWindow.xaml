@@ -6,11 +6,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:userControls1="clr-namespace:Common.UserControls;assembly=Common"
+        xmlns:common1="clr-namespace:Common;assembly=Common"
         xmlns:view="clr-namespace:Monitoring.View"
         xmlns:viewModel="clr-namespace:Monitoring.ViewModel"        
         xmlns:behaviors="clr-namespace:IKriv.Windows.Controls.Behaviors;assembly=Common"
         xmlns:connection="clr-namespace:Monitoring.ViewModel.Connection"
         xmlns:monitoring="clr-namespace:Monitoring"
+        
 
         mc:Ignorable="d"
         Title="{x:Static monitoring:Main._mainWindowTitle}" 
@@ -26,8 +28,9 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
             <Setter Property="Padding" Value="2,0" />
         </Style>
+
     </Window.Resources>
-    
+
     <Window.TaskbarItemInfo >
         <TaskbarItemInfo  ProgressState="Error"   />
     </Window.TaskbarItemInfo>
@@ -37,7 +40,7 @@
         <KeyBinding Command="{Binding Path=OpenFile}" Key="o" Modifiers="Control"  />
         <KeyBinding Command="{Binding Path=CloseFile}" Key="w" Modifiers="Control"  />
     </Window.InputBindings>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -76,7 +79,7 @@
                 </MenuItem>
 
                 <MenuItem Command="{Binding Path=ClearBackground}" Header="{x:Static monitoring:Main.ClearBackground}" 
-                          IsEnabled="{Binding Path=PasswordEnteredOk}" >                    
+                          IsEnabled="{Binding Path=PasswordEnteredOk}" >
                 </MenuItem>
 
                 <MenuItem Header="{x:Static monitoring:Main.EnterPasswordMenuItem}" Click="EnterPasswordMenuItem" 
@@ -134,16 +137,32 @@
 
 
         <!--<UserControls:EscUnits Grid.Row="1" />-->
-        <TabControl Grid.Row="1" ItemsSource="{Binding Path=Tabs}" SelectionChanged="Selector_OnSelectionChanged" behaviors:TabContent.IsCached="True" >
+        <TabControl Grid.Row="1" ItemsSource="{Binding Path=Tabs}" SelectionChanged="Selector_OnSelectionChanged" behaviors:TabContent.IsCached="True" Name="tabcontrol" >
+                        
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <ContentControl Content="{Binding}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type viewModel:SchematicOverView}">
                                 <TextBlock Text="Overview"></TextBlock>
+                                
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type viewModel:MainUnitViewModel}">
-                                <TextBlock Text="{Binding Path=ContextMenuName}"></TextBlock>
+                                <TextBlock Text="{Binding Path=ContextMenuName}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}" >
+                                            <Setter Property="Background" Value="White"></Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static common1:ConnectType.Ethernet}" >
+                                                    <Setter Property="Background" Value="#BFDFFD" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=Type}" Value="{x:Static common1:ConnectType.USB}" >
+                                                    <Setter Property="Background" Value="#BFFFDF" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type viewModel:SendEmailViewModel}">
                                 <TextBlock Text="Email" />
@@ -154,6 +173,7 @@
                         </ContentControl.Resources>
                     </ContentControl>
                 </DataTemplate>
+                
             </TabControl.ItemTemplate>
 
             <TabControl.Resources>
@@ -184,7 +204,7 @@
 
 
                     <CheckBox Margin="5" Content="{x:Static monitoring:Main.InspectorClearInfo}" IsChecked="{Binding Path=InspectorCleared}"></CheckBox>
-                    
+
                     <StackPanel Orientation="Horizontal">
                         <Button Content="{x:Static monitoring:Main.SureClearLog}" Click="ClosePopup" Command="{Binding Path=ClearList}" Margin="5" />
                         <Button Content="{x:Static monitoring:Main.Cancel}" Margin="5" Click="ClosePopup"></Button>

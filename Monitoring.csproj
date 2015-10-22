@@ -254,6 +254,9 @@
     <Compile Include="View\CommunicationView.xaml.cs">
       <DependentUpon>CommunicationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ConnectionView.xaml.cs">
+      <DependentUpon>ConnectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainUnitView.xaml.cs">
       <DependentUpon>MainUnitView.xaml</DependentUpon>
     </Compile>
@@ -328,6 +331,10 @@
     <Page Include="View\CommunicationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MainUnitView.xaml">
       <SubType>Designer</SubType>

@@ -15,6 +15,15 @@ namespace Monitoring.ViewModel.Connection
     {
         private string _errorInfo;
 
+#if DEBUG
+        public ConnectionViewModel()
+        {
+            DataModel = new ConnectionModel();
+            Connection = new Common.Connection();
+            ErrorInfo = "This is an error";
+        }
+#endif
+
         public ConnectionViewModel(ConnectionModel cm)
         {
             DataModel = cm;
@@ -127,13 +136,6 @@ namespace Monitoring.ViewModel.Connection
         {
             get
             {
-#if DEBUG
-                if (IsInDesignMode)
-                {
-                    return "This is an errorThis is an errorThis is an errorThis is an errorThis is " +
-                           "an errorThis is an errorThis is an errorThis is an errorThis is an error";
-                }
-#endif
                 return _errorInfo;
             }
             private set
