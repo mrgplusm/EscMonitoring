@@ -35,9 +35,6 @@ namespace Monitoring.ViewModel
 
     public class SendEmailViewModel : ViewModelBase
     {
-
-
-
         public SendEmailViewModel()
         {
 
@@ -107,8 +104,6 @@ namespace Monitoring.ViewModel
             }
         }
 
-
-
         #region Sender
 
         public string SenderFrom
@@ -133,7 +128,6 @@ namespace Monitoring.ViewModel
         {
             get
             {
-
                 return Email.SenderSmtpPort.ToString(CultureInfo.InvariantCulture);
             }
             set

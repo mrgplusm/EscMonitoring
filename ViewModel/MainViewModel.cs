@@ -599,7 +599,7 @@ namespace Monitoring.ViewModel
             RaisePropertyChanged(() => InstallerVersion);
 
             DetachErrorHandlers();
-//            CloseAllConnections();
+
             LibraryData.SystemFileName = string.Empty;
             _email = null;
 

@@ -45,6 +45,47 @@
             </StackPanel>
         </DataTemplate>
 
+        <Style x:Key="{x:Type PasswordBox}"
+    	TargetType="{x:Type PasswordBox}">
+            <Setter Property="view:PasswordBoxMonitor.IsMonitoring"
+              Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type PasswordBox}">
+                        <Border Name="Bd"
+                    Background="{TemplateBinding Background}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    SnapsToDevicePixels="true">
+                            <Grid>
+                                <ScrollViewer x:Name="PART_ContentHost"
+                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <TextBlock Text="Change ssl password" 
+                           Margin="4, 2, 0, 0"
+                           Foreground="Gray" 
+                           Visibility="Collapsed"
+                           Name="txtPrompt" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled"
+    									 Value="false">
+                                <Setter TargetName="Bd"
+    										Property="Background"
+    										Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground"
+    										Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="view:PasswordBoxMonitor.PasswordLength" Value="0">
+                                <Setter Property="Visibility" TargetName="txtPrompt" Value="Visible"/>                                
+                            </Trigger>
+                            
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
@@ -117,11 +158,8 @@
                     <TextBox  Grid.Row="5" Grid.Column="1" IsEnabled="{Binding ElementName=SenderSsl, Path=IsChecked}" 
                           Text="{Binding Path=SenderUsername}" Width="150"  />
 
-                    <PasswordBox PasswordChanged="PasswordBox_OnPasswordChanged" Grid.Row="6" Grid.Column="1" Width="150" 
-                                 
+                    <PasswordBox PasswordChanged="PasswordBox_OnPasswordChanged" Grid.Row="6" Grid.Column="1" Width="150"                                  
                                  IsEnabled="{Binding ElementName=SenderSsl, Path=IsChecked}"></PasswordBox>
-                    <!--<TextBox Grid.Row="6" Grid.Column="1"  
-                             Text="{Binding Path=SenderPassword}"  />-->
 
                     <Label Grid.Row="0" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderFrom}" Width="100" HorizontalAlignment="Right"  />
                     <Label Grid.Row="1" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderDisplay}" Width="100" HorizontalAlignment="Right"   />
