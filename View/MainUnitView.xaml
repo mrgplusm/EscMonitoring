@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:Monitoring.Converters"
              xmlns:common1="clr-namespace:Common;assembly=Common"
              mc:Ignorable="d" Loaded="MainUnitView_Loaded"
-             d:DataContext="{d:DesignInstance viewModel:MainUnitViewModel}" 
+             d:DataContext="{d:DesignInstance viewModel:MainUnitViewModel, IsDesignTimeCreatable=True}" 
              >
     <UserControl.Resources>
         <Style TargetType="TextBlock">

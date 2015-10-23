@@ -104,17 +104,18 @@ namespace Monitoring.ViewModel
         {
             if (!LibraryData.SystemIsOpen) return;
 
-            MainUnitViewModels.AddRange(LibraryData.FuturamaSys.MainUnits.Select(n => new MainUnitViewModel(n, this)));
-            foreach (var q in LibraryData.FuturamaSys.Errors.Select(n => new ErrorLineViewModel(n))) { ErrorList.Add(q); };
+            LoadStoredErrors();
+            
             RaisePropertyChanged(() => ErrorList);
+
+            MainUnitViewModels.AddRange(LibraryData.FuturamaSys.MainUnits.Select(n => new MainUnitViewModel(n, this)));
 
             Tabs.Add(new SchematicOverView(this));
             foreach (var mainUnit in MainUnitViewModels)
             {
                 Tabs.Add(mainUnit);
             }
-
-            LoadStoredErrors();
+            
             ConnectAll();
 
             Tabs.Add(CommunicationView);

@@ -98,11 +98,13 @@ namespace Monitoring.ViewModel
 
         private void OnError(object sender, ErrorLineViewModel errorLineViewModel)
         {
-            if (errorLineViewModel.EscUnit != Id) return;
+            if (errorLineViewModel.EscUnit != Id || !errorLineViewModel.DataModel.IsVisible) return;
             //add error to this esc's list
             ActiveMainUnitErrors.Add(errorLineViewModel);
             OnErrorOccured();
         }
+
+
 
 
 

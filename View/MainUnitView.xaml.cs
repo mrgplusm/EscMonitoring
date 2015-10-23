@@ -10,6 +10,7 @@ using Common.Model;
 
 using Monitoring.UserControls;
 using Monitoring.ViewModel;
+using System.Diagnostics;
 
 namespace Monitoring.View
 {
@@ -42,16 +43,16 @@ namespace Monitoring.View
         }
 
         void MainUnitView_Loaded(object sender, RoutedEventArgs e)
-        {            
+        {
             _dataContext = (MainUnitViewModel)DataContext;
-            _dataContext.ErrorOccured += DisplayError;
+            _dataContext.ErrorOccured += UpdateErrorList;
 
             SetHandlers();
         }
 
         public void SetHandlers()
-        {            
-            DisplayError(this, EventArgs.Empty);
+        {
+            UpdateErrorList(this, EventArgs.Empty);
         }
 
 
@@ -61,32 +62,37 @@ namespace Monitoring.View
         private readonly Storyboard _arrowStoryboard;
 
 
-        private void DisplayError(object sender, EventArgs eventArgs)
+        private IEnumerable<ErrorLineViewModel> GetLatestErrors()
         {
-            //errors with latest date
+            return _dataContext.ActiveMainUnitErrors.GroupBy(s => s.DeviceError,
+                (x, y) => y.OrderByDescending(z => z.Date).First());
+        }
 
-            var latest = _dataContext.ActiveMainUnitErrors.GroupBy(s => s.DeviceError,
-                (x, y) => new { Value = y.OrderByDescending(z => z.Date).First() }).ToArray();
+        private IEnumerable<Ge> CurrentlyActiveErrors()
+        {
+            return GetLatestErrors().Where(q => q.Status == ErrorStatuses.FaultSet || q.Status == ErrorStatuses.FaultConfirmed)
+                .SelectMany(k => k.InvolvedGraphicalUnits())
+                .Distinct();
+        }
 
-            var active = latest.Where(q => q.Value.Status == ErrorStatuses.FaultSet || q.Value.Status == ErrorStatuses.FaultReseted)
-                .SelectMany(k => k.Value.InvolvedGraphicalUnits())
-                .Distinct().ToArray();
-
-
+        private void UpdateErrorList(object sender, EventArgs eventArgs)
+        {
+            var toBeRemoved = _errorsShown.Except(CurrentlyActiveErrors()).ToArray();
+            
             //list shown and not in latest
-            foreach (var removeThis in _errorsShown.Except(active).ToArray())
+            foreach (var removeThis in toBeRemoved)
             {
                 _errorsShown.Remove(removeThis);
                 _storyboards[removeThis].Stop();
             }
 
+            var toBeAdded = CurrentlyActiveErrors().Except(_errorsShown).ToArray();
             //list in list and not shown
-            foreach (var addThis in active.Except(_errorsShown).ToArray())
+            foreach (var addThis in toBeAdded)
             {
                 _errorsShown.Add(addThis);
                 _storyboards[addThis].Begin();
             }
-
         }
 
         private void AddStoryBoardToControl(Ge controlName)

@@ -164,7 +164,7 @@ namespace Monitoring.ViewModel
             var latest = MainViewModel.ErrorList.GroupBy(s => s.DeviceError,
                     (x, y) => new { Value = y.OrderByDescending(z => z.Date).First() }).ToArray();
 
-            var active = latest.Where(q => q.Value.Status == ErrorStatuses.FaultSet)
+            var active = latest.Where(q => q.Value.Status == ErrorStatuses.FaultSet && q.Value.Status == ErrorStatuses.FaultConfirmed)
            .Select(k => k.Value).Distinct().ToArray();
 
             foreach (var node in Nodes)

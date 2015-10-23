@@ -2,10 +2,7 @@
        
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        
-        
-        DataContext="{Binding MainView.Email, Source={StaticResource Locator}}"
-
+                       
         xmlns:system="clr-namespace:System;assembly=mscorlib" 
         xmlns:monitoring="clr-namespace:Monitoring"
         
@@ -13,7 +10,17 @@
         xmlns:converters="clr-namespace:Monitoring.Converters"
         
         xmlns:converters1="clr-namespace:Common.Converters;assembly=Common"
-        xmlns:viewModel="clr-namespace:Monitoring.ViewModel">
+             
+        xmlns:viewModel="clr-namespace:Monitoring.ViewModel"
+             
+        
+        
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             
+             d:DataContext="{d:DesignInstance viewModel:SendEmailViewModel, IsDesignTimeCreatable=True}"
+             >
     <UserControl.Resources>
 
         <Style TargetType="{x:Type RowDefinition}">
@@ -77,9 +84,9 @@
     										Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                             </Trigger>
                             <Trigger Property="view:PasswordBoxMonitor.PasswordLength" Value="0">
-                                <Setter Property="Visibility" TargetName="txtPrompt" Value="Visible"/>                                
+                                <Setter Property="Visibility" TargetName="txtPrompt" Value="Visible"/>
                             </Trigger>
-                            
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -89,8 +96,8 @@
     </UserControl.Resources>
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
-        
-        
+
+
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

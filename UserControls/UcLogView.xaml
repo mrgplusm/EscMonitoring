@@ -15,7 +15,7 @@
         <CollectionViewSource Source="{x:Static viewModel:MainViewModel.ErrorList}" x:Key="SdErrors" VirtualizingStackPanel.IsVirtualizing="True" IsLiveSortingRequested="True" IsLiveGroupingRequested="True">
             <CollectionViewSource.SortDescriptions>
                 <componentModel:SortDescription PropertyName="Grouping" Direction="Descending"  />
-                <componentModel:SortDescription PropertyName="Name" />
+                
             </CollectionViewSource.SortDescriptions>
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="Grouping" />                
