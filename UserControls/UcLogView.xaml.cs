@@ -6,6 +6,8 @@ using System.Windows.Media;
 using Common.Model;
 using Monitoring.ViewModel;
 using System.Collections;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Monitoring.UserControls
 {
@@ -17,6 +19,8 @@ namespace Monitoring.UserControls
         protected override void OnAttached()
         {
             base.OnAttached();
+
+            var grid = AssociatedObject.FindName("Grid") as DataGrid;
 
             var q = AssociatedObject.FindName("Items") as TextBlock;
             if (q == null) return;
@@ -41,9 +45,26 @@ namespace Monitoring.UserControls
             };
         }
 
+        /// <summary>
+        /// Get status for for grouping bar
+        /// </summary>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        public ErrorStatuses GetStatus(GroupingError error)
+        {
+            //todo: make something nicer??
+            var q = ViewModelLocator.MainView.ErrorList;
+
+            var e = q
+                .Where(g => g.DeviceError.Equals(error.Errorline.DeviceError) && g.EscUnit == error.Errorline.EscUnit)
+                .OrderBy(g => g.Date)
+                .Last();
+            return e == null ? ErrorStatuses.FaultSet : e.Status;
+        }
+
         private void SetHeader()
         {
-            var status = MainViewModel.GetStatus(_tbData.DataContext as GroupingError);
+            var status = GetStatus(_tbData.DataContext as GroupingError);
 
             if (status == ErrorStatuses.FaultSet)
             {
@@ -64,16 +85,9 @@ namespace Monitoring.UserControls
     /// </summary>
     public partial class UcLogView
     {        
-
         public UcLogView()
         {
-            InitializeComponent();
-
-            
-        }
-        
+            InitializeComponent();            
+        }        
     }
-
-
-
 }

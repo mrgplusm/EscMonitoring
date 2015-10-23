@@ -45,7 +45,7 @@ namespace Monitoring.ViewModel
 
 
             //update errorlist of this mcu
-            ActiveMainUnitErrors.AddRange(MainViewModel.ErrorList.Where(i => i.EscUnit == Id));
+            ActiveMainUnitErrors.AddRange(main.ErrorList.Where(i => i.EscUnit == Id));
 
         }
 

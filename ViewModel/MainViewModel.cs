@@ -46,6 +46,8 @@ namespace Monitoring.ViewModel
             _saveFileTimer = new Timer { AutoReset = true, Enabled = true, Interval = 300000 };
             _saveFileTimer.Elapsed += SaveFileTimerElapsed;
             Tabs = new ObservableCollection<ViewModelBase>();
+
+
 #if DEBUG
             if (IsInDesignModeStatic)
             {
@@ -107,7 +109,7 @@ namespace Monitoring.ViewModel
             if (!LibraryData.SystemIsOpen) return;
 
             LoadStoredErrors();
-            
+
             RaisePropertyChanged(() => ErrorList);
 
             MainUnitViewModels.AddRange(LibraryData.FuturamaSys.MainUnits.Select(n => new MainUnitViewModel(n, this)));
@@ -117,7 +119,7 @@ namespace Monitoring.ViewModel
             {
                 Tabs.Add(mainUnit);
             }
-            
+
             ConnectAll();
 
             Tabs.Add(CommunicationView);
@@ -133,6 +135,7 @@ namespace Monitoring.ViewModel
                 var ret = new CommunicationViewModel(this);
 
                 _communicationView = ret;
+                _communicationView.DataReceived += (o, e) => ErrorLineReceived(e.Model);
                 return ret;
             }
         }
@@ -166,7 +169,7 @@ namespace Monitoring.ViewModel
 
 
 
-        public static void ErrorLineReceived(ErrorLineModel error)
+        public void ErrorLineReceived(ErrorLineModel error)
         {
             if (!LibraryData.SystemIsOpen) return;
             if (LibraryData.FuturamaSys.Errors == null) return;
@@ -576,21 +579,9 @@ namespace Monitoring.ViewModel
             }
         }
 
-        public static ObservableCollection<ErrorLineViewModel> ErrorList { get; private set; }
+        public ObservableCollection<ErrorLineViewModel> ErrorList { get; private set; }
 
-        /// <summary>
-        /// Get status for for grouping bar
-        /// </summary>
-        /// <param name="error"></param>
-        /// <returns></returns>
-        public static ErrorStatuses GetStatus(GroupingError error)
-        {
-            var e = ErrorList
-                .Where(g => g.DeviceError.Equals(error.Errorline.DeviceError) && g.EscUnit == error.Errorline.EscUnit)
-                .OrderBy(g => g.Date)
-                .Last();
-            return e == null ? ErrorStatuses.FaultSet : e.Status;
-        }
+        
 
         private void Close()
         {
@@ -648,7 +639,7 @@ namespace Monitoring.ViewModel
         {
             get
             {
-                if(_errorList == null)
+                if (_errorList == null)
                 {
                     _errorList = CollectionViewSource.GetDefaultView(ErrorList) as ListCollectionView;
                     _errorList.GroupDescriptions.Add(new PropertyGroupDescription() { PropertyName = "Grouping" });
@@ -663,7 +654,7 @@ namespace Monitoring.ViewModel
         }
 
 
-        
+
     }
 
     public class ErrorLineSorter : IComparer

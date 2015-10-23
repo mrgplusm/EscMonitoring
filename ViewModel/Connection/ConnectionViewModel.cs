@@ -40,9 +40,8 @@ namespace Monitoring.ViewModel.Connection
             });
             };
 
-            Connection.ErrorLineReceived += (sender, model) => Application.Current.Dispatcher.Invoke(() => MainViewModel.ErrorLineReceived(model));
+            
             Connection.ErrorOccured += ConnectionOnErrorOccured;
-
             Connection.UnitIdChanged += delegate { RaisePropertyChanged(() => UnitId); };
         }
 

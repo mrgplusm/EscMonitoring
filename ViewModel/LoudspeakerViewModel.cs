@@ -25,14 +25,11 @@ namespace Monitoring.ViewModel
             _loudSpeaker = loudSpeaker;
             _main = main;
             _mainunit = mainunit;
-
+            CheckIfError(main.ErrorList.ToList());
 
             Location.Value = _loudSpeaker.Location;
             Location.ValueChanged += () => _loudSpeaker.Location = Location.Value;
-
-
         }
-
 
         private static readonly Dictionary<LoudspeakerLine, Ge> LoudSpeakerLineRelation = new Dictionary<LoudspeakerLine, Ge>
         {
@@ -49,7 +46,9 @@ namespace Monitoring.ViewModel
         public override void CheckIfError(IEnumerable<ErrorLineViewModel> activeErrors)
         {
             //take speakerline error instead
-            var q = activeErrors.Where(z => z.DeviceError.Number == Id).SelectMany(errorLineViewModel => (errorLineViewModel.DeviceError.GetGraphicalRelations()));
+            var q = activeErrors.Where(z => z.DeviceError.Number == ZoneId)
+                .SelectMany(errorLineViewModel => (errorLineViewModel.DeviceError.GetGraphicalRelations()));
+
             ErrorActive = q.Any(a => a == LoudSpeakerLineRelation[Line]);
         }
 

@@ -7,6 +7,7 @@ using Common;
 using Common.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Windows;
 
 namespace Monitoring.ViewModel.Connection
 {
@@ -40,7 +41,13 @@ namespace Monitoring.ViewModel.Connection
             foreach (var c in LibraryData.FuturamaSys.Connections.Select(model => new ConnectionViewModel(model)))
             {
                 OpenConnections.Add(c);
+                c.Connection.ErrorLineReceived += Connection_ErrorLineReceived;
             }
+        }
+
+        private void Connection_ErrorLineReceived(object sender, ErrorLineEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() => OnDataReceived(e));
         }
 
         void _main_PasswordEntered(object sender, System.EventArgs e)
@@ -54,6 +61,14 @@ namespace Monitoring.ViewModel.Connection
             {
                 source.IsInDetailMode = true;
             }
+        }
+
+        public event EventHandler<ErrorLineEventArgs> DataReceived;
+
+        public void OnDataReceived(ErrorLineEventArgs e)
+        {
+            var d = DataReceived;
+            if (d != null) DataReceived(this, e);
         }
 
 
@@ -86,7 +101,7 @@ namespace Monitoring.ViewModel.Connection
                     var z = new ConnectionModel { IsNetConnect = (q == "net") };
                     var vm = new ConnectionViewModel(z);
                     OpenConnections.Add(vm);
-
+                    vm.Connection.ErrorLineReceived += Connection_ErrorLineReceived;
                     if (!LibraryData.SystemIsOpen) return;
 
                     if (LibraryData.FuturamaSys.Connections == null)
@@ -110,6 +125,7 @@ namespace Monitoring.ViewModel.Connection
             {
                 return new RelayCommand<ConnectionViewModel>(s =>
                     {
+                        s.Connection.ErrorLineReceived -= Connection_ErrorLineReceived;
                         s.EndConnection();
 
                         OpenConnections.Remove(s);
