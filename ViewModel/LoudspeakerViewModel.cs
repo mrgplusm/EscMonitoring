@@ -46,7 +46,7 @@ namespace Monitoring.ViewModel
         public override void CheckIfError(IEnumerable<ErrorLineViewModel> activeErrors)
         {
             //take speakerline error instead
-            var q = activeErrors.Where(z => z.DeviceError.Number == ZoneId)
+            var q = activeErrors.Where(z => z.DeviceError.Number == Id && z.EscUnit == _mainunit.Id)
                 .SelectMany(errorLineViewModel => (errorLineViewModel.DeviceError.GetGraphicalRelations()));
 
             ErrorActive = q.Any(a => a == LoudSpeakerLineRelation[Line]);
