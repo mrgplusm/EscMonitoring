@@ -20,6 +20,8 @@ using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
 using Monitoring.Properties;
 using Monitoring.ViewModel.Connection;
+using System.Windows.Data;
+using System.Collections;
 
 namespace Monitoring.ViewModel
 {
@@ -640,25 +642,39 @@ namespace Monitoring.ViewModel
         }
 
         public ObservableCollection<ViewModelBase> Tabs { get; private set; }
+
+        private ListCollectionView _errorList;
+        public ListCollectionView ErrorListView
+        {
+            get
+            {
+                if(_errorList == null)
+                {
+                    _errorList = CollectionViewSource.GetDefaultView(ErrorList) as ListCollectionView;
+                    _errorList.GroupDescriptions.Add(new PropertyGroupDescription() { PropertyName = "Grouping" });
+
+                    _errorList.CustomSort = new ErrorLineSorter();
+                    _errorList.IsLiveFiltering = true;
+                    _errorList.IsLiveGrouping = true;
+
+                }
+                return _errorList;
+            }
+        }
+
+
+        
     }
 
-    class ErrorList
+    public class ErrorLineSorter : IComparer
     {
-        private List<ErrorLineModel> _list;
-        private ObservableCollection<ErrorLineModel> _errors;
-
-        public ErrorList(ObservableCollection<ErrorLineModel> errors, List<ErrorLineModel> list)
+        public int Compare(object x, object y)
         {
-            _list = list;
-            _errors = errors;
+            ErrorLineViewModel X = x as ErrorLineViewModel;
+            ErrorLineViewModel Y = y as ErrorLineViewModel;
+            return Y.Id.CompareTo(X.Id);
         }
-
-        public void ClearList()
-        {
-
-        }
-
-
     }
+
 
 }

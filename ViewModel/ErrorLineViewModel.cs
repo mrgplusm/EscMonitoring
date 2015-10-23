@@ -8,7 +8,7 @@ using Monitoring.UserControls;
 
 namespace Monitoring.ViewModel
 {
-    public class ErrorLineViewModel : ViewModelBase, IEquatable<ErrorLineViewModel>, IComparable, IComparable<ErrorLineViewModel>
+    public class ErrorLineViewModel : ViewModelBase
     {
         private readonly ErrorLineModel _errorLine;
 
@@ -160,34 +160,6 @@ namespace Monitoring.ViewModel
         {
             get { return _errorLine.Status; }
         }
-
-        public virtual bool Equals(ErrorLineViewModel other)
-        {
-            return ReferenceEquals(this, other) ||
-             _errorLine.Equals(other._errorLine);
-        }
-
-        public override int GetHashCode()
-        {
-            return _errorLine.GetHashCode();
-        }
-
-        public int CompareTo(object obj)
-        {
-            return CompareTo(obj as ErrorLineViewModel);
-        }
-
-        public int CompareTo(ErrorLineViewModel other)
-        {
-            if (other == null) return -1;
-            return other.Id - Id;
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = obj as ErrorLineViewModel;
-            if (other == null) return false;
-            return Equals(other);
-        }
+        
     }
 }

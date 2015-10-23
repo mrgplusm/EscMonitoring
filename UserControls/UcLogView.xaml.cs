@@ -1,9 +1,11 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
 using System.Windows.Media;
 using Common.Model;
 using Monitoring.ViewModel;
+using System.Collections;
 
 namespace Monitoring.UserControls
 {
@@ -20,7 +22,7 @@ namespace Monitoring.UserControls
             if (q == null) return;
 
             _tbData = AssociatedObject.FindName("TbData") as TextBlock;
-            if(_tbData ==  null) return;
+            if (_tbData == null) return;
 
             _tb = AssociatedObject.FindName("Header") as TextBlock;
             if (_tb != null)
@@ -61,27 +63,15 @@ namespace Monitoring.UserControls
     ///     Interaction logic for MonitorWindow.xaml
     /// </summary>
     public partial class UcLogView
-    {
+    {        
+
         public UcLogView()
         {
             InitializeComponent();
-            //var sd = grid1.Items.SortDescriptions[0];
-            //sd.Direction = ListSortDirection.Descending;
-            //grid1.Items.SortDescriptions[0] = sd;
 
-            //Grid.DataContextChanged += Grid_DataContextChanged;
-
-
+            
         }
-
-        //void Grid_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        //{
-
-        //    Grid.Items.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Descending));
-
-        //}
-
-
+        
     }
 
 

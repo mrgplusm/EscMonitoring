@@ -12,19 +12,11 @@
              d:DataContext="{d:DesignInstance viewModel:MainViewModel, IsDesignTimeCreatable=True}"
              >
     <UserControl.Resources>
-        <CollectionViewSource Source="{x:Static viewModel:MainViewModel.ErrorList}" x:Key="SdErrors" VirtualizingStackPanel.IsVirtualizing="True" IsLiveSortingRequested="True" IsLiveGroupingRequested="True">
-            <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription PropertyName="Grouping" Direction="Descending"  />
-                
-            </CollectionViewSource.SortDescriptions>
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Grouping" />                
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
+        
     </UserControl.Resources>
 
 
-    <DataGrid ItemsSource="{Binding Source={StaticResource SdErrors}}" Name="Grid" IsReadOnly="True" IsManipulationEnabled="False" 
+    <DataGrid ItemsSource="{Binding Path=ErrorListView}" Name="Grid" IsReadOnly="True" IsManipulationEnabled="False" 
                   AutoGenerateColumns="False" 
                       ScrollViewer.HorizontalScrollBarVisibility="Auto"  ScrollViewer.CanContentScroll="False" 
                   AlternatingRowBackground="BurlyWood"
@@ -69,7 +61,6 @@
                                                 <TextBlock FontWeight="Bold" Text="{Binding Name, Converter={converters:ErrorlineHeaderConverter}}" Name="Header"  Margin="0,0,10,0"  />
                                                 <TextBlock Text="items: " FontWeight="Bold" DataContext="{Binding Name}" Name="TbData" />
                                                 <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount, NotifyOnTargetUpdated=True}" Name="Items" />
-                                                
                                             </StackPanel>
                                         </Expander.Header>
                                         <Expander.Content>
