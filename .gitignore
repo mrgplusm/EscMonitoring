@@ -2,7 +2,7 @@
 *.user
 
 
-
+/publish
 /MonitoringTests
 /bin
 /Packages

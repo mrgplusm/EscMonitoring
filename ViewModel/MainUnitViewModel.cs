@@ -104,10 +104,6 @@ namespace Monitoring.ViewModel
             OnErrorOccured();
         }
 
-
-
-
-
         /// <summary>
         /// Errors that are currently active for this mainunit
         /// </summary>

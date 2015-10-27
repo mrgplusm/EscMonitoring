@@ -2,15 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.Policy;
 using System.Text;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 using Common;
 using Common.Commodules;
 using Common.Model;
-using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Monitoring.ViewModel
 {
