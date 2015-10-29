@@ -164,7 +164,7 @@ namespace Monitoring.ViewModel
         private static void OnError(ErrorLineViewModel e)
         {
             EventHandler<ErrorLineViewModel> handler = Error;
-            if (handler != null) handler(null, e);
+            handler?.Invoke(null, e);
         }
 
 
@@ -284,7 +284,7 @@ namespace Monitoring.ViewModel
         protected virtual void OnSchematicBackgroundChanged()
         {
             EventHandler handler = SchematicBackgroundChanged;
-            if (handler != null) handler(this, EventArgs.Empty);
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
 
@@ -301,21 +301,15 @@ namespace Monitoring.ViewModel
             Tabs.OfType<SchematicOverView>().First().RemoveFromSchematic(system, EventArgs.Empty);
         }
 
-        public ICommand OpenFile
-        {
-            get
-            {
-                return new RelayCommand(Open);
-            }
-        }
+        public ICommand OpenFile => new RelayCommand(Open);
 
 
         public event EventHandler PasswordEntered;
 
         protected virtual void OnPasswordEntered()
         {
-            EventHandler handler = PasswordEntered;
-            if (handler != null) handler(this, EventArgs.Empty);
+            var handler = PasswordEntered;
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
 
@@ -380,7 +374,7 @@ namespace Monitoring.ViewModel
         private void OnFileChanged()
         {
             var v = FileChanged;
-            if (v != null) v(this, EventArgs.Empty);
+            v?.Invoke(this, EventArgs.Empty);
         }
 
         public ICommand ClearList
@@ -393,13 +387,13 @@ namespace Monitoring.ViewModel
                     if (LibraryData.FuturamaSys.ClearedErrors == null)
                         LibraryData.FuturamaSys.ClearedErrors = new List<LogClearEntry>();
 
-                    var _clearid = LibraryData.FuturamaSys.ClearedErrors.Count;
+                    var clearid = LibraryData.FuturamaSys.ClearedErrors.Count;
                     LibraryData.FuturamaSys.ClearedErrors.Add(new LogClearEntry()
                     {
                         LogCleared = DateTime.Now,
                         LogClearedBy =
                         LogClearedBy,
-                        Id = _clearid
+                        Id = clearid
                     });
 
                     //send an email before clearing the list
@@ -408,7 +402,7 @@ namespace Monitoring.ViewModel
 
                     foreach (var error in ErrorList)
                     {
-                        error.DataModel.ClearedById = _clearid;
+                        error.DataModel.ClearedById = clearid;
                         error.DataModel.IsVisible = false;
                     }
 
@@ -423,7 +417,7 @@ namespace Monitoring.ViewModel
         private void OnLogCleared()
         {
             var lc = LogCleared;
-            if (lc != null) LogCleared(this, EventArgs.Empty);
+            lc?.Invoke(this, EventArgs.Empty);
         }
 
         public event EventHandler LogCleared;
@@ -478,10 +472,7 @@ namespace Monitoring.ViewModel
             }
         }
 
-        public string AppVersion
-        {
-            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
-        }
+        public string AppVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public string[] InstallerVersion
         {
@@ -507,23 +498,11 @@ namespace Monitoring.ViewModel
             }
         }
 
-        public string NotConnectedMcu
-        {
-            get { return Main.NotConnectedMcu; }
-        }
+        public string NotConnectedMcu => Main.NotConnectedMcu;
 
-        public string ConnectedMcu
-        {
-            get { return Main.ConnectedMcu; }
-        }
+        public string ConnectedMcu => Main.ConnectedMcu;
 
-        public ICommand CsvWrite
-        {
-            get
-            {
-                return new RelayCommand(WriteToCsv);
-            }
-        }
+        public ICommand CsvWrite => new RelayCommand(WriteToCsv);
 
         public void WriteToCsv()
         {
@@ -562,10 +541,8 @@ namespace Monitoring.ViewModel
         }
 
 
-        public ErrorLogViewModel ErrorLog
-        {
-            get { return ViewModelLocator.ErrorLog; }
-        }
+        private ErrorLogViewModel _errorlog;
+        public ErrorLogViewModel ErrorLog => _errorlog ?? (_errorlog = new ErrorLogViewModel());
 
         private void LoadStoredErrors()
         {
@@ -606,13 +583,12 @@ namespace Monitoring.ViewModel
         private byte[] _enteredPassword;
         private static readonly object SaveLock = new object();
 
-        private bool Save()
+        private void Save()
         {
-            if (!LibraryData.SystemIsOpen) return true;
+            if (!LibraryData.SystemIsOpen) return;
             lock (SaveLock)
             {
                 _saveFileTimer.Stop();
-
 
                 try
                 {
@@ -621,34 +597,32 @@ namespace Monitoring.ViewModel
                 catch (Exception e)
                 {
 
-                    MessageBox.Show(String.Format(Main.MessageBoxSaveFileText, e.Message), Main.MessageBoxSaveFileHeader, MessageBoxButton.OK,
-                                    MessageBoxImage.Warning);
-                    return false;
+                    MessageBox.Show(string.Format(Main.MessageBoxSaveFileText, e.Message), Main.MessageBoxSaveFileHeader,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);                    
                 }
-
-
-                _saveFileTimer.Start();
-                return true;
+                finally
+                {
+                    _saveFileTimer.Start();
+                }                               
             }
         }
 
-        public ObservableCollection<ViewModelBase> Tabs { get; private set; }
+        public ObservableCollection<ViewModelBase> Tabs { get;}
 
         private ListCollectionView _errorList;
         public ListCollectionView ErrorListView
         {
             get
             {
-                if (_errorList == null)
-                {
-                    _errorList = CollectionViewSource.GetDefaultView(ErrorList) as ListCollectionView;
-                    _errorList.GroupDescriptions.Add(new PropertyGroupDescription() { PropertyName = "Grouping" });
+                if (_errorList != null) return _errorList;
+                _errorList = (ListCollectionView)CollectionViewSource.GetDefaultView(ErrorList);
+                
+                _errorList?.GroupDescriptions?.Add(new PropertyGroupDescription() { PropertyName = "Grouping" });
 
-                    _errorList.CustomSort = new ErrorLineSorter();
-                    _errorList.IsLiveFiltering = true;
-                    _errorList.IsLiveGrouping = true;
-
-                }
+                _errorList.CustomSort = new ErrorLineSorter();
+                _errorList.IsLiveFiltering = true;
+                _errorList.IsLiveGrouping = true;
                 return _errorList;
             }
         }
@@ -661,8 +635,8 @@ namespace Monitoring.ViewModel
     {
         public int Compare(object x, object y)
         {
-            ErrorLineViewModel X = x as ErrorLineViewModel;
-            ErrorLineViewModel Y = y as ErrorLineViewModel;
+            var X = x as ErrorLineViewModel;
+            var Y = y as ErrorLineViewModel;
             return Y.Id.CompareTo(X.Id);
         }
     }

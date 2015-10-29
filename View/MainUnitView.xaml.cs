@@ -28,18 +28,13 @@ namespace Monitoring.View
         {
             InitializeComponent();
 
-
-
             _borderStoryboard = FindResource("ErrorStopStoryboard") as Storyboard;
             _arrowStoryboard = FindResource("ArrowStoryboard") as Storyboard;
-
 
             foreach (var errorType in Enum.GetValues(typeof(Ge)).Cast<Ge>())
             {
                 AddStoryBoardToControl(errorType);
             }
-
-
         }
 
         void MainUnitView_Loaded(object sender, RoutedEventArgs e)
@@ -102,9 +97,7 @@ namespace Monitoring.View
             {
                 case Ge.Fire://4
                 case Ge.Fds://6
-                case Ge.Evacuation://5
-                case Ge.Amplifier://0
-                case Ge.BackupAmplifier://1
+                case Ge.Evacuation://5                
                 case Ge.PowerSource230Vac://22
                 case Ge.EscMaster://12
                 case Ge.EnteroEpc://13
@@ -116,6 +109,8 @@ namespace Monitoring.View
                     Storyboard.SetTarget(qq, control);
                     _storyboards.Add(controlName, qq);
                     break;
+                case Ge.Amplifier://0
+                case Ge.BackupAmplifier://1
                 case Ge.EnteroEsa230Vac:
                 case Ge.RedundancyModule:
                 case Ge.EnteroEsaAmpPsu:

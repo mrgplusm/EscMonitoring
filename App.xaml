@@ -22,8 +22,7 @@
                     </Style>
                 </ResourceDictionary>
                 <ResourceDictionary>
-                    <viewModel:ViewModelLocator x:Key="Locator"
-                             d:IsDataSource="True" />
+                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 

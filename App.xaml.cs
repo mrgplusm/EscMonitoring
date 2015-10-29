@@ -22,9 +22,7 @@ namespace Monitoring
 
         private App()
         {
-
-
-
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
@@ -41,6 +39,13 @@ namespace Monitoring
 #endif
         }
 
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+
+            MessageBox.Show(e.ExceptionObject.ToString());
+
+        }
+
         private const string MutexName = "futuramaMonitoring";
 
         private static bool IsSingleInstance()
@@ -49,7 +54,7 @@ namespace Monitoring
             // Try to open existing mutex.
             Mutex ret;
             if (Mutex.TryOpenExisting(MutexName, out ret))
-                return false;            
+                return false;
 
             _m = new Mutex(true, MutexName);
 

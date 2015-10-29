@@ -62,7 +62,23 @@ namespace Monitoring.UserControls
             set { SetValue(DisplayNameProperty, value); }
         }
 
+        public static readonly DependencyProperty ControlWidthProperty = DependencyProperty.Register(
+            "ControlWidth", typeof (double), typeof (ExternalInput), new PropertyMetadata(70D));
+
+        public double ControlWidth
+        {
+            get { return (double) GetValue(ControlWidthProperty); }
+            set { SetValue(ControlWidthProperty, value); }
+        }
+
+        public static readonly DependencyProperty ControlHeightProperty = DependencyProperty.Register(
+            "ControlHeight", typeof (double), typeof (ExternalInput), new PropertyMetadata(40D));
+
+        public double ControlHeight
+        {
+            get { return (double) GetValue(ControlHeightProperty); }
+            set { SetValue(ControlHeightProperty, value); }
+        }
+        
     }
-
-
 }

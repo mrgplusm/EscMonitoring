@@ -2,35 +2,28 @@
 {
 
     public class ViewModelLocator
-    {       
-        static ViewModelLocator()
-        {
-            _mainView = new MainViewModel();
-            _errorLog = new ErrorLogViewModel();
-        }
-
+    {
         public ViewModelLocator()
         {
+            MainView = new MainViewModel();
 
         }
 
-        private static MainViewModel _mainView;
-        public static MainViewModel MainView
+
+        public MainViewModel MainView { get; }
+
+
+
+    }
+
+    static class MainWindow
+    {
+        static MainWindow()
         {
-            get { return _mainView; }// _mainView; }            
+            MainView = new MainViewModel();
         }
 
-        //public static CommunicationViewModel Communication { get; set; }
-
-        static ErrorLogViewModel _errorLog;
-
-        public static ErrorLogViewModel ErrorLog
-        {
-            get { return _errorLog; }
-        }
-
-        //public static SendEmailViewModel Email { get; set; }
-
+        public static MainViewModel MainView { get; }
     }
 }
 

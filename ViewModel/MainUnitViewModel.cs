@@ -17,21 +17,20 @@ namespace Monitoring.ViewModel
 {
     public sealed class MainUnitViewModel : DiagramObject, IEquatable<MainUnitViewModel>
     {
-        private readonly MainUnitModel _model;
         private readonly MainViewModel _main;
 
-        public MainUnitModel Model { get { return _model; } }
+        public MainUnitModel Model { get; }
 
 #if DEBUG
         public MainUnitViewModel()
         {
-            _model = LibraryData.EmptyEsc(0);
+            Model = LibraryData.EmptyEsc(0);
         }
 #endif
 
         public MainUnitViewModel(MainUnitModel model, MainViewModel main)
         {
-            _model = model;
+            Model = model;
             _main = main;
             UpdateColorOnConnection();
 
@@ -114,13 +113,10 @@ namespace Monitoring.ViewModel
         private void OnErrorOccured()
         {
             EventHandler handler = ErrorOccured;
-            if (handler != null) handler(this, EventArgs.Empty);
+            handler?.Invoke(this, EventArgs.Empty);
         }
 
-        public override string ContextMenuName
-        {
-            get { return UnitName(); }
-        }
+        public override string ContextMenuName => UnitName();
 
         /// <summary>
         /// Checks if there's any error regarding this object
@@ -134,18 +130,15 @@ namespace Monitoring.ViewModel
 
         public override string CustomText
         {
-            get { return _model.Name; }
+            get { return Model.Name; }
             set
             {
-                _model.Name = value;
+                Model.Name = value;
                 RaisePropertyChanged(() => CustomText);
             }
         }
 
-        public override Point Size
-        {
-            get { return new Point(100, 20); }
-        }
+        public override Point Size => new Point(100, 20);
 
         public override string DisplayName
         {
@@ -166,31 +159,12 @@ namespace Monitoring.ViewModel
 
         private string UnitName()
         {
-            return _model.Id == 0 ? "Master" : string.Format("slave {0}", (_model.Id));
+            return Model.Id == 0 ? "Master" : string.Format("slave {0}", (Model.Id));
         }
 
-        public List<bool> ExternalInputs
-        {
-            get { return Model.ExternalInputs ?? (Model.ExternalInputs = new List<bool>(Enumerable.Repeat(true, 7))); }
-        }
-
-        public bool EnteroEsaEnabled
-        {
-            get
-            {
-                return ExternalInputs[0];
-            }
-            set
-            {
-                ExternalInputs[0] = value;
-                RaisePropertyChanged(() => EnteroEsaEnabled);
-            }
-        }
-
-        public override int Id
-        {
-            get { return Model.Id; }
-        }
+        public List<bool> ExternalInputs => Model.ExternalInputs ?? (Model.ExternalInputs = new List<bool>(Enumerable.Repeat(true, 9)));
+                
+        public override int Id => Model.Id;
 
         public bool FireUsed
         {
@@ -206,8 +180,6 @@ namespace Monitoring.ViewModel
         {
             get { return PanelViewModels[2].Any(d => d.IsVisibileInMonitoringSchematic); }
         }
-
-
 
         /// <summary>
         /// Fire, Evac, FDS
@@ -227,7 +199,7 @@ namespace Monitoring.ViewModel
 
                 _panelViewModels = Enumerable.Range(0, 3).Select(s => new ObservableCollection<PanelViewModel>()).ToArray();
 
-                foreach (var model in _model.AttachedPanelsBus2)
+                foreach (var model in Model.AttachedPanelsBus2)
                 {
                     PanelViewModels[(int)model.PanelType].Add(GetPanelView(model, _main, this));
                 }
@@ -276,7 +248,7 @@ namespace Monitoring.ViewModel
                 return _speakersA ??
                        (_speakersA =
                            new ObservableCollection<LoudspeakerViewModel>(
-                               _model.LoudSpeakers.Select(n => new LoudspeakerViewModel(n, _main, _model)).Where(s => s.Line == LoudspeakerLine.LineA)));
+                               Model.LoudSpeakers.Select(n => new LoudspeakerViewModel(n, _main, Model)).Where(s => s.Line == LoudspeakerLine.LineA)));
             }
         }
 
@@ -293,20 +265,17 @@ namespace Monitoring.ViewModel
                 return _speakersB ??
                        (_speakersB =
                            new ObservableCollection<LoudspeakerViewModel>(
-                               _model.LoudSpeakers.Select(n => new LoudspeakerViewModel(n, _main, _model)).Where(s => s.Line == LoudspeakerLine.LineB)));
+                               Model.LoudSpeakers.Select(n => new LoudspeakerViewModel(n, _main, Model)).Where(s => s.Line == LoudspeakerLine.LineB)));
             }
         }
 
-        public override Brush Color
-        {
-            get { return Brushes.LightSeaGreen; }
-        }
+        public override Brush Color => Brushes.LightSeaGreen;
 
         public override bool IsVisibileInMonitoringSchematic
         {
             get
             {
-                return _model.IsVisibileInMonitoringSchematic;
+                return Model.IsVisibileInMonitoringSchematic;
             }
             set
             {

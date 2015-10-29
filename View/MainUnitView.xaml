@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:modules="clr-namespace:Monitoring.Modules"
-             xmlns:userControls="clr-namespace:Monitoring.UserControls"
-             xmlns:converters="clr-namespace:Monitoring.Converters"
+             xmlns:userControls="clr-namespace:Monitoring.UserControls"             
              xmlns:common1="clr-namespace:Common;assembly=Common"
+             xmlns:viewModel="clr-namespace:Monitoring.ViewModel"
              mc:Ignorable="d" Loaded="MainUnitView_Loaded"
              d:DataContext="{d:DesignInstance viewModel:MainUnitViewModel, IsDesignTimeCreatable=True}" 
              >
@@ -197,17 +197,14 @@
                     <TextBlock Text="230Vac" />
                 </Border>
 
-                <Border Width="200" Height="40" Canvas.Top="0" Canvas.Left="480" Name="EnteroEpc"  >
-                    <TextBlock Text="Entero EPC" />
-                </Border>
+                <userControls:ExternalInput Canvas.Top="0" Canvas.Left="480" DisplayName="Entero EPC" ControlWidth="200" ControlHeight="40"
+                                           FontSize="16" IsAvailableInSystem="{Binding Path=ExternalInputs[9], Mode=TwoWay}" x:Name="EnteroEpc" />                
 
-                <Border Width="100" Height="40" Canvas.Top="80" Canvas.Left="580" Name="Amplifier" >
-                    <TextBlock Text="Amplifier" />
-                </Border>
+                <userControls:ExternalInput Canvas.Top="80" Canvas.Left="580" DisplayName="Amplifier" ControlWidth="100" ControlHeight="40"
+                                           FontSize="16" IsAvailableInSystem="{Binding Path=ExternalInputs[7], Mode=TwoWay}" x:Name="Amplifier" />                
 
-                <Border Width="100" Height="40" Canvas.Top="135" Canvas.Left="580" Name="BackupAmplifier" >
-                    <TextBlock Text="Backup Amplifier" />
-                </Border>
+                <userControls:ExternalInput Canvas.Top="135" Canvas.Left="580" DisplayName="Backup Amplifier" ControlWidth="100" ControlHeight="40"
+                                           FontSize="15" IsAvailableInSystem="{Binding Path=ExternalInputs[8], Mode=TwoWay}" x:Name="BackupAmplifier" />                               
 
                 <Border Width="70" Height="60" Canvas.Top="270" Canvas.Left="470" Name="EscSlave">
                     <TextBlock Text="ESC-Slave" />

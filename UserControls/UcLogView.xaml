@@ -68,7 +68,7 @@
                                         </Expander.Content>                                        
                                             
                                         <i:Interaction.Behaviors>
-                                            <userControls:UpdateHeader />
+                                            <userControls:UpdateHeader ErrorList="{Binding ErrorListView}" />
                                         </i:Interaction.Behaviors>
                                     </Expander>
                                 </ControlTemplate>

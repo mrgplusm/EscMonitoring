@@ -4,23 +4,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" Name="ucExtIn"
-             d:DesignHeight="300" d:DesignWidth="300">
+             >
     <UserControl.Resources>
         <Storyboard x:Key="ErrorStopStoryboard" x:Shared="False">
-            <ColorAnimation  To="Yellow" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" FillBehavior="Stop" RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:1" />
+            <ColorAnimation  To="Yellow" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                             FillBehavior="Stop" RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:1" />
         </Storyboard>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="Text" Value="Not Installed"></Setter>
             <Setter Property="TextWrapping" Value="Wrap"></Setter>
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
-            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
-            
-            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="{Binding Path=FontSize}"></Setter>
+            <Setter Property="Width" Value="{Binding Path=ControlWidth}"></Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsAvailableInSystem}" Value="true">
                     <Setter Property="Text" Value="{Binding Path=DisplayName}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type Border}">
+            <Setter Property="Effect" >
+                <Setter.Value>
+                    <DropShadowEffect  ShadowDepth="1"></DropShadowEffect>
+                </Setter.Value>
+            </Setter>
         </Style>
 
 
@@ -28,8 +36,8 @@
 
 
 
-
-    <Border Width="70" Height="40" Name="Border">
+    <!--widht 70 height 40-->
+    <Border Width="{Binding Path=ControlWidth}" Height="{Binding Path=ControlHeight}" Name="Border">
         <StackPanel Orientation="Horizontal">
             <TextBlock Name="TextBlock" >
                 
@@ -51,9 +59,7 @@
                 <Setter Property="CornerRadius" Value="3" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=IsAvailableInSystem}" Value="True">
-
                         <Setter Property="Background" Value="#00CD00" />
-
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
