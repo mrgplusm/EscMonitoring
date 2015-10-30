@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -44,17 +45,21 @@ namespace Monitoring
             };
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            Application.Current.Shutdown();
+        }
+
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //if (e.AddedItems == null || e.AddedItems.Count < 1) return;
             //var q = e.AddedItems[0] as MainUnitView;
             var z = sender as TabControl;
-            if (z == null) return;
-            var q = z.SelectedContent as MainUnitView;
+            var q = z?.SelectedContent as MainUnitView;
 
-            if (q == null) return;
-
-            q.SetHandlers();
+            q?.SetHandlers();
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)

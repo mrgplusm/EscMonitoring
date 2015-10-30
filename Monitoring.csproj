@@ -277,6 +277,14 @@
     <Compile Include="View\MainUnitView.xaml.cs">
       <DependentUpon>MainUnitView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\NotificationTexts.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotificationTexts.resx</DependentUpon>
+    </Compile>
+    <Compile Include="View\notificationWindow.xaml.cs">
+      <DependentUpon>notificationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SendEmail.Designer.cs">
       <DependentUpon>SendEmail.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -357,6 +365,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\notificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SendEmailView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -407,6 +419,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Communication.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\NotificationTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NotificationTexts.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="View\SendEmail.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

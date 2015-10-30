@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewModel="clr-namespace:Monitoring.ViewModel" StartupUri="MainWindow.xaml"
              mc:Ignorable="d"
+               ShutdownMode="OnExplicitShutdown"
              >
     <Application.Resources>
         <ResourceDictionary>

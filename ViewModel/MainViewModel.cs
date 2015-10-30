@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -10,18 +10,17 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Timers;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using Common;
 using Common.Model;
 using CsvHelper;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-
 using Microsoft.Win32;
 using Monitoring.Properties;
+using Monitoring.View;
 using Monitoring.ViewModel.Connection;
-using System.Windows.Data;
-using System.Collections;
 
 namespace Monitoring.ViewModel
 {
@@ -34,25 +33,26 @@ namespace Monitoring.ViewModel
             {
                 Application.Current.Exit += (sender, args) =>
                 {
+
                     Save();
                     Settings.Default.Save();
                     CloseAllConnections();
                 };
-            }
+            }            
 
             ErrorList = new ObservableCollection<ErrorLineViewModel>();
 
             LoadStoredErrors();
             _saveFileTimer = new Timer { AutoReset = true, Enabled = true, Interval = 300000 };
-            _saveFileTimer.Elapsed += SaveFileTimerElapsed;
-            
+            _saveFileTimer.Elapsed += SaveFileTimerElapsed;            
+
 
 
 #if DEBUG
             if (IsInDesignModeStatic)
             {
                 ErrorList = new ObservableCollection<ErrorLineViewModel>();
-                for (int i = 0; i < 10; i++)
+                for (var i = 0; i < 10; i++)
                 {
                     ErrorList.Add(new ErrorLineViewModel(new DeviceError()
                     {
@@ -63,7 +63,7 @@ namespace Monitoring.ViewModel
                         EscDetailCode = new byte[] { 0x01, 0x02 }
                     }
                         , ErrorStatuses.FaultSet, 3, DateTime.Now, new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05 }));
-                }                                
+                }
             }
 #endif
             if (!IsInDesignMode)
@@ -72,8 +72,25 @@ namespace Monitoring.ViewModel
             }
         }
 
-        private void CloseAllConnections()
+        private void _notificationWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {            
+            OnErrorNotificationClicked();
+            Application.Current.MainWindow.Activate();
+        }
 
+        public event EventHandler ErrorNotificationClicked;
+
+        private NotificationWindow _notificationWindow;
+        private void ShowNotificationWindow(ErrorLineViewModel error)
+        {
+            _notificationWindow?.Close();
+            _notificationWindow = new NotificationWindow {ErrorLine = error};
+            _notificationWindow.MouseDown += _notificationWindow_MouseDown;
+            _notificationWindow.Show();
+        }
+
+
+        private void CloseAllConnections()
         {
             if (CommunicationView == null) return;
             foreach (var con in CommunicationView.OpenConnections)
@@ -124,7 +141,7 @@ namespace Monitoring.ViewModel
             }
 
             ConnectAll();
-            
+
         }
 
         private CommunicationViewModel _communicationView;
@@ -182,6 +199,7 @@ namespace Monitoring.ViewModel
             ErrorList.Add(z);
             OnError(z);
             SwitchTabForError(error);
+            ShowNotificationWindow(z);
             var s = new EmailSender(LibraryData.FuturamaSys.Email);
             s.SendEmail();
         }
@@ -202,7 +220,7 @@ namespace Monitoring.ViewModel
         private void SwitchTabForError(ErrorLineModel error)
         {
             var chooseTabItem = Tabs.FirstOrDefault(i => i.Id == error.EscUnit);
-            if(chooseTabItem == null) return;
+            if (chooseTabItem == null) return;
             SelectedTabItem = chooseTabItem;
         }
 
@@ -310,7 +328,7 @@ namespace Monitoring.ViewModel
 
 
         public void AddToMainScreen(DiagramObject system)
-        {            
+        {
             Schematic.AddToSchematic(system);
         }
 
@@ -466,6 +484,9 @@ namespace Monitoring.ViewModel
             get { return !LibraryData.FuturamaSys.Email.SendEmailEnabled; }
             set
             {
+#if DEBUG
+                ShowNotificationWindow(new ErrorLineViewModel(new ErrorLineModel()));
+#endif
                 LibraryData.FuturamaSys.Email.SendEmailEnabled = !value;
                 RaisePropertyChanged(() => TestMode);
             }
@@ -629,10 +650,10 @@ namespace Monitoring.ViewModel
             {
                 if (_tabCollectionView == null)
                 {
-                    _tabCollectionView = (ListCollectionView) CollectionViewSource.GetDefaultView(Tabs);
+                    _tabCollectionView = (ListCollectionView)CollectionViewSource.GetDefaultView(Tabs);
                     _tabCollectionView.CustomSort = new TabSorter();
                     _tabCollectionView.IsLiveSorting = true;
-                    
+
                 }
                 return _tabCollectionView;
             }
@@ -648,9 +669,9 @@ namespace Monitoring.ViewModel
             {
                 if (_errorList == null)
                 {
-                    _errorList = (ListCollectionView) CollectionViewSource.GetDefaultView(ErrorList);
+                    _errorList = (ListCollectionView)CollectionViewSource.GetDefaultView(ErrorList);
 
-                    _errorList.GroupDescriptions?.Add(new PropertyGroupDescription() {PropertyName = "Grouping"});
+                    _errorList.GroupDescriptions?.Add(new PropertyGroupDescription() { PropertyName = "Grouping" });
 
                     _errorList.CustomSort = new ErrorLineSorter();
                     _errorList.IsLiveFiltering = true;
@@ -661,7 +682,10 @@ namespace Monitoring.ViewModel
         }
 
 
-
+        protected virtual void OnErrorNotificationClicked()
+        {
+            ErrorNotificationClicked?.Invoke(this, EventArgs.Empty);
+        }
     }
 
 
