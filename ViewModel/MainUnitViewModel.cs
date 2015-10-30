@@ -9,13 +9,12 @@ using Common;
 using Common.Commodules;
 using Common.Model;
 using GalaSoft.MvvmLight.CommandWpf;
-using Monitoring.View;
 using Monitoring.ViewModel.Connection;
 using Point = System.Windows.Point;
 
 namespace Monitoring.ViewModel
 {
-    public sealed class MainUnitViewModel : DiagramObject, IEquatable<MainUnitViewModel>
+    public sealed class MainUnitViewModel : DiagramObject, ITab
     {
         private readonly MainViewModel _main;
 
@@ -305,11 +304,7 @@ namespace Monitoring.ViewModel
 
 
         }
-
-        public bool Equals(MainUnitViewModel other)
-        {
-            return Id.Equals(other.Id);
-        }
+        
     }
 
 }

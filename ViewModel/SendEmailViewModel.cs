@@ -33,7 +33,7 @@ namespace Monitoring.ViewModel
     }
 
 
-    public class SendEmailViewModel : ViewModelBase
+    public class SendEmailViewModel : ViewModelBase, ITab
     {
         public SendEmailViewModel()
         {
@@ -198,5 +198,7 @@ namespace Monitoring.ViewModel
                 RaisePropertyChanged(() => InspectorCleared);
             }
         }
+
+        public int Id => 100;
     }
 }

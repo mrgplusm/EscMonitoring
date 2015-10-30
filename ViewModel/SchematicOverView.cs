@@ -15,7 +15,12 @@ using Point = System.Windows.Point;
 
 namespace Monitoring.ViewModel
 {
-    public class SchematicOverView : ViewModelBase
+    public interface ITab
+    {
+        int Id { get; } 
+    }
+
+    public class SchematicOverView : ViewModelBase, ITab
     {
         private readonly MainViewModel _main;
 
@@ -34,13 +39,7 @@ namespace Monitoring.ViewModel
         }
 #endif
 
-        public ICommand OpenFile
-        {
-            get
-            {
-                return _main.OpenFile;
-            }
-        }
+        public ICommand OpenFile => _main.OpenFile;
 
         public SchematicOverView(MainViewModel main)
         {
@@ -76,21 +75,9 @@ namespace Monitoring.ViewModel
         }
 
 
-        public string FileName
-        {
-            get
-            {
-                return !LibraryData.SystemIsOpen ? "None" : Path.GetFileNameWithoutExtension(LibraryData.SystemFileName);
-            }
-        }
+        public string FileName => !LibraryData.SystemIsOpen ? "None" : Path.GetFileNameWithoutExtension(LibraryData.SystemFileName);
 
-        public bool PasswordEnteredOk
-        {
-            get
-            {
-                return _main.PasswordEnteredOk;
-            }
-        }
+        public bool PasswordEnteredOk => _main.PasswordEnteredOk;
 
         public List<DiagramObject> LegendMaterial { get; set; }
 
@@ -314,10 +301,7 @@ namespace Monitoring.ViewModel
         }
 
         private ObservableCollection<DiagramObject> _nodes;
-        public ObservableCollection<DiagramObject> Nodes
-        {
-            get { return _nodes ?? (_nodes = new ObservableCollection<DiagramObject>()); }
-        }
+        public ObservableCollection<DiagramObject> Nodes => _nodes ?? (_nodes = new ObservableCollection<DiagramObject>());
 
         private DiagramObject _selectedObject;
 
@@ -346,5 +330,7 @@ namespace Monitoring.ViewModel
                 RaisePropertyChanged(() => SelectedObject);
             }
         }
+
+        public int Id => -1;
     }
 }

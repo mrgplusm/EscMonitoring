@@ -11,12 +11,7 @@ using System.Windows;
 
 namespace Monitoring.ViewModel.Connection
 {
-    public interface ITabControl
-    {
-        int Id { get; }
-    }
-
-    public class CommunicationViewModel : ViewModelBase, ITabControl
+    public class CommunicationViewModel : ViewModelBase, ITab
     {
         private readonly MainViewModel _main;
 
@@ -42,8 +37,16 @@ namespace Monitoring.ViewModel.Connection
             {
                 OpenConnections.Add(c);
                 c.Connection.ErrorLineReceived += Connection_ErrorLineReceived;
+                c.Connection.ErrorOccured += ConnectionOnErrorOccured;
             }
         }
+
+        private void ConnectionOnErrorOccured(object sender, ErrorEventArgs errorEventArgs)
+        {
+            Application.Current.Dispatcher.Invoke(OnConnectionError);
+        }
+
+        public event EventHandler ConnectionError;
 
         private void Connection_ErrorLineReceived(object sender, ErrorLineEventArgs e)
         {
@@ -65,31 +68,15 @@ namespace Monitoring.ViewModel.Connection
 
         public event EventHandler<ErrorLineEventArgs> DataReceived;
 
-        public void OnDataReceived(ErrorLineEventArgs e)
-        {
-            var d = DataReceived;
-            if (d != null) DataReceived(this, e);
-        }
+        
 
 
-        public int Id
-        {
-            get { return 99; }
-        }
+        public int Id => 99;
 
-        public bool PasswordEnteredOk
-        {
-            get { return _main.PasswordEnteredOk; }
-        }
+        public bool PasswordEnteredOk => _main.PasswordEnteredOk;
 
 
-        public ObservableCollection<ConnectionViewModel> Connections
-        {
-            get
-            {
-                return OpenConnections;
-            }
-        }
+        public ObservableCollection<ConnectionViewModel> Connections => OpenConnections;
 
 
         public ICommand AddConnection
@@ -114,9 +101,8 @@ namespace Monitoring.ViewModel.Connection
         public event EventHandler<ConnectionRemovedEventArgs> ConnectionRemoved;
 
         protected virtual void OnConnectionRemoved(ConnectionRemovedEventArgs e)
-        {
-            EventHandler<ConnectionRemovedEventArgs> handler = ConnectionRemoved;
-            if (handler != null) handler(this, e);
+        {            
+            ConnectionRemoved?.Invoke(this, e);
         }
 
         public ICommand RemoveConnection
@@ -126,6 +112,7 @@ namespace Monitoring.ViewModel.Connection
                 return new RelayCommand<ConnectionViewModel>(s =>
                     {
                         s.Connection.ErrorLineReceived -= Connection_ErrorLineReceived;
+                        s.Connection.ErrorOccured -= ConnectionOnErrorOccured;
                         s.EndConnection();
 
                         OpenConnections.Remove(s);
@@ -140,6 +127,16 @@ namespace Monitoring.ViewModel.Connection
                         OnConnectionRemoved(new ConnectionRemovedEventArgs() { Connection = s.Connection });
                     });
             }
+        }
+
+        protected virtual void OnDataReceived(ErrorLineEventArgs e)
+        {
+            DataReceived?.Invoke(this, e);
+        }
+
+        protected virtual void OnConnectionError()
+        {
+            ConnectionError?.Invoke(this, EventArgs.Empty);
         }
     }
 

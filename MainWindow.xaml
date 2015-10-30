@@ -138,7 +138,8 @@
 
 
         <!--<UserControls:EscUnits Grid.Row="1" />-->
-        <TabControl Grid.Row="1" ItemsSource="{Binding Path=Tabs}" SelectionChanged="Selector_OnSelectionChanged" behaviors:TabContent.IsCached="True" Name="tabcontrol" >
+        <TabControl Grid.Row="1" SelectedItem="{Binding Path=SelectedTabItem}" ItemsSource="{Binding Path=TabListView}" 
+                    SelectionChanged="Selector_OnSelectionChanged" behaviors:TabContent.IsCached="True" Name="tabcontrol" >
                         
             <TabControl.ItemTemplate>
                 <DataTemplate>

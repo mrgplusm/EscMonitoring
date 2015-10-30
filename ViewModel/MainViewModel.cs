@@ -45,7 +45,7 @@ namespace Monitoring.ViewModel
             LoadStoredErrors();
             _saveFileTimer = new Timer { AutoReset = true, Enabled = true, Interval = 300000 };
             _saveFileTimer.Elapsed += SaveFileTimerElapsed;
-            Tabs = new ObservableCollection<ViewModelBase>();
+            
 
 
 #if DEBUG
@@ -63,10 +63,7 @@ namespace Monitoring.ViewModel
                         EscDetailCode = new byte[] { 0x01, 0x02 }
                     }
                         , ErrorStatuses.FaultSet, 3, DateTime.Now, new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05 }));
-                }
-                Tabs.Add(Email);
-                Tabs.Add(new SchematicOverView(this));
-
+                }                                
             }
 #endif
             if (!IsInDesignMode)
@@ -104,6 +101,9 @@ namespace Monitoring.ViewModel
             if (LibraryData.SystemIsOpen) Save();
         }
 
+
+        public SchematicOverView Schematic => _schematic ?? (_schematic = new SchematicOverView(this));
+
         private void SetFileProperties()
         {
             if (!LibraryData.SystemIsOpen) return;
@@ -114,16 +114,17 @@ namespace Monitoring.ViewModel
 
             MainUnitViewModels.AddRange(LibraryData.FuturamaSys.MainUnits.Select(n => new MainUnitViewModel(n, this)));
 
-            Tabs.Add(new SchematicOverView(this));
+            Tabs.Add(Schematic);
+            Tabs.Add(CommunicationView);
+            Tabs.Add(Email);
+
             foreach (var mainUnit in MainUnitViewModels)
             {
                 Tabs.Add(mainUnit);
             }
 
             ConnectAll();
-
-            Tabs.Add(CommunicationView);
-            Tabs.Add(Email);
+            
         }
 
         private CommunicationViewModel _communicationView;
@@ -136,6 +137,7 @@ namespace Monitoring.ViewModel
 
                 _communicationView = ret;
                 _communicationView.DataReceived += (o, e) => ErrorLineReceived(e.Model);
+                _communicationView.ConnectionError += (sender, args) => SelectedTabItem = CommunicationView;
                 return ret;
             }
         }
@@ -179,11 +181,30 @@ namespace Monitoring.ViewModel
             var z = new ErrorLineViewModel(error);
             ErrorList.Add(z);
             OnError(z);
+            SwitchTabForError(error);
             var s = new EmailSender(LibraryData.FuturamaSys.Email);
             s.SendEmail();
         }
 
+        public ITab SelectedTabItem
+        {
+            get
+            {
+                return _selectedTabItem ?? Schematic;
+            }
+            set
+            {
+                _selectedTabItem = value;
+                RaisePropertyChanged(() => SelectedTabItem);
+            }
+        }
 
+        private void SwitchTabForError(ErrorLineModel error)
+        {
+            var chooseTabItem = Tabs.FirstOrDefault(i => i.Id == error.EscUnit);
+            if(chooseTabItem == null) return;
+            SelectedTabItem = chooseTabItem;
+        }
 
         /// <summary>
         /// Change the system password, store it in user directory file
@@ -289,16 +310,14 @@ namespace Monitoring.ViewModel
 
 
         public void AddToMainScreen(DiagramObject system)
-        {
-            if (system == null) return;
-            if (!Tabs.OfType<SchematicOverView>().Any()) return;
-            Tabs.OfType<SchematicOverView>().First().AddToSchematic(system);
+        {            
+            Schematic.AddToSchematic(system);
         }
 
 
         public void RemoveFromMainScreen(DiagramObject system)
         {
-            Tabs.OfType<SchematicOverView>().First().RemoveFromSchematic(system, EventArgs.Empty);
+            Schematic.RemoveFromSchematic(system, EventArgs.Empty);
         }
 
         public ICommand OpenFile => new RelayCommand(Open);
@@ -325,7 +344,7 @@ namespace Monitoring.ViewModel
 
             };
 
-            if (!String.IsNullOrWhiteSpace(Settings.Default.RecentLocationProject))
+            if (!string.IsNullOrWhiteSpace(Settings.Default.RecentLocationProject))
                 dlg.InitialDirectory = Settings.Default.RecentLocationProject;
 
             var q = dlg.ShowDialog();
@@ -453,15 +472,7 @@ namespace Monitoring.ViewModel
         }
 
         private SendEmailViewModel _email;
-        public SendEmailViewModel Email
-        {
-            get
-            {
-                if (_email != null) return _email;
-                _email = new SendEmailViewModel();
-                return _email;
-            }
-        }
+        public SendEmailViewModel Email => _email ?? (_email = new SendEmailViewModel());
 
         public bool IsConnected
         {
@@ -558,7 +569,7 @@ namespace Monitoring.ViewModel
 
         public ObservableCollection<ErrorLineViewModel> ErrorList { get; private set; }
 
-        
+
 
         private void Close()
         {
@@ -599,30 +610,52 @@ namespace Monitoring.ViewModel
 
                     MessageBox.Show(string.Format(Main.MessageBoxSaveFileText, e.Message), Main.MessageBoxSaveFileHeader,
                         MessageBoxButton.OK,
-                        MessageBoxImage.Warning);                    
+                        MessageBoxImage.Warning);
                 }
                 finally
                 {
                     _saveFileTimer.Start();
-                }                               
+                }
             }
         }
 
-        public ObservableCollection<ViewModelBase> Tabs { get;}
+        private ObservableCollection<ITab> _tabs;
+        public ObservableCollection<ITab> Tabs => _tabs ?? (_tabs = new ObservableCollection<ITab>());
+
+        private ListCollectionView _tabCollectionView;
+        public ListCollectionView TabListView
+        {
+            get
+            {
+                if (_tabCollectionView == null)
+                {
+                    _tabCollectionView = (ListCollectionView) CollectionViewSource.GetDefaultView(Tabs);
+                    _tabCollectionView.CustomSort = new TabSorter();
+                    _tabCollectionView.IsLiveSorting = true;
+                    
+                }
+                return _tabCollectionView;
+            }
+        }
 
         private ListCollectionView _errorList;
+        private SchematicOverView _schematic;
+        private ITab _selectedTabItem;
+
         public ListCollectionView ErrorListView
         {
             get
             {
-                if (_errorList != null) return _errorList;
-                _errorList = (ListCollectionView)CollectionViewSource.GetDefaultView(ErrorList);
-                
-                _errorList?.GroupDescriptions?.Add(new PropertyGroupDescription() { PropertyName = "Grouping" });
+                if (_errorList == null)
+                {
+                    _errorList = (ListCollectionView) CollectionViewSource.GetDefaultView(ErrorList);
 
-                _errorList.CustomSort = new ErrorLineSorter();
-                _errorList.IsLiveFiltering = true;
-                _errorList.IsLiveGrouping = true;
+                    _errorList.GroupDescriptions?.Add(new PropertyGroupDescription() {PropertyName = "Grouping"});
+
+                    _errorList.CustomSort = new ErrorLineSorter();
+                    _errorList.IsLiveFiltering = true;
+                    _errorList.IsLiveGrouping = true;
+                }
                 return _errorList;
             }
         }
@@ -631,7 +664,18 @@ namespace Monitoring.ViewModel
 
     }
 
-    public class ErrorLineSorter : IComparer
+
+    class TabSorter : IComparer
+    {
+        public int Compare(object x, object y)
+        {
+            var X = x as ITab;
+            var Y = y as ITab;
+            return X.Id.CompareTo(Y.Id);
+        }
+    }
+
+    class ErrorLineSorter : IComparer
     {
         public int Compare(object x, object y)
         {
