@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Media;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Monitoring.ViewModel;
@@ -23,7 +25,22 @@ namespace Monitoring.View
          //   }));
             
             MouseDown += (sender, args) =>  Close();
+
+            var open = true;
+
+            Task.Factory.StartNew(() =>
+            {                
+                while (open)
+                {
+                    SystemSounds.Beep.Play();
+                    Task.Delay(1000);
+                }
+            });
+
+            Closed += (sender, args) => open = false;
         }
+
+        
 
         public static readonly DependencyProperty ErrorLineProperty = DependencyProperty.Register(
             "ErrorLine", typeof(ErrorLineViewModel), typeof(NotificationWindow), new PropertyMetadata(default(ErrorLineViewModel)));
