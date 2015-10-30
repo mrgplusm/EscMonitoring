@@ -11,6 +11,8 @@ using Common.Model;
 using Monitoring.UserControls;
 using Monitoring.ViewModel;
 using System.Diagnostics;
+using System.Windows.Shapes;
+using Xceed.Wpf.AvalonDock.Controls;
 
 namespace Monitoring.View
 {
@@ -22,7 +24,11 @@ namespace Monitoring.View
     /// </summary>
     public partial class MainUnitView : UserControl
     {
-        private MainUnitViewModel _dataContext;
+        private MainUnitViewModel _dataContext;        
+
+        private readonly Storyboard _borderStoryboard;
+        private readonly Storyboard _arrowStoryboard;
+        private readonly Storyboard _speakerStoryBoard;
 
         public MainUnitView()
         {
@@ -30,6 +36,7 @@ namespace Monitoring.View
 
             _borderStoryboard = FindResource("ErrorStopStoryboard") as Storyboard;
             _arrowStoryboard = FindResource("ArrowStoryboard") as Storyboard;
+            _speakerStoryBoard = FindResource("SpeakerStoryBoard") as Storyboard;            
 
             foreach (var errorType in Enum.GetValues(typeof(Ge)).Cast<Ge>())
             {
@@ -51,10 +58,7 @@ namespace Monitoring.View
         }
 
 
-        private RoutedEvent e;
-
-        private readonly Storyboard _borderStoryboard;
-        private readonly Storyboard _arrowStoryboard;
+        
 
 
         private IEnumerable<ErrorLineViewModel> GetLatestErrors()
@@ -73,7 +77,7 @@ namespace Monitoring.View
         private void UpdateErrorList(object sender, EventArgs eventArgs)
         {
             var toBeRemoved = _errorsShown.Except(CurrentlyActiveErrors()).ToArray();
-            
+
             //list shown and not in latest
             foreach (var removeThis in toBeRemoved)
             {
@@ -95,22 +99,24 @@ namespace Monitoring.View
 
             switch (controlName)
             {
-                case Ge.Fire://4
-                case Ge.Fds://6
-                case Ge.Evacuation://5                
-                case Ge.PowerSource230Vac://22
-                case Ge.EscMaster://12
-                case Ge.EnteroEpc://13
+                case Ge.Fire: //4
+                case Ge.Fds: //6
+                case Ge.Evacuation: //5                
+                case Ge.PowerSource230Vac: //22
+                case Ge.EscMaster: //12                
                 case Ge.EscSlave:
-                    var control = FindName(controlName.ToString()) as DependencyObject;
-                    if (control == null)
-                        throw new Exception("cannot find control " + controlName + " in mainunit");
-                    var qq = _borderStoryboard.Clone();
-                    Storyboard.SetTarget(qq, control);
-                    _storyboards.Add(controlName, qq);
+                    {
+                        var control = FindName(controlName.ToString()) as DependencyObject;
+                        if (control == null)
+                            throw new Exception("cannot find control " + controlName + " in mainunit");
+                        var qq = _borderStoryboard.Clone();
+                        Storyboard.SetTarget(qq, control);
+                        _storyboards.Add(controlName, qq);
+                    }
                     break;
-                case Ge.Amplifier://0
-                case Ge.BackupAmplifier://1
+                case Ge.EnteroEpc: //13
+                case Ge.Amplifier: //0
+                case Ge.BackupAmplifier: //1
                 case Ge.EnteroEsa230Vac:
                 case Ge.RedundancyModule:
                 case Ge.EnteroEsaAmpPsu:
@@ -118,11 +124,13 @@ namespace Monitoring.View
                 case Ge.EnteroEpc230Vac:
                 case Ge.EnteroEpcContact:
                 case Ge.ExtAudioIn:
-                    var usercontrol = FindName(controlName.ToString()) as ExternalInput;
-                    if (usercontrol == null) throw new Exception("cannot find control " + controlName + " in mainunit");
-                    var qq1 = _borderStoryboard.Clone();
-                    usercontrol.ErrorStoryboard = qq1;
-                    _storyboards.Add(controlName, qq1);
+                    {
+                        var usercontrol = FindName(controlName.ToString()) as ExternalInput;
+                        if (usercontrol == null) throw new Exception("cannot find control " + controlName + " in mainunit");
+                        var qq1 = _borderStoryboard.Clone();
+                        usercontrol.ErrorStoryboard = qq1;
+                        _storyboards.Add(controlName, qq1);
+                    }
                     break;
                 case Ge.ExtAudioInConnection:
                 case Ge.ExtErrorInConnection:
@@ -136,17 +144,32 @@ namespace Monitoring.View
                 case Ge.EscLink:
                 case Ge.PowerSource230VacConnectie:
                 case Ge.Esc48VdcConnection:
-                    var control2 = FindName(controlName.ToString()) as DependencyObject;
-                    if (control2 == null)
-                        throw new Exception("cannot find control " + controlName + " in mainunit");
-                    var qq2 = _arrowStoryboard.Clone();
-                    Storyboard.SetTarget(qq2, control2);
-                    _storyboards.Add(controlName, qq2);
+                    {
+                        var control2 = FindName(controlName.ToString()) as DependencyObject;
+                        if (control2 == null)
+                            throw new Exception("cannot find control " + controlName + " in mainunit");
+                        var qq2 = _arrowStoryboard.Clone();
+                        Storyboard.SetTarget(qq2, control2);
+                        _storyboards.Add(controlName, qq2);
+                    }
                     break;
                 case Ge.ExpansionFirePanel:
                 case Ge.ExpansionEvacuation:
                 case Ge.ExpansionFds:
                     break;
+                case Ge.SpeakerA:
+                case Ge.SpeakerB:
+                    {
+                        var control2 = FindName(controlName.ToString()) as StackPanel;
+                        if (control2 == null)
+                            throw new Exception("cannot find control " + controlName + " in mainunit");
+                        var qq2 = _speakerStoryBoard.Clone();
+                        var poly  = control2.FindLogicalChildren<Polygon>().FirstOrDefault();
+                        Storyboard.SetTarget(qq2, poly);
+                        _storyboards.Add(controlName, qq2);
+                    }
+                    break;
+
                 default:
                     throw new Exception("All graphical errors should exist in this switch statement");
             }

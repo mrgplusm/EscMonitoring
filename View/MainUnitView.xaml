@@ -7,6 +7,8 @@
              xmlns:userControls="clr-namespace:Monitoring.UserControls"             
              xmlns:common1="clr-namespace:Common;assembly=Common"
              xmlns:viewModel="clr-namespace:Monitoring.ViewModel"
+             xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" Loaded="MainUnitView_Loaded"
              d:DataContext="{d:DesignInstance viewModel:MainUnitViewModel, IsDesignTimeCreatable=True}" 
              >
@@ -37,11 +39,11 @@
             <Setter Property="ArrowLength" Value="8"></Setter>
 
         </Style>
-        <Canvas x:Key="speaker" x:Shared="False">
-            <Border BorderBrush="Black" Width="12" Height="30" Canvas.Top="5"  />
-            <Polygon Points="12,12 30,0 30,40, 12,28" Stroke="Black" StrokeThickness="1" Fill="LightBlue" />
 
-        </Canvas>
+        <collections:ArrayList x:Key="SpeakerPositions">
+            <collections:DictionaryEntry Key="170" Value="710" />
+            <collections:DictionaryEntry Key="200" Value="750" />
+        </collections:ArrayList>
 
         <Style TargetType="{x:Type ContextMenu}" x:Key="ContextMenu"  >
 
@@ -86,6 +88,15 @@
 
         <Storyboard x:Key="ArrowStoryboard" x:Shared="False">
             <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(modules:ArrowPolyline.Stroke).(SolidColorBrush.Color)" FillBehavior="Stop" 
+                             RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:1" >
+                <ColorAnimationUsingKeyFrames.KeyFrames>
+                    <DiscreteColorKeyFrame KeyTime="0:0:0.5" Value="Yellow" />
+                </ColorAnimationUsingKeyFrames.KeyFrames>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="SpeakerStoryBoard" x:Shared="False">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)" FillBehavior="Stop" 
                              RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:1" >
                 <ColorAnimationUsingKeyFrames.KeyFrames>
                     <DiscreteColorKeyFrame KeyTime="0:0:0.5" Value="Yellow" />
@@ -228,7 +239,19 @@
 
                 <Rectangle StrokeDashArray="2,2" Width="269" Height="240" Canvas.Left="0" Canvas.Top="240" Stroke="OrangeRed" StrokeThickness="2" />
 
-                <ContentControl Content="{StaticResource speaker}" Canvas.Top="170" Canvas.Left="710" Name="SpeakerA" >
+                
+
+                <StackPanel Orientation="Horizontal" Canvas.Top="170" Canvas.Left="710" Name="SpeakerA">
+                    <Border BorderBrush="Black" Width="12" Height="30" />
+                    <Polygon Points="0,12 18,0 18,40, 0,28" Stroke="Black" StrokeThickness="1" Fill="LightBlue" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Canvas.Top="200" Canvas.Left="750" Name="SpeakerB">
+                    <Border BorderBrush="Black" Width="12" Height="30" />
+                    <Polygon Points="0,12 18,0 18,40, 0,28" Stroke="Black" StrokeThickness="1" Fill="LightBlue" />
+                </StackPanel>
+
+                <!--<ContentControl Content="{StaticResource speaker}" Canvas.Top="170" Canvas.Left="710" Name="SpeakerA" >
                     <ContentControl.ContextMenu>
                         <ContextMenu Style="{StaticResource ContextMenu}" ItemsSource="{Binding Path=SpeakersA}"/>
                     </ContentControl.ContextMenu>
@@ -237,7 +260,7 @@
                     <ContentControl.ContextMenu>
                         <ContextMenu Style="{StaticResource ContextMenu}" ItemsSource="{Binding Path=SpeakersB}"/>
                     </ContentControl.ContextMenu>
-                </ContentControl>
+                </ContentControl>-->
 
 
 
