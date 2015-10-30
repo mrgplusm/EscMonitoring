@@ -484,9 +484,6 @@ namespace Monitoring.ViewModel
             get { return !LibraryData.FuturamaSys.Email.SendEmailEnabled; }
             set
             {
-#if DEBUG
-                ShowNotificationWindow(new ErrorLineViewModel(new ErrorLineModel()));
-#endif
                 LibraryData.FuturamaSys.Email.SendEmailEnabled = !value;
                 RaisePropertyChanged(() => TestMode);
             }
