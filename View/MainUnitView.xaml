@@ -244,11 +244,17 @@
                 <StackPanel Orientation="Horizontal" Canvas.Top="170" Canvas.Left="710" Name="SpeakerA">
                     <Border BorderBrush="Black" Width="12" Height="30" />
                     <Polygon Points="0,12 18,0 18,40, 0,28" Stroke="Black" StrokeThickness="1" Fill="LightBlue" />
+                    <StackPanel.ContextMenu>
+                        <ContextMenu Style="{StaticResource ContextMenu}" ItemsSource="{Binding Path=SpeakersA}"/>
+                    </StackPanel.ContextMenu>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" Canvas.Top="200" Canvas.Left="750" Name="SpeakerB">
                     <Border BorderBrush="Black" Width="12" Height="30" />
                     <Polygon Points="0,12 18,0 18,40, 0,28" Stroke="Black" StrokeThickness="1" Fill="LightBlue" />
+                    <StackPanel.ContextMenu>
+                        <ContextMenu Style="{StaticResource ContextMenu}" ItemsSource="{Binding Path=SpeakersB}"/>
+                    </StackPanel.ContextMenu>
                 </StackPanel>
 
                 <!--<ContentControl Content="{StaticResource speaker}" Canvas.Top="170" Canvas.Left="710" Name="SpeakerA" >
