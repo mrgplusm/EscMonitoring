@@ -38,13 +38,13 @@ namespace Monitoring.ViewModel
                     Settings.Default.Save();
                     CloseAllConnections();
                 };
-            }            
+            }
 
             ErrorList = new ObservableCollection<ErrorLineViewModel>();
 
             LoadStoredErrors();
             _saveFileTimer = new Timer { AutoReset = true, Enabled = true, Interval = 300000 };
-            _saveFileTimer.Elapsed += SaveFileTimerElapsed;            
+            _saveFileTimer.Elapsed += SaveFileTimerElapsed;
 
 
 
@@ -73,7 +73,7 @@ namespace Monitoring.ViewModel
         }
 
         private void _notificationWindow_MouseDown(object sender, MouseButtonEventArgs e)
-        {            
+        {
             OnErrorNotificationClicked();
             Application.Current.MainWindow.Activate();
         }
@@ -84,7 +84,7 @@ namespace Monitoring.ViewModel
         private void ShowNotificationWindow(ErrorLineViewModel error)
         {
             _notificationWindow?.Close();
-            _notificationWindow = new NotificationWindow {ErrorLine = error};
+            _notificationWindow = new NotificationWindow { ErrorLine = error };
             _notificationWindow.MouseDown += _notificationWindow_MouseDown;
             _notificationWindow.Show();
         }
@@ -549,12 +549,14 @@ namespace Monitoring.ViewModel
                     new StreamWriter(f.FileName))
                 {
                     var csv = new CsvWriter(file);
-                    csv.WriteRecords(LibraryData.FuturamaSys.Errors);
+                    csv.WriteRecords(LibraryData.FuturamaSys.Errors.Select(n => new ErrorLineCsv(n)));
                 }
             };
 
             Application.Current.Dispatcher.Invoke(() => f.ShowDialog());
         }
+
+
 
         public ICommand Exit
         {
@@ -704,6 +706,38 @@ namespace Monitoring.ViewModel
             var Y = y as ErrorLineViewModel;
             return Y.Id.CompareTo(X.Id);
         }
+    }
+
+    public class ErrorLineCsv
+    {
+        private readonly ErrorLineModel _error;
+
+        public ErrorLineCsv(ErrorLineModel error)
+        {
+            _error = error;
+        }
+
+        public string EscUnit => _error.EscUnit.ToString();
+
+        public string EscData => GenericMethods.Tostring(_error.EscData);
+
+
+        public string Id => _error.Id.ToString();
+
+        public string DateTime => _error.Date.ToString();
+
+        public string Module => _error.Device?.Module.ToString();
+
+        public string Detail => _error.Device?.Detail.ToString();
+
+
+        public string EmailSend => _error.EmailSend.ToString();
+
+
+        public string IsVisible => _error.IsVisible.ToString();
+
+
+        public string ClearedById => _error.ClearedById.ToString();
     }
 
 

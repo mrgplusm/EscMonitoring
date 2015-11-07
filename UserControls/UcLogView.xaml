@@ -30,8 +30,7 @@
                                     Header="{x:Static userControls:UcLog.chStatus}" Binding="{Binding StrStatus}" />
             <DataGridTextColumn Width="115" 
                                     Header="{x:Static userControls:UcLog.chDevice}" Binding="{Binding StrDevice}" />
-            <DataGridTextColumn Width="150" 
-                                    Header="{x:Static userControls:UcLog.chDetail}" Binding="{Binding StrDetail}" />
+           
             <DataGridTemplateColumn Width="540" Header="{x:Static userControls:UcLog.chDescription}"    >
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate DataType="{x:Type viewModel:ErrorLineViewModel}">
