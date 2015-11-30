@@ -149,8 +149,7 @@ namespace Monitoring.ViewModel
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message + " emailsender");
-                MessageBox.Show(ex.Message, "Error in email sending", 
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                SendEmailViewModel.EmailErrors.Add(new EmailErrorVM(ex.Message));                
             }
         }
 

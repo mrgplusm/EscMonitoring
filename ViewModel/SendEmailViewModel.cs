@@ -45,7 +45,10 @@ namespace Monitoring.ViewModel
 
 #if DEBUG
             if (IsInDesignMode)
+            {
                 LibraryData.CreateEmptySystem();
+                EmailErrors.Add(new EmailErrorVM("test errortest errortest errortest errortest errortest errortest errortest errortest errortest error"));
+            }
 #endif
             if (!LibraryData.SystemIsOpen) return;
 
@@ -158,6 +161,8 @@ namespace Monitoring.ViewModel
             
         }
 
+        public ICommand ClearEmailErrors => new RelayCommand(
+            EmailErrors.Clear);
 
         public ICommand AddEmail
         {

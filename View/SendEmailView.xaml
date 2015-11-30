@@ -17,7 +17,8 @@
         
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        mc:Ignorable="d"
              
              d:DataContext="{d:DesignInstance viewModel:SendEmailViewModel, IsDesignTimeCreatable=True}"
              >
@@ -95,10 +96,16 @@
 
         <DataTemplate DataType="{x:Type viewModel:EmailErrorVM}">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Path=Date}" ></TextBlock>
-                <TextBlock Text="{Binding Path=Error}" TextWrapping="Wrap" Width="80"></TextBlock>
+                <TextBlock Text="{Binding Path=Date}" Width="70" TextWrapping="Wrap" ></TextBlock>
+                <TextBlock Text="{Binding Path=Error}" Foreground="Red" TextWrapping="Wrap" Width="150"></TextBlock>
             </StackPanel>
         </DataTemplate>
+
+        <CollectionViewSource Source="{Binding Path=EmailErrors}" x:Key="LcvsErrors">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription PropertyName="Date" Direction="Descending"></componentModel:SortDescription>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
 
     </UserControl.Resources>
 
@@ -117,10 +124,14 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <GroupBox Header="Email errors" Grid.Column="2" Width="150" Grid.Row="0">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding Path=EmailErrors}" />
-                </ScrollViewer>
+            <GroupBox Header="Email errors" Grid.Column="2" Width="245" Grid.Row="0" Grid.RowSpan="2">
+                <StackPanel Margin="5">
+                    <Button Content="Clear" Command="{Binding Path=ClearEmailErrors}" Width="50"></Button>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Source={StaticResource LcvsErrors}}" />
+                    </ScrollViewer>
+                    
+                </StackPanel>
             </GroupBox>
 
             <GroupBox Grid.Row="0" Grid.Column="0" Header="{x:Static view:SendEmail._emailGroupProject}">
