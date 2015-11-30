@@ -214,6 +214,15 @@ namespace Monitoring {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export program events.
+        /// </summary>
+        public static string Export_programEvents {
+            get {
+                return ResourceManager.GetString("Export_programEvents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resize icons relative to background.
         /// </summary>
         public static string IconScaling {

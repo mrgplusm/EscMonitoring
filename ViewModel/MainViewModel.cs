@@ -28,12 +28,13 @@ namespace Monitoring.ViewModel
     {
         public MainViewModel()
         {
+
             //graphical changes
             if (Application.Current != null)
             {
                 Application.Current.Exit += (sender, args) =>
                 {
-
+                    LibraryData.FuturamaSys?.ProgramEvents?.Add(new ProgramEvent(false, DateTime.Now));
                     Save();
                     Settings.Default.Save();
                     CloseAllConnections();
@@ -403,6 +404,8 @@ namespace Monitoring.ViewModel
             OnFileChanged();
             SetFileProperties();
             RaisePropertyChanged(() => InstallerVersion);
+            LibraryData.FuturamaSys?.ProgramEvents?.Add(new ProgramEvent(true, DateTime.Now));
+
         }
 
 
@@ -533,29 +536,58 @@ namespace Monitoring.ViewModel
 
         public ICommand CsvWrite => new RelayCommand(WriteToCsv);
 
+        public ICommand CsvWriteEvents => new RelayCommand(WriteToCsvEvents);
+
         public void WriteToCsv()
         {
-            FileDialog f = new SaveFileDialog();
-            f.AddExtension = true;
-            f.DefaultExt = ".csv";
-            f.Filter = "Comma-separated values (.csv) | *.csv";
-            f.FileOk += (sender, args) =>
+            var fdlg = CsvFileDialogFactory();
+            
+            fdlg.FileOk += (sender, args) =>
             {
-                if (!f.CheckPathExists) return;
+                if (!fdlg.CheckPathExists) return;
                 if (!LibraryData.SystemIsOpen) return;
                 if (LibraryData.FuturamaSys.Errors == null) return;
 
                 using (var file =
-                    new StreamWriter(f.FileName))
+                    new StreamWriter(fdlg.FileName))
                 {
                     var csv = new CsvWriter(file);
                     csv.WriteRecords(LibraryData.FuturamaSys.Errors.Select(n => new ErrorLineCsv(n)));
                 }
             };
 
-            Application.Current.Dispatcher.Invoke(() => f.ShowDialog());
+            Application.Current.Dispatcher.Invoke(() => fdlg.ShowDialog());
         }
 
+
+        private static FileDialog CsvFileDialogFactory()
+        {
+            FileDialog f = new SaveFileDialog();
+            f.AddExtension = true;
+            f.DefaultExt = ".csv";
+            f.Filter = "Comma-separated values (.csv) | *.csv";
+            return f;
+        }
+
+        public void WriteToCsvEvents()
+        {
+
+            var fdlg = CsvFileDialogFactory();
+            fdlg.FileOk += (sender, args) =>
+            {
+                if (!fdlg.CheckPathExists) return;
+                if (!LibraryData.SystemIsOpen) return;
+                if (LibraryData.FuturamaSys.ProgramEvents == null) return;
+                using (var file =
+                    new StreamWriter(fdlg.FileName))
+                {
+                    var csv = new CsvWriter(file);
+                    csv.WriteRecords(LibraryData.FuturamaSys.ProgramEvents);
+                }
+            };                        
+
+            Application.Current.Dispatcher.Invoke(() => fdlg.ShowDialog());
+        }
 
 
         public ICommand Exit
@@ -706,7 +738,7 @@ namespace Monitoring.ViewModel
             var Y = y as ErrorLineViewModel;
             return Y.Id.CompareTo(X.Id);
         }
-    }
+    }    
 
     public class ErrorLineCsv
     {

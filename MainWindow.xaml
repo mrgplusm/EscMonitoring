@@ -94,6 +94,8 @@
                 </MenuItem>
 
                 <MenuItem Command="{Binding Path=CsvWrite}" Header="{x:Static monitoring:Main.E_xportToCsvMenu}"></MenuItem>
+
+                <MenuItem Command="{Binding Path=CsvWriteEvents}" Header="{x:Static monitoring:Main.Export_programEvents}"></MenuItem>
             </MenuItem>
         </Menu>
 

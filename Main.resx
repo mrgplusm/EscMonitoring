@@ -222,4 +222,7 @@
   <data name="InspectorClearInfo" xml:space="preserve">
     <value>VACIE Checked by inspection company</value>
   </data>
+  <data name="Export_programEvents" xml:space="preserve">
+    <value>Export program events</value>
+  </data>
 </root>
