@@ -59,6 +59,7 @@
                 <Setter.Value>
 
                     <Style TargetType="{x:Type MenuItem}" >
+                        <Setter Property="StaysOpenOnClick" Value="True"></Setter>
                         <Setter Property="IsCheckable" Value="True" />
                         <Setter Property="IsChecked" Value="{Binding IsVisibileInMonitoringSchematic}"></Setter>
                     </Style>
