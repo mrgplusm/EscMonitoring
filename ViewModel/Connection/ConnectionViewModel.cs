@@ -11,9 +11,17 @@ using Timer = System.Timers.Timer;
 
 namespace Monitoring.ViewModel.Connection
 {
-    public class ConnectionViewModel : ViewModelBase, IEquatable<ConnectionViewModel>
+    public class ConnectionViewModel : ViewModelBase
     {
         private string _errorInfo;
+
+        private const int Timeout = 3600;
+        private static readonly Timer ConnectionEmailTimer = new Timer() {AutoReset = true, Enabled = true, Interval = Timeout};
+
+        /// <summary>
+        /// Used to not spam when a connection breaks. True: can be send. False: Wait for timer to reset.
+        /// </summary>
+        private static volatile bool _blockEmailSending;
 
 #if DEBUG
         public ConnectionViewModel()
@@ -24,6 +32,17 @@ namespace Monitoring.ViewModel.Connection
         }
 #endif
 
+        static ConnectionViewModel()
+        {
+            ConnectionEmailTimer.Elapsed += (sender, args) => _blockEmailSending = true;
+        }
+
+        private static void ResetBlockingTimer()
+        {
+            ConnectionEmailTimer.Stop();
+            ConnectionEmailTimer.Start();
+        }
+
         public ConnectionViewModel(ConnectionModel cm)
         {
             DataModel = cm;
@@ -32,17 +51,24 @@ namespace Monitoring.ViewModel.Connection
 
             Connection.ConnectModeChanged += (conn, mode) =>
             {
+                _blockEmailSending = false;
                 if (Application.Current == null) return;
                 Application.Current.Dispatcher.Invoke(() =>
             {
                 ErrorInfo = string.Empty;
                 RaisePropertyChanged(() => ConnectMode);
+                
             });
+                
             };
 
-            
+
             Connection.ErrorOccured += ConnectionOnErrorOccured;
-            Connection.UnitIdChanged += delegate { RaisePropertyChanged(() => UnitId); };
+            Connection.UnitIdChanged += delegate
+            {
+                RaisePropertyChanged(() => UnitId);
+                _blockEmailSending = false;
+            };
         }
 
         private void ConnectionOnErrorOccured(object sender, ErrorEventArgs errorEventArgs)
@@ -53,12 +79,14 @@ namespace Monitoring.ViewModel.Connection
                 {
                     StartReconnecTimer();
                     if (DataModel.Errors == null) DataModel.Errors = new List<string>();
-                    DataModel.Errors.Add(string.Format("{0}{1}{2}", DateTime.Now.ToString("u"), '\t',
-                        errorEventArgs.Exception));
+                    DataModel.Errors.Add($"{DateTime.Now.ToString("u")}{'\t'}{errorEventArgs.Exception}");
                     ErrorInfo = errorEventArgs.Exception.ToString();
+
+                    if (_blockEmailSending) return;
                     var s = new EmailSender(LibraryData.FuturamaSys.Email);
                     s.SendEmail();
-
+                    ResetBlockingTimer();
+                    _blockEmailSending = true;
                 }
                 catch (Exception e)
                 {
@@ -97,38 +125,23 @@ namespace Monitoring.ViewModel.Connection
             Connection.CreateConnection(DataModel.IpAddress, ConnectType, ConnectMode.Monitoring);
         }
 
-        public Common.Connection Connection { get; private set; }
+        public Common.Connection Connection { get; }
 
-        public ConnectionModel DataModel { get; private set; }
+        public ConnectionModel DataModel { get; }
 
 
         public int DesiredUnitId { get; set; }
 
 
-        public bool IsNetwork
-        {
-            get { return DataModel.IsNetConnect; }
-        }
+        public bool IsNetwork => DataModel.IsNetConnect;
 
-        public ConnectType ConnectType
-        {
-            get { return DataModel.IsNetConnect ? ConnectType.Ethernet : ConnectType.USB; }
-        }
+        public ConnectType ConnectType => DataModel.IsNetConnect ? ConnectType.Ethernet : ConnectType.USB;
 
-        public int UnitId
-        {
-            get { return Connection.UnitId; }
-        }
+        public int UnitId => Connection.UnitId;
 
 
         private ObservableCollection<string> _ports;
-        public ObservableCollection<string> Ports
-        {
-            get
-            {
-                return _ports ?? (_ports = new ObservableCollection<string>(PortList.GetList()));
-            }
-        }
+        public ObservableCollection<string> Ports => _ports ?? (_ports = new ObservableCollection<string>(PortList.GetList()));
 
 
         public string ErrorInfo
@@ -144,13 +157,7 @@ namespace Monitoring.ViewModel.Connection
             }
         }
 
-        public ConnectMode ConnectMode
-        {
-            get
-            {
-                return Connection.Mode;
-            }
-        }
+        public ConnectMode ConnectMode => Connection.Mode;
 
         public bool ConnectionButtonIsEnabled { get; set; }
 
@@ -181,23 +188,5 @@ namespace Monitoring.ViewModel.Connection
             Connection.Disconnect();
         }
 
-        public override bool Equals(object other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return other.GetType() == GetType() && Equals((ConnectionViewModel)other);
-        }
-
-        public override int GetHashCode()
-        {
-            return (DataModel != null ? DataModel.GetHashCode() : 0);
-        }
-
-        public bool Equals(ConnectionViewModel other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(DataModel, other.DataModel);
-        }
     }
 }

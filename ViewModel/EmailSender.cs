@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using Common;
 using Common.Model;
 using Monitoring.Email;
@@ -16,22 +16,41 @@ namespace Monitoring.ViewModel
     public class EmailSender
     {
         private readonly SendEmailModel _model;
+        
+        
+
+        
+        
+
+        static EmailSender()
+        {
+         
+        }
 
         public EmailSender(SendEmailModel model1)
         {
             _model = model1;
+            
         }
 
+        
+
+        
 
         private bool EmailCanBeSend()
         {
 
             if (!LibraryData.SystemIsOpen) return false;            
 
-            if (_model != null && _model.SenderFrom != null && _model.SenderDisplay != null &&
-                LibraryData.FuturamaSys.Errors != null && _model.SenderSmtpPort != 0 && _model.Receivers.Count >= 1 && _model.SendEmailEnabled)
+            if (_model?.SenderFrom != null && 
+                _model.SenderDisplay != null && 
+                LibraryData.FuturamaSys.Errors != null && 
+                _model.SenderSmtpPort != 0 && 
+                _model.Receivers.Count >= 1 && 
+        
+                _model.SendEmailEnabled)
                 return true;
-            Debug.WriteLine("Not all neccesarily fields were filed in, email not send ");
+            Debug.WriteLine("Not all neccesarily fields were filed in or timer is not resetted, email not send ");
             return false;
         }
 
@@ -126,6 +145,7 @@ namespace Monitoring.ViewModel
             try
             {
                 await SendMail(smtpClient, mailMessage);             
+                
             }
             catch (Exception ex)
             {
@@ -150,7 +170,7 @@ namespace Monitoring.ViewModel
             {
                 Debug.WriteLine("Message sent.");
             }
-
+            
             // token.EmailSend = true;
         }
     }
