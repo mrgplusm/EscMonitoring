@@ -50,7 +50,7 @@ namespace Monitoring.ViewModel
         
                 _model.SendEmailEnabled)
                 return true;
-            Debug.WriteLine("Not all neccesarily fields were filed in or timer is not resetted, email not send ");
+            Debug.WriteLine("Not all neccesarily fields were filed in, email sending is disabled or timer is not resetted, email not send ");
             return false;
         }
 

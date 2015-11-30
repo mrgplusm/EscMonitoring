@@ -16,12 +16,17 @@ namespace Monitoring.ViewModel.Connection
         private string _errorInfo;
 
         private const int Timeout = 3600;
-        private static readonly Timer ConnectionEmailTimer = new Timer() {AutoReset = true, Enabled = true, Interval = Timeout};
+        private static readonly Timer ConnectionEmailTimer = new Timer() {AutoReset = true, Enabled = true, Interval = Timeout * 1000};
+        private static bool _blockEmailSending;
 
         /// <summary>
         /// Used to not spam when a connection breaks. True: can be send. False: Wait for timer to reset.
         /// </summary>
-        private static volatile bool _blockEmailSending;
+        public static bool BlockEmailSending
+        {
+            get { return _blockEmailSending; }
+            private set { _blockEmailSending = value; }
+        }
 
 #if DEBUG
         public ConnectionViewModel()
@@ -34,7 +39,7 @@ namespace Monitoring.ViewModel.Connection
 
         static ConnectionViewModel()
         {
-            ConnectionEmailTimer.Elapsed += (sender, args) => _blockEmailSending = true;
+            ConnectionEmailTimer.Elapsed += (sender, args) => BlockEmailSending = false;
         }
 
         private static void ResetBlockingTimer()
@@ -51,7 +56,7 @@ namespace Monitoring.ViewModel.Connection
 
             Connection.ConnectModeChanged += (conn, mode) =>
             {
-                _blockEmailSending = false;
+              
                 if (Application.Current == null) return;
                 Application.Current.Dispatcher.Invoke(() =>
             {
@@ -64,10 +69,13 @@ namespace Monitoring.ViewModel.Connection
 
 
             Connection.ErrorOccured += ConnectionOnErrorOccured;
-            Connection.UnitIdChanged += delegate
+            Connection.UnitIdChanged += (sender, args) => 
             {
                 RaisePropertyChanged(() => UnitId);
-                _blockEmailSending = false;
+                if (args.UnitId > -1)
+                {
+                    BlockEmailSending = false;
+                }
             };
         }
 
@@ -82,11 +90,11 @@ namespace Monitoring.ViewModel.Connection
                     DataModel.Errors.Add($"{DateTime.Now.ToString("u")}{'\t'}{errorEventArgs.Exception}");
                     ErrorInfo = errorEventArgs.Exception.ToString();
 
-                    if (_blockEmailSending) return;
+                    if (BlockEmailSending) return;
                     var s = new EmailSender(LibraryData.FuturamaSys.Email);
                     s.SendEmail();
                     ResetBlockingTimer();
-                    _blockEmailSending = true;
+                    BlockEmailSending = true;
                 }
                 catch (Exception e)
                 {
