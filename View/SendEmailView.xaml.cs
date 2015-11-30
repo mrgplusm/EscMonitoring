@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 using System.Windows.Input;
@@ -30,6 +31,15 @@ namespace Monitoring.View
             q.SenderPassword = p.Password;
             
             
+        }
+
+        private void UIElement_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            var q = DataContext as SendEmailViewModel;
+            var p = sender as PasswordBox;
+            if (q == null || p == null) return;
+
+            q.SenderPassword = string.Empty;
         }
     }
 

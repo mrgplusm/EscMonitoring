@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using Common;
@@ -37,6 +38,8 @@ namespace Monitoring.ViewModel
 
     public class SendEmailViewModel : ViewModelBase, ITab
     {
+        private static ObservableCollection<EmailErrorVM> _emailErrors;
+
         public SendEmailViewModel()
         {
 
@@ -141,6 +144,21 @@ namespace Monitoring.ViewModel
         }
 
 
+        public static ObservableCollection<EmailErrorVM> EmailErrors
+        {
+            get
+            {
+                if (_emailErrors == null)
+                {
+                    _emailErrors = new ObservableCollection<EmailErrorVM>();
+
+                }
+                return _emailErrors;
+            }
+            
+        }
+
+
         public ICommand AddEmail
         {
             get
@@ -208,9 +226,25 @@ namespace Monitoring.ViewModel
         public string SenderPassword
         {
             get { return Email.SenderPassword; }
-            set { Email.SenderPassword = value; }
+            set
+            {
+                Email.SenderPassword = value;
+                RaisePropertyChanged(()=> Asterix);
+            }
         }
 
+        public string Asterix
+        {
+            get
+            {
+                var sb = new StringBuilder();
+                for (var i = 0; i < SenderPassword.Length; i++)
+                {
+                    sb.Append("\u2219");
+                }
+                return sb.ToString();
+            }
+        }
 
         #endregion
 
@@ -225,5 +259,18 @@ namespace Monitoring.ViewModel
         }
 
         public int Id => 100;
+    }
+
+    public class EmailErrorVM
+    {
+        public EmailErrorVM(string error)
+        {
+            Error = error;
+            Date = DateTime.Now;
+        }
+
+        public string Error { get; private set; }
+
+        public DateTime Date { get; private set; }
     }
 }

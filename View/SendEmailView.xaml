@@ -67,7 +67,7 @@
                             <Grid>
                                 <ScrollViewer x:Name="PART_ContentHost"
                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                <TextBlock Text="Change ssl password" 
+                                <TextBlock Text="{Binding Path=Asterix}" 
                            Margin="4, 2, 0, 0"
                            Foreground="Gray" 
                            Visibility="Collapsed"
@@ -93,6 +93,13 @@
             </Setter>
         </Style>
 
+        <DataTemplate DataType="{x:Type viewModel:EmailErrorVM}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=Date}" ></TextBlock>
+                <TextBlock Text="{Binding Path=Error}" TextWrapping="Wrap" Width="80"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+
     </UserControl.Resources>
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
@@ -102,7 +109,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -110,7 +117,13 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <GroupBox Header="{x:Static view:SendEmail._emailGroupProject}">
+            <GroupBox Header="Email errors" Grid.Column="2" Width="150" Grid.Row="0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Path=EmailErrors}" />
+                </ScrollViewer>
+            </GroupBox>
+
+            <GroupBox Grid.Row="0" Grid.Column="0" Header="{x:Static view:SendEmail._emailGroupProject}">
                 <ItemsControl ItemsSource="{Binding Path=ProjectDetails}" />
 
             </GroupBox>
@@ -166,7 +179,7 @@
                     <TextBox  Grid.Row="5" Grid.Column="1" IsEnabled="{Binding ElementName=SenderSsl, Path=IsChecked}" 
                           Text="{Binding Path=SenderUsername}" Width="150"  />
 
-                    <PasswordBox PasswordChanged="PasswordBox_OnPasswordChanged" Grid.Row="6" Grid.Column="1" Width="150"                                  
+                    <PasswordBox GotFocus="UIElement_OnGotFocus" PasswordChanged="PasswordBox_OnPasswordChanged" Grid.Row="6" Grid.Column="1" Width="150"                                  
                                  IsEnabled="{Binding ElementName=SenderSsl, Path=IsChecked}"></PasswordBox>
 
                     <Label Grid.Row="0" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderFrom}" Width="100" HorizontalAlignment="Right"  />
