@@ -133,6 +133,7 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -176,6 +177,7 @@
                     <Label Grid.Row="4" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderSSL}" Width="100" HorizontalAlignment="Right" />
                     <Label Grid.Row="5" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderUserName}" Width="100"  HorizontalAlignment="Right"/>
                     <Label Grid.Row="6" Grid.Column="0" Content="{x:Static view:SendEmail._emailSenderPassword}" Width="100"  HorizontalAlignment="Right" />
+                    <Button Content="{x:Static view:SendEmail.TestButton}" Command="{Binding Path=TestEmail}" Grid.Row="7" Grid.Column="1"></Button>
                 </Grid>
             </Expander>
 

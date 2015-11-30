@@ -5,11 +5,13 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Common;
 using Common.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using Monitoring.View;
 
 
 namespace Monitoring.ViewModel
@@ -147,6 +149,29 @@ namespace Monitoring.ViewModel
                     new RelayCommand(
                         () => Addresses.Add(new StringWrapper(Addresses.Count, "entero_va_support@bose.com")),
                         () => Addresses != null && Addresses.Count < 8);
+            }
+        }
+
+        public ICommand TestEmail
+        {
+            get
+            {
+                return
+                    new RelayCommand(() =>
+                    {
+                        
+                        var e = new EmailSender(LibraryData.FuturamaSys.Email);
+                        if (!e.EmailCanBeSend())
+                        {
+                            MessageBox.Show(SendEmail.TestMailError, SendEmail.MailSendMessageBoxHeader,
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                            return;
+                        }
+
+                        e.SendEmail();
+                        MessageBox.Show(SendEmail.MailSendMessageBox, SendEmail.MailSendMessageBoxHeader,
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    });
             }
         }
 

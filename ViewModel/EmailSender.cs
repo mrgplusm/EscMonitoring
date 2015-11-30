@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows;
 using Common;
 using Common.Model;
 using Monitoring.Email;
@@ -31,13 +32,11 @@ namespace Monitoring.ViewModel
         {
             _model = model1;
             
-        }
+        }        
 
         
 
-        
-
-        private bool EmailCanBeSend()
+        public bool EmailCanBeSend()
         {
 
             if (!LibraryData.SystemIsOpen) return false;            
@@ -109,7 +108,7 @@ namespace Monitoring.ViewModel
                 Host = _model.SenderSmtpServer,
                 Port = _model.SenderSmtpPort,
                 EnableSsl = _model.IsSenderSsl,                
-                Timeout = 2000,
+                Timeout = 20000,
             };
 
             //this has to be done seperately due to .NET bug
@@ -149,7 +148,9 @@ namespace Monitoring.ViewModel
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message + " emailsender");
+                MessageBox.Show(ex.Message, "Error in email sending", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
