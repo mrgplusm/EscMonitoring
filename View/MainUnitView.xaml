@@ -218,9 +218,7 @@
                 <userControls:ExternalInput Canvas.Top="135" Canvas.Left="580" DisplayName="Backup Amplifier" ControlWidth="100" ControlHeight="40"
                                            FontSize="15" IsAvailableInSystem="{Binding Path=ExternalInputs[8], Mode=TwoWay}" x:Name="BackupAmplifier" />                               
 
-                <Border Width="70" Height="60" Canvas.Top="270" Canvas.Left="470" Name="EscSlave">
-                    <TextBlock Text="ESC-Slave" />
-                </Border>
+                
 
                 <Ellipse Canvas.Left="77" Canvas.Top="265" Height="10" Width="10" Fill="Black" />
                 <Ellipse Canvas.Left="164" Canvas.Top="265" Height="10" Width="10" Fill="Black" />
@@ -277,7 +275,7 @@
                 <modules:ArrowPolyline Points="620,40 620,135" Stroke="Black" ArrowEnds="Both" Canvas.ZIndex="-1"  />
                 <modules:ArrowPolyline Points="640,40 640,80" Stroke="Black" ArrowEnds="Both" Canvas.ZIndex="-1"  />
 
-                <modules:ArrowPolyline Points="500,230 500,270" Stroke="Black" ArrowEnds="Both" x:Name="EscLink" />
+                
 
                 <modules:ArrowPolyline Points="540,145 580,145" Stroke="Black" ArrowEnds="End"   />
                 <modules:ArrowPolyline Points="540,165 580,165" Stroke="Black" ArrowEnds="Start"   />

@@ -103,8 +103,7 @@ namespace Monitoring.View
                 case Ge.Fds: //6
                 case Ge.Evacuation: //5                
                 case Ge.PowerSource230Vac: //22
-                case Ge.EscMaster: //12                
-                case Ge.EscSlave:
+                case Ge.EscMaster: //12                                
                     {
                         var control = FindName(controlName.ToString()) as DependencyObject;
                         if (control == null)
@@ -141,7 +140,7 @@ namespace Monitoring.View
                 case Ge.PanelbusFp:
                 case Ge.PanelbusEp:
                 case Ge.PanelbusFds:
-                case Ge.EscLink:
+                
                 case Ge.PowerSource230VacConnectie:
                 case Ge.Esc48VdcConnection:
                     {

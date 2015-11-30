@@ -124,7 +124,7 @@ namespace Monitoring.ViewModel
         public override void CheckIfError(IEnumerable<ErrorLineViewModel> activeErrors)
         {
             var z = activeErrors.Where(q => q.EscUnit == Id).SelectMany(g => g.InvolvedGraphicalUnits());
-            ErrorActive = (z.Any(q => q == Ge.EscMaster || q == Ge.EscSlave));
+            ErrorActive = (z.Any(q => q == Ge.EscMaster));
         }
 
         public override string CustomText
