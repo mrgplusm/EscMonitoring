@@ -32,13 +32,15 @@ namespace Monitoring.ViewModel
         {
 
             _errorLine = new ErrorLineModel
-                             {
-                                 Device = device,
-                                 Status = status,
-                                 EscUnit = escdata[0] - 1,
-                                 Id = id,
-                                 Date = date
-                             };
+                             (
+                device,
+                                 status,
+
+                                 escdata[0] - 1,
+
+                                 date,
+                                 escdata
+                             );
             if (escdata.Length != 5)
             {
                 throw new ArgumentException("Esc code does not meet requirements (5 bytes)");
@@ -46,7 +48,7 @@ namespace Monitoring.ViewModel
 
 
 
-            _errorLine.EscData = escdata;
+
         }
 
 
@@ -160,6 +162,6 @@ namespace Monitoring.ViewModel
         {
             get { return _errorLine.Status; }
         }
-        
+
     }
 }

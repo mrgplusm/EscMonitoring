@@ -17,16 +17,11 @@ namespace Monitoring.ViewModel.Connection
 
         private const int Timeout = 3600;
         private static readonly Timer ConnectionEmailTimer = new Timer() {AutoReset = true, Enabled = true, Interval = Timeout * 1000};
-        private static bool _blockEmailSending;
 
         /// <summary>
         /// Used to not spam when a connection breaks. True: can be send. False: Wait for timer to reset.
         /// </summary>
-        public static bool BlockEmailSending
-        {
-            get { return _blockEmailSending; }
-            private set { _blockEmailSending = value; }
-        }
+        private static bool _blockEmailSending;
 
 #if DEBUG
         public ConnectionViewModel()
@@ -39,7 +34,7 @@ namespace Monitoring.ViewModel.Connection
 
         static ConnectionViewModel()
         {
-            ConnectionEmailTimer.Elapsed += (sender, args) => BlockEmailSending = false;
+            ConnectionEmailTimer.Elapsed += (sender, args) => _blockEmailSending = false;
         }
 
         private static void ResetBlockingTimer()
@@ -74,7 +69,7 @@ namespace Monitoring.ViewModel.Connection
                 RaisePropertyChanged(() => UnitId);
                 if (args.UnitId > -1)
                 {
-                    BlockEmailSending = false;
+                    _blockEmailSending = false;
                 }
             };
         }
@@ -90,11 +85,11 @@ namespace Monitoring.ViewModel.Connection
                     DataModel.Errors.Add($"{DateTime.Now.ToString("u")}{'\t'}{errorEventArgs.Exception}");
                     ErrorInfo = errorEventArgs.Exception.ToString();
 
-                    if (BlockEmailSending) return;
+                    if (_blockEmailSending) return;
                     var s = new EmailSender(LibraryData.FuturamaSys.Email);
                     s.SendEmail();
                     ResetBlockingTimer();
-                    BlockEmailSending = true;
+                    _blockEmailSending = true;
                 }
                 catch (Exception e)
                 {

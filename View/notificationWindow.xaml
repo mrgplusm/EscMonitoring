@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:Monitoring.View"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:model="clr-namespace:Common.Model;assembly=Common"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"        
         mc:Ignorable="d" 
         Topmost="True"
@@ -18,14 +19,31 @@
         <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="White" Offset="0.0" />                    
-                    <GradientStop Color="Red" Offset="0.5" />
+                    <GradientStop Color="White" Offset="0.0" />
+                    <GradientStop Color="Gold" Offset="0.5" />
                     <GradientStop Color="White" Offset="1.0" />
                 </LinearGradientBrush>
             </Border.Background>
             <StackPanel Margin="5">
                 <TextBlock TextAlignment="Center" FontWeight="Bold" FontSize="18" 
                            TextWrapping="Wrap" Margin="5" Text="{x:Static view:NotificationTexts.Header}" />
+
+                <TextBlock TextAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="{x:Static view:NotificationTexts.FaultAcknowledged}"></Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ErrorNotify, Path=ErrorLine.Status}" Value="{x:Static model:ErrorStatuses.FaultReseted}" >
+                                    <Setter Property="Text" Value="{x:Static view:NotificationTexts.FaultReset}"></Setter>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding ElementName=ErrorNotify, Path=ErrorLine.Status}" Value="{x:Static model:ErrorStatuses.FaultSet}" >
+                                    <Setter Property="Text" Value="{x:Static view:NotificationTexts.FaultSet}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
 
                 <TextBlock TextAlignment="Center" Text="{Binding ElementName=ErrorNotify, Path=ErrorLine.Description}" Margin="0,20,0,20" />
 
@@ -36,7 +54,7 @@
         <!-- Animation -->
         <Grid.Triggers>
             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                
+
                 <BeginStoryboard>
                     <Storyboard>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
@@ -46,7 +64,7 @@
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
-            
+
         </Grid.Triggers>
 
         <Grid.RenderTransform>

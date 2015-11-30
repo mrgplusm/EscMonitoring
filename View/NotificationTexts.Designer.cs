@@ -70,7 +70,34 @@ namespace Monitoring.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An ESC error occured.
+        ///   Looks up a localized string similar to Errors acknowledged.
+        /// </summary>
+        public static string FaultAcknowledged {
+            get {
+                return ResourceManager.GetString("FaultAcknowledged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Errors resetted.
+        /// </summary>
+        public static string FaultReset {
+            get {
+                return ResourceManager.GetString("FaultReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detected errors.
+        /// </summary>
+        public static string FaultSet {
+            get {
+                return ResourceManager.GetString("FaultSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enterro VA system.
         /// </summary>
         public static string Header {
             get {

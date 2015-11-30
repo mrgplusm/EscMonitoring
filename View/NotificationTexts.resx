@@ -120,7 +120,16 @@
   <data name="ClickForDetail" xml:space="preserve">
     <value>Click for details</value>
   </data>
+  <data name="FaultAcknowledged" xml:space="preserve">
+    <value>Errors acknowledged</value>
+  </data>
+  <data name="FaultReset" xml:space="preserve">
+    <value>Errors resetted</value>
+  </data>
+  <data name="FaultSet" xml:space="preserve">
+    <value>Detected errors</value>
+  </data>
   <data name="Header" xml:space="preserve">
-    <value>An ESC error occured</value>
+    <value>Enterro VA system</value>
   </data>
 </root>

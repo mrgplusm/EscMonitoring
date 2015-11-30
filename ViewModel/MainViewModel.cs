@@ -54,14 +54,14 @@ namespace Monitoring.ViewModel
                 ErrorList = new ObservableCollection<ErrorLineViewModel>();
                 for (var i = 0; i < 10; i++)
                 {
-                    ErrorList.Add(new ErrorLineViewModel(new DeviceError()
-                    {
-                        Detail = ErDt.AmpDefect,
-                        Module = SyMo.Fds,
-                        EscCode = 0x01,
-                        Number = 3,
-                        EscDetailCode = new byte[] { 0x01, 0x02 }
-                    }
+                    ErrorList.Add(new ErrorLineViewModel(new DeviceError(
+
+                        0x01,
+                        SyMo.Fds,
+                        3,
+                        new byte[] { 0x01, 0x02 },
+                        ErDt.AmpDefect
+                    )
                         , ErrorStatuses.FaultSet, 3, DateTime.Now, new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05 }));
                 }
             }
@@ -194,7 +194,7 @@ namespace Monitoring.ViewModel
             if (LibraryData.FuturamaSys.Errors == null) return;
             error.IsVisible = true;
             LibraryData.FuturamaSys.Errors.Add(error);
-            error.Id = ErrorList.Count;
+            
             var z = new ErrorLineViewModel(error);
             ErrorList.Add(z);
             OnError(z);

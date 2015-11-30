@@ -122,30 +122,28 @@ namespace MonitoringTests
 
         }
 
-        [TestMethod]
-        public void TestEmailMessageErrorList()
-        {
-            var view = new FormattedMail
-            {
-                Model = Testmodel,
-                ErrorsToSend =
-                    new List<ErrorLineModel>()
-                    {
-                        new ErrorLineModel()
-                        {
-                            Device = new DeviceError() {Detail = ErDt.AmpDefect, Module = SyMo.BackupAmplifier},
-                            EmailSend = false,
-                            Status = ErrorStatuses.FaultSet
-                        }
-                    },
-            };
+        //[TestMethod]
+        //public void TestEmailMessageErrorList()
+        //{
+        //    var view = new FormattedMail
+        //    {
+        //        Model = Testmodel,
+        //        ErrorsToSend =
+        //            new List<ErrorLineModel>()
+        //            {
+        //                new ErrorLineModel( Device = new DeviceError() {Detail = ErDt.AmpDefect, Module = SyMo.BackupAmplifier},
+                            
+        //                    Status = ErrorStatuses.FaultSet
+                        
+        //            },
+        //    };
 
-            var text = view.TransformText();
+        //    var text = view.TransformText();
 
-            Assert.IsTrue(text.Contains("AmpDefect"));
-            Assert.IsTrue(text.Contains("Backup Amplifier"));
+        //    Assert.IsTrue(text.Contains("AmpDefect"));
+        //    Assert.IsTrue(text.Contains("Backup Amplifier"));
 
-        }
+        //}
 
     }
 
