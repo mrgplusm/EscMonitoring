@@ -184,14 +184,14 @@ namespace Monitoring.ViewModel
                     {
                         
                         var e = new EmailSender(LibraryData.FuturamaSys.Email);
-                        if (!e.EmailCanBeSend())
+                        if (!e.TestEmailCanBeSend())
                         {
                             MessageBox.Show(SendEmail.TestMailError, SendEmail.MailSendMessageBoxHeader,
                             MessageBoxButton.OK, MessageBoxImage.Information);
                             return;
                         }
 
-                        e.SendEmail();
+                        e.SendEmail(true);
                         MessageBox.Show(SendEmail.MailSendMessageBox, SendEmail.MailSendMessageBoxHeader,
                             MessageBoxButton.OK, MessageBoxImage.Information);
                     });
@@ -245,7 +245,7 @@ namespace Monitoring.ViewModel
                 var sb = new StringBuilder();
                 for (var i = 0; i < SenderPassword.Length; i++)
                 {
-                    sb.Append("\u2219");
+                    sb.Append("\u26AB");
                 }
                 return sb.ToString();
             }

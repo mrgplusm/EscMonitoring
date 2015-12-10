@@ -250,6 +250,6 @@
     <value>Send an test email</value>
   </data>
   <data name="TestMailError" xml:space="preserve">
-    <value>Not all neccesarily fields were filed in, email sending is disabled or timer is not resetted, email not send</value>
+    <value>Not all neccesarily fields were filed in (all sending details are necessarily and at least one receiver)</value>
   </data>
 </root>

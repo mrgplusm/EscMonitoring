@@ -8,6 +8,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Media.Animation;
 using Common;
 using Common.Model;
 using Monitoring.Email;
@@ -52,6 +53,17 @@ namespace Monitoring.ViewModel
             Debug.WriteLine("Not all neccesarily fields were filed in, email sending is disabled or timer is not resetted, email not send ");
             return false;
         }
+
+        public bool TestEmailCanBeSend()
+        {
+            if (!LibraryData.SystemIsOpen) return false;
+
+            return _model?.SenderFrom != null &&
+                   _model.SenderDisplay != null &&                
+                   _model.SenderSmtpPort != 0 &&
+                   _model.Receivers.Count >= 1;
+        }
+
 
         private string CreateMailBody()
         {
@@ -134,9 +146,9 @@ namespace Monitoring.ViewModel
 
         }
 
-        public async void SendEmail()
+        public async void SendEmail(bool overrideCheck = false)
         {
-            if (!EmailCanBeSend()) return;
+            if (!overrideCheck && !EmailCanBeSend()) return;
 
             var mailMessage = MessageFactory();
             var smtpClient = ClientFactory();
