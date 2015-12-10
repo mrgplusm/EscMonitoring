@@ -457,7 +457,7 @@ namespace Monitoring.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not all neccesarily fields were filed in, email sending is disabled or timer is not resetted, email not send.
+        ///   Looks up a localized string similar to Not all neccesarily fields were filed in (all sending details are necessarily and at least one receiver).
         /// </summary>
         public static string TestMailError {
             get {
