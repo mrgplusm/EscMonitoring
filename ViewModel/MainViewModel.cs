@@ -762,6 +762,8 @@ namespace Monitoring.ViewModel
 
         public string Detail => _error.Device?.Detail.ToString();
 
+        public string Number => _error.Device?.Number.ToString();
+
 
         public string EmailSend => _error.EmailSend.ToString();
 
