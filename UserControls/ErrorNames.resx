@@ -210,6 +210,9 @@
   <data name="NoBackup" xml:space="preserve">
     <value>No backup amplifier</value>
   </data>
+  <data name="NotInstalled" xml:space="preserve">
+    <value>Not installed</value>
+  </data>
   <data name="OpenlineA" xml:space="preserve">
     <value>Open line A found</value>
   </data>

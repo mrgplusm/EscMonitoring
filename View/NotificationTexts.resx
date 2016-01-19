@@ -121,15 +121,15 @@
     <value>Click for details</value>
   </data>
   <data name="FaultAcknowledged" xml:space="preserve">
-    <value>Errors acknowledged</value>
+    <value>Acknowledged error:</value>
   </data>
   <data name="FaultReset" xml:space="preserve">
-    <value>Errors resetted</value>
+    <value>Reset error:</value>
   </data>
   <data name="FaultSet" xml:space="preserve">
-    <value>Detected errors</value>
+    <value>Error detected:</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value>Enterro VA system</value>
+    <value>Entero VA system</value>
   </data>
 </root>

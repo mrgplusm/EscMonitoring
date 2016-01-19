@@ -210,15 +210,15 @@
                 </Border>
 
                 <userControls:ExternalInput Canvas.Top="0" Canvas.Left="480" DisplayName="Entero EPC" ControlWidth="200" ControlHeight="40"
-                                           FontSize="16" IsAvailableInSystem="{Binding Path=ExternalInputs[9], Mode=TwoWay}" x:Name="EnteroEpc" />                
+                                           FontSize="16" IsAvailableInSystem="{Binding Path=ExternalInputs[9], Mode=TwoWay}" 
+                                            InactiveText="Entero EPC not installed" x:Name="EnteroEpc" />                
 
                 <userControls:ExternalInput Canvas.Top="80" Canvas.Left="580" DisplayName="Amplifier" ControlWidth="100" ControlHeight="40"
-                                           FontSize="16" IsAvailableInSystem="{Binding Path=ExternalInputs[7], Mode=TwoWay}" x:Name="Amplifier" />                
+                                           FontSize="16" IsAvailableInSystem="{Binding Path=ExternalInputs[7], Mode=TwoWay}" 
+                                            InactiveText="Amplifier not installed" x:Name="Amplifier" />                
 
                 <userControls:ExternalInput Canvas.Top="135" Canvas.Left="580" DisplayName="Backup Amplifier" ControlWidth="100" ControlHeight="40"
-                                           FontSize="15" IsAvailableInSystem="{Binding Path=ExternalInputs[8], Mode=TwoWay}" x:Name="BackupAmplifier" />                               
-
-                
+                                           InactiveText="Backup not installed" FontSize="15" IsAvailableInSystem="{Binding Path=ExternalInputs[8], Mode=TwoWay}" x:Name="BackupAmplifier" />                                        
 
                 <Ellipse Canvas.Left="77" Canvas.Top="265" Height="10" Width="10" Fill="Black" />
                 <Ellipse Canvas.Left="164" Canvas.Top="265" Height="10" Width="10" Fill="Black" />

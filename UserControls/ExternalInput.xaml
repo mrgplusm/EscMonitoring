@@ -11,22 +11,22 @@
                              FillBehavior="Stop" RepeatBehavior="Forever" AutoReverse="True" Duration="0:0:1" />
         </Storyboard>
         <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Text" Value="Not Installed"></Setter>
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
-            <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
-            <Setter Property="TextAlignment" Value="Center"></Setter>
-            <Setter Property="FontSize" Value="{Binding Path=FontSize}"></Setter>
-            <Setter Property="Width" Value="{Binding Path=ControlWidth}"></Setter>
+            <Setter Property="Text" Value="{Binding Path=InactiveText}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="{Binding Path=FontSize}" />
+            <Setter Property="Width" Value="{Binding Path=ControlWidth}" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsAvailableInSystem}" Value="true">
-                    <Setter Property="Text" Value="{Binding Path=DisplayName}"></Setter>
+                    <Setter Property="Text" Value="{Binding Path=DisplayName}" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type Border}">
             <Setter Property="Effect" >
                 <Setter.Value>
-                    <DropShadowEffect  ShadowDepth="1"></DropShadowEffect>
+                    <DropShadowEffect  ShadowDepth="1" />
                 </Setter.Value>
             </Setter>
         </Style>

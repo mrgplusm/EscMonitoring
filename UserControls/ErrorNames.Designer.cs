@@ -340,6 +340,15 @@ namespace Monitoring.UserControls {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not installed.
+        /// </summary>
+        internal static string NotInstalled {
+            get {
+                return ResourceManager.GetString("NotInstalled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open line A found.
         /// </summary>
         internal static string OpenlineA {

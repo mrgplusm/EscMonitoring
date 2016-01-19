@@ -70,7 +70,7 @@ namespace Monitoring.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Errors acknowledged.
+        ///   Looks up a localized string similar to Acknowledged error:.
         /// </summary>
         public static string FaultAcknowledged {
             get {
@@ -79,7 +79,7 @@ namespace Monitoring.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Errors resetted.
+        ///   Looks up a localized string similar to Reset error:.
         /// </summary>
         public static string FaultReset {
             get {
@@ -88,7 +88,7 @@ namespace Monitoring.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detected errors.
+        ///   Looks up a localized string similar to Error detected:.
         /// </summary>
         public static string FaultSet {
             get {
@@ -97,7 +97,7 @@ namespace Monitoring.View {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enterro VA system.
+        ///   Looks up a localized string similar to Entero VA system.
         /// </summary>
         public static string Header {
             get {

@@ -79,6 +79,15 @@ namespace Monitoring.UserControls
             get { return (double) GetValue(ControlHeightProperty); }
             set { SetValue(ControlHeightProperty, value); }
         }
+
+        public static readonly DependencyProperty InactiveTextProperty = DependencyProperty.Register(
+            "InactiveText", typeof (string), typeof (ExternalInput), new PropertyMetadata("Not installed"));
+
+        public string InactiveText
+        {
+            get { return (string) GetValue(InactiveTextProperty); }
+            set { SetValue(InactiveTextProperty, value); }
+        }
         
     }
 }

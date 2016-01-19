@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Common;
 using Common.Model;
-
 using GalaSoft.MvvmLight;
 using Monitoring.UserControls;
 
@@ -18,10 +17,7 @@ namespace Monitoring.ViewModel
         }
 
 
-        public ErrorLineModel DataModel
-        {
-            get { return _errorLine; }
-        }
+        public ErrorLineModel DataModel => _errorLine;
 
         public IEnumerable<Ge> InvolvedGraphicalUnits()
         {
@@ -45,66 +41,31 @@ namespace Monitoring.ViewModel
             {
                 throw new ArgumentException("Esc code does not meet requirements (5 bytes)");
             }
-
-
-
-
         }
 
 
-        public int EscUnit
-        {
-            get { return _errorLine.EscUnit; }
-        }
+        public int EscUnit => _errorLine.EscUnit;
 
-        public string StrEscUnit
-        {
-            get
-            {
-                return EscUnit == 0 ? "Master" : string.Format("Slave {0}", EscUnit);
-            }
-        }
-
+        public string StrEscUnit => EscUnit == 0 ? "Master" : $"Slave {EscUnit}";
 
 
         private GroupingError _grouping;
         /// <summary>
         /// Used to group items. Probably this will work correct in most cases
         /// </summary>
-        public GroupingError Grouping
-        {
-            get { return _grouping ?? (_grouping = new GroupingError(this)); }
-        }
+        public GroupingError Grouping => _grouping ?? (_grouping = new GroupingError(this));
 
-        public ErrorLineModel ErrorLineModel { get { return _errorLine; } }
+        public ErrorLineModel ErrorLineModel => _errorLine;
 
-        public int Id
-        {
-            get { return _errorLine.Id; }
-        }
+        public int Id => _errorLine.Id;
 
-        public string StrId
-        {
-            get { return (Id + 1).ToString("N0"); }
-        }
+        public string StrId => (Id + 1).ToString("N0");
 
-        public DateTime Date
-        {
-            get
-            {
-                return _errorLine.Date;
-            }
-        }
+        public DateTime Date => _errorLine.Date;
 
-        public string StrDate
-        {
-            get { return _errorLine.Date.ToString("u"); }
-        }
+        public string StrDate => _errorLine.Date.ToString("u");
 
-        public DeviceError DeviceError
-        {
-            get { return _errorLine.Device; }
-        }
+        public DeviceError DeviceError => _errorLine.Device;
 
         public string StrDevice
         {
@@ -119,49 +80,21 @@ namespace Monitoring.ViewModel
             }
         }
 
-        public string Description
-        {
-            get
-            {
-                return ErrorNames.ResourceManager.GetString(_errorLine.Device.Detail.ToString()) ?? _errorLine.Device.Detail.ToString();
-            }
-        }
+        public string Description => ErrorNames.ResourceManager.GetString(_errorLine.Device.Detail.ToString()) ?? _errorLine.Device.Detail.ToString();
 
-        public string WhatIf
-        {
-            get
-            {
-                return WhatIfs.ResourceManager.GetString(_errorLine.Device.Detail.ToString()) ?? string.Empty;
-            }
-        }
+        public string WhatIf => WhatIfs.ResourceManager.GetString(_errorLine.Device.Detail.ToString()) ?? string.Empty;
 
-        public string StrDetail
-        {
-            get
-            {
-                return UcLog.ResourceManager.GetString(_errorLine.Device.Detail.ToString()) ?? _errorLine.Device.Detail.ToString();
-            }
-        }
+        public string StrDetail => UcLog.ResourceManager.GetString(_errorLine.Device.Detail.ToString()) ?? _errorLine.Device.Detail.ToString();
 
-        public ErDt Detail
-        {
-            get { return _errorLine.Device.Detail; }
-        }
+        public ErDt Detail => _errorLine.Device.Detail;
 
-        public string StrStatus
-        {
-            get { return GetStatus(_errorLine.Status); }
-        }
+        public string StrStatus => GetStatus(_errorLine.Status);
 
         public static string GetStatus(ErrorStatuses status)
         {
-            return ErrorNames.ResourceManager.GetString(status.ToString()) ?? status.ToString();
+            return UcLog.ResourceManager.GetString(status.ToString()) ?? status.ToString();
         }
 
-        public ErrorStatuses Status
-        {
-            get { return _errorLine.Status; }
-        }
-
+        public ErrorStatuses Status => _errorLine.Status;
     }
 }
