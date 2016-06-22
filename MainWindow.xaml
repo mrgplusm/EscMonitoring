@@ -229,6 +229,8 @@
             <Button Click="ButtonBase_OnClick"  Content="{x:Static monitoring:Main.BtnclearLog}" Name="Buttonclear" />
 
             <CheckBox Content="{x:Static monitoring:Main.TestMode}" IsChecked="{Binding Path=TestMode}" Margin="3" IsEnabled="{Binding PasswordEnteredOk}" />
+
+            <CheckBox Content="{x:Static monitoring:Main.DisableSound}" IsChecked="{Binding Path=SoundDisabled}" Margin="3" />
         </StackPanel>
 
         <userControls1:StatusBarControl Grid.Row="4"></userControls1:StatusBarControl>

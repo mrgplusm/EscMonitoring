@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Media;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
+using Common;
 using Monitoring.ViewModel;
 
 namespace Monitoring.View
@@ -14,33 +14,31 @@ namespace Monitoring.View
     {
         public NotificationWindow()
         {
-            
+
             InitializeComponent();
 
-         //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
-         //   {
-         //       var workingArea = SystemParameters.WorkArea;
-         //       Left = workingArea.Height - Height;
-         //       Top = workingArea.Width - Width;
-         //   }));
-            
-            MouseDown += (sender, args) =>  Close();
+            //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            //   {
+            //       var workingArea = SystemParameters.WorkArea;
+            //       Left = workingArea.Height - Height;
+            //       Top = workingArea.Width - Width;
+            //   }));
 
-            var open = true;
+            MouseDown += (sender, args) => Close();
 
-            Task.Factory.StartNew(() =>
-            {                
-                while (open)
-                {
-                    SystemSounds.Beep.Play();
-                    Task.Delay(1000);
-                }
-            });
-
-            Closed += (sender, args) => open = false;
+            if (!LibraryData.FuturamaSys.SoundEnabled) return;
+            try
+            {
+                var s = new SoundPlayer("error_sound.wav");
+                s.PlayLooping();
+                Closed += (sender, args) => s.Stop();
+                //s.Play();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
-
-        
 
         public static readonly DependencyProperty ErrorLineProperty = DependencyProperty.Register(
             "ErrorLine", typeof(ErrorLineViewModel), typeof(NotificationWindow), new PropertyMetadata(default(ErrorLineViewModel)));

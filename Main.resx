@@ -180,6 +180,9 @@
   <data name="TestMode" xml:space="preserve">
     <value>Disable automatic email message</value>
   </data>
+  <data name="DisableSound" xml:space="preserve">
+    <value>Disable sound</value>
+  </data>
   <data name="WhoClear" xml:space="preserve">
     <value>Enter the name of the person who clears log:</value>
   </data>

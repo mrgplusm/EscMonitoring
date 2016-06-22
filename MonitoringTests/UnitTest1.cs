@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using Common;
 using Common.Model;
-using System.Windows;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Monitoring;
-using Monitoring.Email;
 using Monitoring.ViewModel;
-using Point = System.Windows.Point;
 
 namespace MonitoringTests
 {
@@ -67,34 +61,34 @@ namespace MonitoringTests
 
         }
 
-        [TestMethod]
-        public void TestEmailMessage()
-        {
-            LibraryData.OpenSystem(new FuturamaSysModel());
+        //[TestMethod]
+        //public void TestEmailMessage()
+        //{
+        //    LibraryData.OpenSystem(new FuturamaSysModel());
 
-            var view = new FormattedMail
-            {
-                Model = Testmodel
-            };
+        //    var view = new FormattedMail
+        //    {
+        //        Model = Testmodel
+        //    };
 
-            view.Model.InspectorCleared = true;
+        //    view.Model.InspectorCleared = true;
 
-            var mailTest = view.TransformText();
+        //    var mailTest = view.TransformText();
 
-            Assert.IsTrue(mailTest.Contains("Log was cleared during an inspection of the VA system"));
+        //    Assert.IsTrue(mailTest.Contains("Log was cleared during an inspection of the VA system"));
 
 
-            var view2 = new FormattedMail
-            {
-                Model = Testmodel
-            };
+        //    var view2 = new FormattedMail
+        //    {
+        //        Model = Testmodel
+        //    };
 
-            view2.Model.InspectorCleared = false;
+        //    view2.Model.InspectorCleared = false;
 
-            var mailTest2 = view2.TransformText();
+        //    var mailTest2 = view2.TransformText();
 
-            Assert.IsFalse(mailTest2.Contains("inspection"));
-        }
+        //    Assert.IsFalse(mailTest2.Contains("inspection"));
+        //}
 
         [TestMethod]
         public void InterPretBackupAmp()

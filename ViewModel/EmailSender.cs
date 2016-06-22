@@ -11,7 +11,8 @@ using System.Windows;
 using System.Windows.Media.Animation;
 using Common;
 using Common.Model;
-using Monitoring.Email;
+
+
 
 namespace Monitoring.ViewModel
 {

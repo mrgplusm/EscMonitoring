@@ -211,14 +211,14 @@
 
                 <userControls:ExternalInput Canvas.Top="0" Canvas.Left="480" DisplayName="Entero EPC" ControlWidth="200" ControlHeight="40"
                                            FontSize="16" IsAvailableInSystem="{Binding Path=ExternalInputs[9], Mode=TwoWay}" 
-                                            InactiveText="Entero EPC not installed" x:Name="EnteroEpc" />                
+                                            InactiveText="Entero EPC NA" x:Name="EnteroEpc" />                
 
                 <userControls:ExternalInput Canvas.Top="80" Canvas.Left="580" DisplayName="Amplifier" ControlWidth="100" ControlHeight="40"
                                            FontSize="16" IsAvailableInSystem="{Binding Path=ExternalInputs[7], Mode=TwoWay}" 
-                                            InactiveText="Amplifier not installed" x:Name="Amplifier" />                
+                                            InactiveText="Amplifier NA" x:Name="Amplifier" />                
 
                 <userControls:ExternalInput Canvas.Top="135" Canvas.Left="580" DisplayName="Backup Amplifier" ControlWidth="100" ControlHeight="40"
-                                           InactiveText="Backup not installed" FontSize="15" IsAvailableInSystem="{Binding Path=ExternalInputs[8], Mode=TwoWay}" x:Name="BackupAmplifier" />                                        
+                                           InactiveText="Backup NA" FontSize="15" IsAvailableInSystem="{Binding Path=ExternalInputs[8], Mode=TwoWay}" x:Name="BackupAmplifier" />                                        
 
                 <Ellipse Canvas.Left="77" Canvas.Top="265" Height="10" Width="10" Fill="Black" />
                 <Ellipse Canvas.Left="164" Canvas.Top="265" Height="10" Width="10" Fill="Black" />
@@ -228,13 +228,13 @@
                 <Ellipse Canvas.Left="164" Canvas.Top="445" Height="10" Width="10" Fill="Black" />
                 <Ellipse Canvas.Left="251" Canvas.Top="325" Height="10" Width="10" Fill="Black" />
 
-                <userControls:ExternalInput Canvas.Top="250" Canvas.Left="10" DisplayName="Entero ESA AMP/PSU" IsAvailableInSystem="{Binding Path=ExternalInputs[0], Mode=TwoWay}" x:Name="EnteroEsaAmpPsu" />
-                <userControls:ExternalInput Canvas.Top="250" Canvas.Left="97" DisplayName="Redundancy Module" IsAvailableInSystem="{Binding Path=ExternalInputs[1], Mode=TwoWay}" x:Name="RedundancyModule" />
-                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="10" DisplayName="Entero ESA" IsAvailableInSystem="{Binding Path=ExternalInputs[2], Mode=TwoWay}" x:Name="EnteroEsa230Vac" />
-                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="97" DisplayName="Entero EPC 230Vac" IsAvailableInSystem="{Binding Path=ExternalInputs[3], Mode=TwoWay}" x:Name="EnteroEpc230Vac" />
-                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="184" DisplayName="Circuit Breaker " IsAvailableInSystem="{Binding Path=ExternalInputs[4], Mode=TwoWay}" x:Name="Circuitbreaker" />
-                <userControls:ExternalInput Canvas.Top="370" Canvas.Left="97" DisplayName="Entero EPC 48Vdc" IsAvailableInSystem="{Binding Path=ExternalInputs[5], Mode=TwoWay}" x:Name="EnteroEpcContact" />
-                <userControls:ExternalInput Canvas.Top="430" Canvas.Left="97" DisplayName="External Audio in" IsAvailableInSystem="{Binding Path=ExternalInputs[6], Mode=TwoWay}" x:Name="ExtAudioIn" />
+                <userControls:ExternalInput Canvas.Top="250" Canvas.Left="10" DisplayName="Entero ESA AMP/PSU" InactiveText="Entero ESA AMP/PSU NA" IsAvailableInSystem="{Binding Path=ExternalInputs[0], Mode=TwoWay}" x:Name="EnteroEsaAmpPsu" />
+                <userControls:ExternalInput Canvas.Top="250" Canvas.Left="97" DisplayName="Redundancy Module" InactiveText="Redundancy Module NA" IsAvailableInSystem="{Binding Path=ExternalInputs[1], Mode=TwoWay}" x:Name="RedundancyModule" />
+                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="10" DisplayName="Entero ESA" InactiveText="Entero ESA NA" IsAvailableInSystem="{Binding Path=ExternalInputs[2], Mode=TwoWay}" x:Name="EnteroEsa230Vac" />
+                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="97" DisplayName="Entero EPC 230Vac" InactiveText="Entero EPC 230Vac NA" IsAvailableInSystem="{Binding Path=ExternalInputs[3], Mode=TwoWay}" x:Name="EnteroEpc230Vac" />
+                <userControls:ExternalInput Canvas.Top="310" Canvas.Left="184" DisplayName="Circuit Breaker" InactiveText="Circuit Breaker NA" IsAvailableInSystem="{Binding Path=ExternalInputs[4], Mode=TwoWay}" x:Name="Circuitbreaker" />
+                <userControls:ExternalInput Canvas.Top="370" Canvas.Left="97" DisplayName="Entero EPC 48Vdc" InactiveText="Entero EPC 48Vdc NA" IsAvailableInSystem="{Binding Path=ExternalInputs[5], Mode=TwoWay}" x:Name="EnteroEpcContact" />
+                <userControls:ExternalInput Canvas.Top="430" Canvas.Left="97" DisplayName="External Audio in" InactiveText="External Audio in NA" IsAvailableInSystem="{Binding Path=ExternalInputs[6], Mode=TwoWay}" x:Name="ExtAudioIn" />
 
                 <Rectangle StrokeDashArray="2,2" Width="269" Height="240" Canvas.Left="0" Canvas.Top="240" Stroke="OrangeRed" StrokeThickness="2" />
 

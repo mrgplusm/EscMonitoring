@@ -77,6 +77,7 @@ namespace Monitoring.ViewModel
         {
             OnErrorNotificationClicked();
             Application.Current.MainWindow.Activate();
+            Application.Current.MainWindow.WindowState = WindowState.Normal;
         }
 
         public event EventHandler ErrorNotificationClicked;
@@ -195,8 +196,10 @@ namespace Monitoring.ViewModel
             if (LibraryData.FuturamaSys.Errors == null) return;
             error.IsVisible = true;
             LibraryData.FuturamaSys.Errors.Add(error);
-            
+
+            error.Id = ErrorList.Count;
             var z = new ErrorLineViewModel(error);
+            
             ErrorList.Add(z);
             OnError(z);
             SwitchTabForError(error);
@@ -479,6 +482,17 @@ namespace Monitoring.ViewModel
             {
                 Email.InspectorCleared = value;
                 RaisePropertyChanged(() => InspectorCleared);
+            }
+        }
+
+
+        public bool SoundDisabled
+        {
+            get { return !LibraryData.FuturamaSys.SoundEnabled; }
+            set
+            {
+                LibraryData.FuturamaSys.SoundEnabled = !value;
+                RaisePropertyChanged(() => SoundDisabled);
             }
         }
 

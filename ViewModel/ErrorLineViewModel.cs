@@ -15,8 +15,7 @@ namespace Monitoring.ViewModel
         {
             _errorLine = errorLine;
         }
-
-
+        
         public ErrorLineModel DataModel => _errorLine;
 
         public IEnumerable<Ge> InvolvedGraphicalUnits()

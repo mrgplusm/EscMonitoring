@@ -169,6 +169,15 @@ namespace Monitoring {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable sound.
+        /// </summary>
+        public static string DisableSound {
+            get {
+                return ResourceManager.GetString("DisableSound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export errors.
         /// </summary>
         public static string E_xportToCsvMenu {

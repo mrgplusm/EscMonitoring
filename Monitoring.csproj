@@ -189,7 +189,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Email\FormattedMail.cs">
+    <Compile Include="FormattedMail.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FormattedMail.tt</DependentUpon>
@@ -432,7 +432,7 @@
     <None Include="..\ConnectionLibrary\Icons\Thumbs.db">
       <Link>Icons\Thumbs.db</Link>
     </None>
-    <None Include="Email\FormattedMail.tt">
+    <None Include="FormattedMail.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>FormattedMail.cs</LastGenOutput>
     </None>
@@ -687,6 +687,14 @@
     <Resource Include="..\ConnectionLibrary\Icons\vca3.png">
       <Link>Icons\vca3.png</Link>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Email\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="error_sound.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
